@@ -6,7 +6,7 @@ CTP 接口的安全又好用的 Rust 绑定
 
 ## Quickstart
 
-`cargo add ctp-rs`
+TODO.
 
 ## Examples
 
