@@ -1,12 +1,22 @@
 # ctp-rs
 
+[![GitHub](https://img.shields.io/badge/github-rn7s2/ctp-rs&logo=github)](https://github.com/rn7s2/ctp-rs)
+[![Rust](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml)
+
+<!-- [![Crate](https://img.shields.io/crates/v/ctp-rs.svg)](https://crates.io/crates/ctp-rs)
+[![API](https://docs.rs/rand/badge.svg)](https://docs.rs/ctp-rs) -->
+
 Safe & Idiomatic Rust bindings for CTP
 
 CTP 接口的安全又好用的 Rust 绑定
 
 ## Quickstart
 
-TODO.
+计划发布到 [`crates.io`](https://crates.io/crates/ctp-rs)，但因 `ctp-rs` 名字被占用暂缓发布。
+
+目前可直接从 repo 安装：
+
+`cargo add --git https://github.com/rn7s2/ctp-rs.git`
 
 ## Examples
 
