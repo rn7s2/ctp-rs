@@ -1,0 +1,17 @@
+[package]
+name = "ctp-rs"
+version = "6.7.8"
+edition = "2024"
+authors = ["Ruiqi Lei <Rn7s2@outlook.com>"]
+description = "Safe & Idiomatic Rust bindings for CTP"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/rn7s2/ctp-rs"
+keywords = ["ctp", "ctp-rs", "ctp-binding", "quant", "trading"]
+categories = ["api-bindings", "finance"]
+
+[dependencies]
+cxx = "1.0"
+
+[build-dependencies]
+cxx-build = "1.0"
