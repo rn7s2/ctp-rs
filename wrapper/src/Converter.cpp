@@ -341,8 +341,8 @@ RspUserLogin2Field Converter::CThostFtdcRspUserLogin2FieldToRust(CThostFtdcRspUs
     y.CZCETime = Converter::Gb2312ToRustString(x->CZCETime);
     y.FFEXTime = Converter::Gb2312ToRustString(x->FFEXTime);
     y.INETime = Converter::Gb2312ToRustString(x->INETime);
-    y.RandomString.reserve(17);
-    memcpy(y.RandomString.data(), x->RandomString, 17 * sizeof(uint8_t));
+    for (int i = 0; i < 17; i++)
+        y.RandomString.push_back(x->RandomString[i]);
     return y;
 }
 
@@ -379,8 +379,8 @@ TransferHeaderField Converter::CThostFtdcTransferHeaderFieldToRust(CThostFtdcTra
     y.BankBrchID = Converter::Gb2312ToRustString(x->BankBrchID);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.RecordNum.reserve(7);
-    memcpy(y.RecordNum.data(), x->RecordNum, 7 * sizeof(uint8_t));
+    for (int i = 0; i < 7; i++)
+        y.RecordNum.push_back(x->RecordNum[i]);
     y.SessionID = x->SessionID;
     y.RequestID = x->RequestID;
     return y;
@@ -1503,8 +1503,8 @@ TraderOfferField Converter::CThostFtdcTraderOfferFieldToRust(CThostFtdcTraderOff
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.MaxTradeID = Converter::Gb2312ToRustString(x->MaxTradeID);
-    y.MaxOrderMessageReference.reserve(7);
-    memcpy(y.MaxOrderMessageReference.data(), x->MaxOrderMessageReference, 7 * sizeof(uint8_t));
+    for (int i = 0; i < 7; i++)
+        y.MaxOrderMessageReference.push_back(x->MaxOrderMessageReference[i]);
     y.OrderCancelAlg = x->OrderCancelAlg;
     return y;
 }
@@ -1532,8 +1532,8 @@ SettlementInfoField Converter::CThostFtdcSettlementInfoFieldToRust(CThostFtdcSet
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.SequenceNo = x->SequenceNo;
-    y.Content.reserve(501);
-    memcpy(y.Content.data(), x->Content, 501 * sizeof(uint8_t));
+    for (int i = 0; i < 501; i++)
+        y.Content.push_back(x->Content[i]);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     return y;
@@ -1767,8 +1767,8 @@ LoginInfoField Converter::CThostFtdcLoginInfoFieldToRust(CThostFtdcLoginInfoFiel
     y.InterfaceProductInfo = Converter::Gb2312ToRustString(x->InterfaceProductInfo);
     y.ProtocolInfo = Converter::Gb2312ToRustString(x->ProtocolInfo);
     y.SystemName = Converter::Gb2312ToRustString(x->SystemName);
-    y.PasswordDeprecated.reserve(41);
-    memcpy(y.PasswordDeprecated.data(), x->PasswordDeprecated, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.PasswordDeprecated.push_back(x->PasswordDeprecated[i]);
     y.MaxOrderRef = Converter::Gb2312ToRustString(x->MaxOrderRef);
     y.SHFETime = Converter::Gb2312ToRustString(x->SHFETime);
     y.DCETime = Converter::Gb2312ToRustString(x->DCETime);
@@ -2647,8 +2647,8 @@ SyncDepositField Converter::CThostFtdcSyncDepositFieldToRust(CThostFtdcSyncDepos
     if (x == nullptr)
         return SyncDepositField{.is_null = true};
     SyncDepositField y;
-    y.DepositSeqNo.reserve(15);
-    memcpy(y.DepositSeqNo.data(), x->DepositSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.DepositSeqNo.push_back(x->DepositSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.Deposit = x->Deposit;
@@ -2676,8 +2676,8 @@ SyncFundMortgageField Converter::CThostFtdcSyncFundMortgageFieldToRust(CThostFtd
     if (x == nullptr)
         return SyncFundMortgageField{.is_null = true};
     SyncFundMortgageField y;
-    y.MortgageSeqNo.reserve(15);
-    memcpy(y.MortgageSeqNo.data(), x->MortgageSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.MortgageSeqNo.push_back(x->MortgageSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.FromCurrencyID = Converter::Gb2312ToRustString(x->FromCurrencyID);
@@ -3647,8 +3647,8 @@ QrySyncDepositField Converter::CThostFtdcQrySyncDepositFieldToRust(CThostFtdcQry
         return QrySyncDepositField{.is_null = true};
     QrySyncDepositField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
-    y.DepositSeqNo.reserve(15);
-    memcpy(y.DepositSeqNo.data(), x->DepositSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.DepositSeqNo.push_back(x->DepositSeqNo[i]);
     return y;
 }
 
@@ -3747,8 +3747,8 @@ QrySyncFundMortgageField Converter::CThostFtdcQrySyncFundMortgageFieldToRust(CTh
         return QrySyncFundMortgageField{.is_null = true};
     QrySyncFundMortgageField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
-    y.MortgageSeqNo.reserve(15);
-    memcpy(y.MortgageSeqNo.data(), x->MortgageSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.MortgageSeqNo.push_back(x->MortgageSeqNo[i]);
     return y;
 }
 
@@ -6124,8 +6124,8 @@ TradeParamField Converter::CThostFtdcTradeParamFieldToRust(CThostFtdcTradeParamF
     TradeParamField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.TradeParamID = x->TradeParamID;
-    y.TradeParamValue.reserve(256);
-    memcpy(y.TradeParamValue.data(), x->TradeParamValue, 256 * sizeof(uint8_t));
+    for (int i = 0; i < 256; i++)
+        y.TradeParamValue.push_back(x->TradeParamValue[i]);
     y.Memo = Converter::Gb2312ToRustString(x->Memo);
     return y;
 }
@@ -6653,8 +6653,8 @@ SyncDelaySwapField Converter::CThostFtdcSyncDelaySwapFieldToRust(CThostFtdcSyncD
     if (x == nullptr)
         return SyncDelaySwapField{.is_null = true};
     SyncDelaySwapField y;
-    y.DelaySwapSeqNo.reserve(15);
-    memcpy(y.DelaySwapSeqNo.data(), x->DelaySwapSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.DelaySwapSeqNo.push_back(x->DelaySwapSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.FromCurrencyID = Converter::Gb2312ToRustString(x->FromCurrencyID);
@@ -6681,8 +6681,8 @@ QrySyncDelaySwapField Converter::CThostFtdcQrySyncDelaySwapFieldToRust(CThostFtd
         return QrySyncDelaySwapField{.is_null = true};
     QrySyncDelaySwapField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
-    y.DelaySwapSeqNo.reserve(15);
-    memcpy(y.DelaySwapSeqNo.data(), x->DelaySwapSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.DelaySwapSeqNo.push_back(x->DelaySwapSeqNo[i]);
     return y;
 }
 
@@ -7397,8 +7397,8 @@ MDTraderOfferField Converter::CThostFtdcMDTraderOfferFieldToRust(CThostFtdcMDTra
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.MaxTradeID = Converter::Gb2312ToRustString(x->MaxTradeID);
-    y.MaxOrderMessageReference.reserve(7);
-    memcpy(y.MaxOrderMessageReference.data(), x->MaxOrderMessageReference, 7 * sizeof(uint8_t));
+    for (int i = 0; i < 7; i++)
+        y.MaxOrderMessageReference.push_back(x->MaxOrderMessageReference[i]);
     y.OrderCancelAlg = x->OrderCancelAlg;
     return y;
 }
@@ -7451,10 +7451,10 @@ NoticeField Converter::CThostFtdcNoticeFieldToRust(CThostFtdcNoticeField* x) {
         return NoticeField{.is_null = true};
     NoticeField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
-    y.Content.reserve(501);
-    memcpy(y.Content.data(), x->Content, 501 * sizeof(uint8_t));
-    y.SequenceLabel.reserve(2);
-    memcpy(y.SequenceLabel.data(), x->SequenceLabel, 2 * sizeof(uint8_t));
+    for (int i = 0; i < 501; i++)
+        y.Content.push_back(x->Content[i]);
+    for (int i = 0; i < 2; i++)
+        y.SequenceLabel.push_back(x->SequenceLabel[i]);
     return y;
 }
 
@@ -8200,8 +8200,8 @@ UserIPField Converter::CThostFtdcUserIPFieldToRust(CThostFtdcUserIPField* x) {
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
-    y.IPMask.reserve(33);
-    memcpy(y.IPMask.data(), x->IPMask, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.IPMask.push_back(x->IPMask[i]);
     return y;
 }
 
@@ -8225,8 +8225,8 @@ TradingNoticeInfoField Converter::CThostFtdcTradingNoticeInfoFieldToRust(CThostF
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.SendTime = Converter::Gb2312ToRustString(x->SendTime);
-    y.FieldContent.reserve(501);
-    memcpy(y.FieldContent.data(), x->FieldContent, 501 * sizeof(uint8_t));
+    for (int i = 0; i < 501; i++)
+        y.FieldContent.push_back(x->FieldContent[i]);
     y.SequenceSeries = x->SequenceSeries;
     y.SequenceNo = x->SequenceNo;
     y.InvestUnitID = Converter::Gb2312ToRustString(x->InvestUnitID);
@@ -8259,8 +8259,8 @@ TradingNoticeField Converter::CThostFtdcTradingNoticeFieldToRust(CThostFtdcTradi
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.SendTime = Converter::Gb2312ToRustString(x->SendTime);
     y.SequenceNo = x->SequenceNo;
-    y.FieldContent.reserve(501);
-    memcpy(y.FieldContent.data(), x->FieldContent, 501 * sizeof(uint8_t));
+    for (int i = 0; i < 501; i++)
+        y.FieldContent.push_back(x->FieldContent[i]);
     y.InvestUnitID = Converter::Gb2312ToRustString(x->InvestUnitID);
     return y;
 }
@@ -8875,8 +8875,8 @@ CFMMCBrokerKeyField Converter::CThostFtdcCFMMCBrokerKeyFieldToRust(CThostFtdcCFM
     y.CreateDate = Converter::Gb2312ToRustString(x->CreateDate);
     y.CreateTime = Converter::Gb2312ToRustString(x->CreateTime);
     y.KeyID = x->KeyID;
-    y.CurrentKey.reserve(21);
-    memcpy(y.CurrentKey.data(), x->CurrentKey, 21 * sizeof(uint8_t));
+    for (int i = 0; i < 21; i++)
+        y.CurrentKey.push_back(x->CurrentKey[i]);
     y.KeyKind = x->KeyKind;
     return y;
 }
@@ -8900,8 +8900,8 @@ CFMMCTradingAccountKeyField Converter::CThostFtdcCFMMCTradingAccountKeyFieldToRu
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.KeyID = x->KeyID;
-    y.CurrentKey.reserve(21);
-    memcpy(y.CurrentKey.data(), x->CurrentKey, 21 * sizeof(uint8_t));
+    for (int i = 0; i < 21; i++)
+        y.CurrentKey.push_back(x->CurrentKey[i]);
     return y;
 }
 
@@ -8943,10 +8943,10 @@ BrokerUserOTPParamField Converter::CThostFtdcBrokerUserOTPParamFieldToRust(CThos
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.OTPVendorsID = Converter::Gb2312ToRustString(x->OTPVendorsID);
-    y.SerialNumber.reserve(17);
-    memcpy(y.SerialNumber.data(), x->SerialNumber, 17 * sizeof(uint8_t));
-    y.AuthKey.reserve(41);
-    memcpy(y.AuthKey.data(), x->AuthKey, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 17; i++)
+        y.SerialNumber.push_back(x->SerialNumber[i]);
+    for (int i = 0; i < 41; i++)
+        y.AuthKey.push_back(x->AuthKey[i]);
     y.LastDrift = x->LastDrift;
     y.LastSuccess = x->LastSuccess;
     y.OTPType = x->OTPType;
@@ -8971,10 +8971,10 @@ ManualSyncBrokerUserOTPField Converter::CThostFtdcManualSyncBrokerUserOTPFieldTo
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.OTPType = x->OTPType;
-    y.FirstOTP.reserve(41);
-    memcpy(y.FirstOTP.data(), x->FirstOTP, 41 * sizeof(uint8_t));
-    y.SecondOTP.reserve(41);
-    memcpy(y.SecondOTP.data(), x->SecondOTP, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.FirstOTP.push_back(x->FirstOTP[i]);
+    for (int i = 0; i < 41; i++)
+        y.SecondOTP.push_back(x->SecondOTP[i]);
     return y;
 }
 
@@ -9238,8 +9238,8 @@ CFMMCTradingAccountTokenField Converter::CThostFtdcCFMMCTradingAccountTokenField
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.KeyID = x->KeyID;
-    y.Token.reserve(21);
-    memcpy(y.Token.data(), x->Token, 21 * sizeof(uint8_t));
+    for (int i = 0; i < 21; i++)
+        y.Token.push_back(x->Token[i]);
     return y;
 }
 
@@ -9305,18 +9305,18 @@ BulletinField Converter::CThostFtdcBulletinFieldToRust(CThostFtdcBulletinField* 
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BulletinID = x->BulletinID;
     y.SequenceNo = x->SequenceNo;
-    y.NewsType.reserve(3);
-    memcpy(y.NewsType.data(), x->NewsType, 3 * sizeof(uint8_t));
+    for (int i = 0; i < 3; i++)
+        y.NewsType.push_back(x->NewsType[i]);
     y.NewsUrgency = x->NewsUrgency;
     y.SendTime = Converter::Gb2312ToRustString(x->SendTime);
-    y.Abstract.reserve(81);
-    memcpy(y.Abstract.data(), x->Abstract, 81 * sizeof(uint8_t));
-    y.ComeFrom.reserve(21);
-    memcpy(y.ComeFrom.data(), x->ComeFrom, 21 * sizeof(uint8_t));
-    y.Content.reserve(501);
-    memcpy(y.Content.data(), x->Content, 501 * sizeof(uint8_t));
-    y.URLLink.reserve(201);
-    memcpy(y.URLLink.data(), x->URLLink, 201 * sizeof(uint8_t));
+    for (int i = 0; i < 81; i++)
+        y.Abstract.push_back(x->Abstract[i]);
+    for (int i = 0; i < 21; i++)
+        y.ComeFrom.push_back(x->ComeFrom[i]);
+    for (int i = 0; i < 501; i++)
+        y.Content.push_back(x->Content[i]);
+    for (int i = 0; i < 201; i++)
+        y.URLLink.push_back(x->URLLink[i]);
     y.MarketID = Converter::Gb2312ToRustString(x->MarketID);
     return y;
 }
@@ -9339,8 +9339,8 @@ QryBulletinField Converter::CThostFtdcQryBulletinFieldToRust(CThostFtdcQryBullet
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BulletinID = x->BulletinID;
     y.SequenceNo = x->SequenceNo;
-    y.NewsType.reserve(3);
-    memcpy(y.NewsType.data(), x->NewsType, 3 * sizeof(uint8_t));
+    for (int i = 0; i < 3; i++)
+        y.NewsType.push_back(x->NewsType[i]);
     y.NewsUrgency = x->NewsUrgency;
     return y;
 }
@@ -9494,15 +9494,15 @@ ReqOpenAccountField Converter::CThostFtdcReqOpenAccountFieldToRust(CThostFtdcReq
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.CashExchangeCode = x->CashExchangeCode;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -9600,15 +9600,15 @@ ReqCancelAccountField Converter::CThostFtdcReqCancelAccountFieldToRust(CThostFtd
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.CashExchangeCode = x->CashExchangeCode;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -9704,13 +9704,13 @@ ReqChangeAccountField Converter::CThostFtdcReqChangeAccountFieldToRust(CThostFtd
     y.InstallID = x->InstallID;
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.TID = x->TID;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.LongCustomerName = Converter::Gb2312ToRustString(x->LongCustomerName);
     return y;
 }
@@ -9799,17 +9799,17 @@ ReqTransferField Converter::CThostFtdcReqTransferFieldToRust(CThostFtdcReqTransf
     y.FeePayFlag = x->FeePayFlag;
     y.CustFee = x->CustFee;
     y.BrokerFee = x->BrokerFee;
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -9906,17 +9906,17 @@ RspTransferField Converter::CThostFtdcRspTransferFieldToRust(CThostFtdcRspTransf
     y.FeePayFlag = x->FeePayFlag;
     y.CustFee = x->CustFee;
     y.BrokerFee = x->BrokerFee;
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -10027,17 +10027,17 @@ ReqRepealField Converter::CThostFtdcReqRepealFieldToRust(CThostFtdcReqRepealFiel
     y.FeePayFlag = x->FeePayFlag;
     y.CustFee = x->CustFee;
     y.BrokerFee = x->BrokerFee;
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -10148,17 +10148,17 @@ RspRepealField Converter::CThostFtdcRspRepealFieldToRust(CThostFtdcRspRepealFiel
     y.FeePayFlag = x->FeePayFlag;
     y.CustFee = x->CustFee;
     y.BrokerFee = x->BrokerFee;
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -10243,15 +10243,15 @@ ReqQueryAccountField Converter::CThostFtdcReqQueryAccountFieldToRust(CThostFtdcR
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -10335,15 +10335,15 @@ RspQueryAccountField Converter::CThostFtdcRspQueryAccountFieldToRust(CThostFtdcR
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -10400,12 +10400,12 @@ FutureSignIOField Converter::CThostFtdcFutureSignIOFieldToRust(CThostFtdcFutureS
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -10461,21 +10461,21 @@ RspFutureSignInField Converter::CThostFtdcRspFutureSignInFieldToRust(CThostFtdcR
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
     y.ErrorID = x->ErrorID;
     y.ErrorMsg = Converter::Gb2312ToRustString(x->ErrorMsg);
-    y.PinKey.reserve(129);
-    memcpy(y.PinKey.data(), x->PinKey, 129 * sizeof(uint8_t));
-    y.MacKey.reserve(129);
-    memcpy(y.MacKey.data(), x->MacKey, 129 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.PinKey.push_back(x->PinKey[i]);
+    for (int i = 0; i < 129; i++)
+        y.MacKey.push_back(x->MacKey[i]);
     return y;
 }
 
@@ -10524,12 +10524,12 @@ ReqFutureSignOutField Converter::CThostFtdcReqFutureSignOutFieldToRust(CThostFtd
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -10583,12 +10583,12 @@ RspFutureSignOutField Converter::CThostFtdcRspFutureSignOutFieldToRust(CThostFtd
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -10648,8 +10648,8 @@ ReqQueryTradeResultBySerialField Converter::CThostFtdcReqQueryTradeResultBySeria
     y.SessionID = x->SessionID;
     y.Reference = x->Reference;
     y.RefrenceIssureType = x->RefrenceIssureType;
-    y.RefrenceIssure.reserve(36);
-    memcpy(y.RefrenceIssure.data(), x->RefrenceIssure, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.RefrenceIssure.push_back(x->RefrenceIssure[i]);
     y.CustomerName = Converter::Gb2312ToRustString(x->CustomerName);
     y.IdCardType = x->IdCardType;
     y.IdentifiedCardNo = Converter::Gb2312ToRustString(x->IdentifiedCardNo);
@@ -10660,8 +10660,8 @@ ReqQueryTradeResultBySerialField Converter::CThostFtdcReqQueryTradeResultBySeria
     y.Password = Converter::Gb2312ToRustString(x->Password);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.TradeAmount = x->TradeAmount;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.LongCustomerName = Converter::Gb2312ToRustString(x->LongCustomerName);
     return y;
 }
@@ -10718,8 +10718,8 @@ RspQueryTradeResultBySerialField Converter::CThostFtdcRspQueryTradeResultBySeria
     y.ErrorMsg = Converter::Gb2312ToRustString(x->ErrorMsg);
     y.Reference = x->Reference;
     y.RefrenceIssureType = x->RefrenceIssureType;
-    y.RefrenceIssure.reserve(36);
-    memcpy(y.RefrenceIssure.data(), x->RefrenceIssure, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.RefrenceIssure.push_back(x->RefrenceIssure[i]);
     y.OriginReturnCode = Converter::Gb2312ToRustString(x->OriginReturnCode);
     y.OriginDescrInfoForReturnCode = Converter::Gb2312ToRustString(x->OriginDescrInfoForReturnCode);
     y.BankAccount = Converter::Gb2312ToRustString(x->BankAccount);
@@ -10728,8 +10728,8 @@ RspQueryTradeResultBySerialField Converter::CThostFtdcRspQueryTradeResultBySeria
     y.Password = Converter::Gb2312ToRustString(x->Password);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.TradeAmount = x->TradeAmount;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     return y;
 }
 
@@ -10770,8 +10770,8 @@ ReqDayEndFileReadyField Converter::CThostFtdcReqDayEndFileReadyFieldToRust(CThos
     y.LastFragment = x->LastFragment;
     y.SessionID = x->SessionID;
     y.FileBusinessCode = x->FileBusinessCode;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     return y;
 }
 
@@ -10912,8 +10912,8 @@ DepositResultInformField Converter::CThostFtdcDepositResultInformFieldToRust(CTh
     if (x == nullptr)
         return DepositResultInformField{.is_null = true};
     DepositResultInformField y;
-    y.DepositSeqNo.reserve(15);
-    memcpy(y.DepositSeqNo.data(), x->DepositSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.DepositSeqNo.push_back(x->DepositSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.Deposit = x->Deposit;
@@ -10967,11 +10967,11 @@ ReqSyncKeyField Converter::CThostFtdcReqSyncKeyFieldToRust(CThostFtdcReqSyncKeyF
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -11024,11 +11024,11 @@ RspSyncKeyField Converter::CThostFtdcRspSyncKeyFieldToRust(CThostFtdcRspSyncKeyF
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -11113,15 +11113,15 @@ NotifyQueryAccountField Converter::CThostFtdcNotifyQueryAccountFieldToRust(CThos
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -11274,21 +11274,21 @@ NotifyFutureSignInField Converter::CThostFtdcNotifyFutureSignInFieldToRust(CThos
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
     y.ErrorID = x->ErrorID;
     y.ErrorMsg = Converter::Gb2312ToRustString(x->ErrorMsg);
-    y.PinKey.reserve(129);
-    memcpy(y.PinKey.data(), x->PinKey, 129 * sizeof(uint8_t));
-    y.MacKey.reserve(129);
-    memcpy(y.MacKey.data(), x->MacKey, 129 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.PinKey.push_back(x->PinKey[i]);
+    for (int i = 0; i < 129; i++)
+        y.MacKey.push_back(x->MacKey[i]);
     return y;
 }
 
@@ -11339,12 +11339,12 @@ NotifyFutureSignOutField Converter::CThostFtdcNotifyFutureSignOutFieldToRust(CTh
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -11399,11 +11399,11 @@ NotifySyncKeyField Converter::CThostFtdcNotifySyncKeyFieldToRust(CThostFtdcNotif
     y.SessionID = x->SessionID;
     y.InstallID = x->InstallID;
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
     y.RequestID = x->RequestID;
     y.TID = x->TID;
@@ -11574,15 +11574,15 @@ OpenAccountField Converter::CThostFtdcOpenAccountFieldToRust(CThostFtdcOpenAccou
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.CashExchangeCode = x->CashExchangeCode;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -11684,15 +11684,15 @@ CancelAccountField Converter::CThostFtdcCancelAccountFieldToRust(CThostFtdcCance
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
     y.CashExchangeCode = x->CashExchangeCode;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -11792,13 +11792,13 @@ ChangeAccountField Converter::CThostFtdcChangeAccountFieldToRust(CThostFtdcChang
     y.InstallID = x->InstallID;
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.TID = x->TID;
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.ErrorID = x->ErrorID;
     y.ErrorMsg = Converter::Gb2312ToRustString(x->ErrorMsg);
     y.LongCustomerName = Converter::Gb2312ToRustString(x->LongCustomerName);
@@ -12127,19 +12127,19 @@ ReserveOpenAccountConfirmField Converter::CThostFtdcReserveOpenAccountConfirmFie
     y.InstallID = x->InstallID;
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.TID = x->TID;
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.Password = Converter::Gb2312ToRustString(x->Password);
-    y.BankReserveOpenSeq.reserve(13);
-    memcpy(y.BankReserveOpenSeq.data(), x->BankReserveOpenSeq, 13 * sizeof(uint8_t));
+    for (int i = 0; i < 13; i++)
+        y.BankReserveOpenSeq.push_back(x->BankReserveOpenSeq[i]);
     y.BookDate = Converter::Gb2312ToRustString(x->BookDate);
-    y.BookPsw.reserve(41);
-    memcpy(y.BookPsw.data(), x->BookPsw, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.BookPsw.push_back(x->BookPsw[i]);
     y.ErrorID = x->ErrorID;
     y.ErrorMsg = Converter::Gb2312ToRustString(x->ErrorMsg);
     return y;
@@ -12222,11 +12222,11 @@ ReserveOpenAccountField Converter::CThostFtdcReserveOpenAccountFieldToRust(CThos
     y.InstallID = x->InstallID;
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
     y.TID = x->TID;
     y.ReserveOpenAccStas = x->ReserveOpenAccStas;
     y.ErrorID = x->ErrorID;
@@ -12263,8 +12263,8 @@ AccountPropertyField Converter::CThostFtdcAccountPropertyFieldToRust(CThostFtdcA
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankAccount = Converter::Gb2312ToRustString(x->BankAccount);
     y.OpenName = Converter::Gb2312ToRustString(x->OpenName);
-    y.OpenBank.reserve(101);
-    memcpy(y.OpenBank.data(), x->OpenBank, 101 * sizeof(uint8_t));
+    for (int i = 0; i < 101; i++)
+        y.OpenBank.push_back(x->OpenBank[i]);
     y.IsActive = x->IsActive;
     y.AccountSourceType = x->AccountSourceType;
     y.OpenDate = Converter::Gb2312ToRustString(x->OpenDate);
@@ -12479,8 +12479,8 @@ ReqUserLoginWithCaptchaField Converter::CThostFtdcReqUserLoginWithCaptchaFieldTo
     y.ProtocolInfo = Converter::Gb2312ToRustString(x->ProtocolInfo);
     y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
     y.LoginRemark = Converter::Gb2312ToRustString(x->LoginRemark);
-    y.Captcha.reserve(41);
-    memcpy(y.Captcha.data(), x->Captcha, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.Captcha.push_back(x->Captcha[i]);
     y.ClientIPPort = x->ClientIPPort;
     y.ClientIPAddress = Converter::Gb2312ToRustString(x->ClientIPAddress);
     return y;
@@ -12517,8 +12517,8 @@ ReqUserLoginWithTextField Converter::CThostFtdcReqUserLoginWithTextFieldToRust(C
     y.ProtocolInfo = Converter::Gb2312ToRustString(x->ProtocolInfo);
     y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
     y.LoginRemark = Converter::Gb2312ToRustString(x->LoginRemark);
-    y.Text.reserve(41);
-    memcpy(y.Text.data(), x->Text, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.Text.push_back(x->Text[i]);
     y.ClientIPPort = x->ClientIPPort;
     y.ClientIPAddress = Converter::Gb2312ToRustString(x->ClientIPAddress);
     return y;
@@ -12590,8 +12590,8 @@ RspApiHandshakeField Converter::CThostFtdcRspApiHandshakeFieldToRust(CThostFtdcR
         return RspApiHandshakeField{.is_null = true};
     RspApiHandshakeField y;
     y.FrontHandshakeDataLen = x->FrontHandshakeDataLen;
-    y.FrontHandshakeData.reserve(301);
-    memcpy(y.FrontHandshakeData.data(), x->FrontHandshakeData, 301 * sizeof(uint8_t));
+    for (int i = 0; i < 301; i++)
+        y.FrontHandshakeData.push_back(x->FrontHandshakeData[i]);
     y.IsApiAuthEnabled = x->IsApiAuthEnabled;
     return y;
 }
@@ -12609,8 +12609,8 @@ ReqVerifyApiKeyField Converter::CThostFtdcReqVerifyApiKeyFieldToRust(CThostFtdcR
         return ReqVerifyApiKeyField{.is_null = true};
     ReqVerifyApiKeyField y;
     y.ApiHandshakeDataLen = x->ApiHandshakeDataLen;
-    y.ApiHandshakeData.reserve(301);
-    memcpy(y.ApiHandshakeData.data(), x->ApiHandshakeData, 301 * sizeof(uint8_t));
+    for (int i = 0; i < 301; i++)
+        y.ApiHandshakeData.push_back(x->ApiHandshakeData[i]);
     return y;
 }
 
@@ -12698,8 +12698,8 @@ SyncDelaySwapFrozenField Converter::CThostFtdcSyncDelaySwapFrozenFieldToRust(CTh
     if (x == nullptr)
         return SyncDelaySwapFrozenField{.is_null = true};
     SyncDelaySwapFrozenField y;
-    y.DelaySwapSeqNo.reserve(15);
-    memcpy(y.DelaySwapSeqNo.data(), x->DelaySwapSeqNo, 15 * sizeof(uint8_t));
+    for (int i = 0; i < 15; i++)
+        y.DelaySwapSeqNo.push_back(x->DelaySwapSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.FromCurrencyID = Converter::Gb2312ToRustString(x->FromCurrencyID);
@@ -12883,8 +12883,8 @@ ReqUserLoginSMField Converter::CThostFtdcReqUserLoginSMFieldToRust(CThostFtdcReq
     y.BrokerName = Converter::Gb2312ToRustString(x->BrokerName);
     y.AuthCode = Converter::Gb2312ToRustString(x->AuthCode);
     y.AppID = Converter::Gb2312ToRustString(x->AppID);
-    y.PIN.reserve(41);
-    memcpy(y.PIN.data(), x->PIN, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.PIN.push_back(x->PIN[i]);
     return y;
 }
 
@@ -13068,8 +13068,8 @@ SyncDeltaInfoField Converter::CThostFtdcSyncDeltaInfoFieldToRust(CThostFtdcSyncD
     SyncDeltaInfoField y;
     y.SyncDeltaSequenceNo = x->SyncDeltaSequenceNo;
     y.SyncDeltaStatus = x->SyncDeltaStatus;
-    y.SyncDescription.reserve(257);
-    memcpy(y.SyncDescription.data(), x->SyncDescription, 257 * sizeof(uint8_t));
+    for (int i = 0; i < 257; i++)
+        y.SyncDescription.push_back(x->SyncDescription[i]);
     y.IsOnlyTrdDelta = x->IsOnlyTrdDelta;
     return y;
 }
@@ -14348,8 +14348,8 @@ WithDrawParamField Converter::CThostFtdcWithDrawParamFieldToRust(CThostFtdcWithD
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.WithDrawParamID = x->WithDrawParamID;
-    y.WithDrawParamValue.reserve(41);
-    memcpy(y.WithDrawParamValue.data(), x->WithDrawParamValue, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.WithDrawParamValue.push_back(x->WithDrawParamValue[i]);
     return y;
 }
 
@@ -15788,10 +15788,10 @@ SyncDeltaRCAMSCombRuleDtlField Converter::CThostFtdcSyncDeltaRCAMSCombRuleDtlFie
     SyncDeltaRCAMSCombRuleDtlField y;
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
-    y.ProdGroup.reserve(41);
-    memcpy(y.ProdGroup.data(), x->ProdGroup, 41 * sizeof(uint8_t));
-    y.RuleId.reserve(51);
-    memcpy(y.RuleId.data(), x->RuleId, 51 * sizeof(uint8_t));
+    for (int i = 0; i < 41; i++)
+        y.ProdGroup.push_back(x->ProdGroup[i]);
+    for (int i = 0; i < 51; i++)
+        y.RuleId.push_back(x->RuleId[i]);
     y.Priority = x->Priority;
     y.HedgeFlag = x->HedgeFlag;
     y.CombMargin = x->CombMargin;
@@ -16093,8 +16093,8 @@ LocalAddrConfigField Converter::CThostFtdcLocalAddrConfigFieldToRust(CThostFtdcL
     LocalAddrConfigField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.PeerAddr = Converter::Gb2312ToRustString(x->PeerAddr);
-    y.NetMask.reserve(129);
-    memcpy(y.NetMask.data(), x->NetMask, 129 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.NetMask.push_back(x->NetMask[i]);
     y.DRIdentityID = x->DRIdentityID;
     y.LocalAddress = Converter::Gb2312ToRustString(x->LocalAddress);
     return y;
@@ -16189,15 +16189,15 @@ ReqQueryBankAccountBySecField Converter::CThostFtdcReqQueryBankAccountBySecField
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -16285,15 +16285,15 @@ RspQueryBankAccountBySecField Converter::CThostFtdcRspQueryBankAccountBySecField
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -16393,17 +16393,17 @@ ReqTransferBySecField Converter::CThostFtdcReqTransferBySecFieldToRust(CThostFtd
     y.FeePayFlag = x->FeePayFlag;
     y.CustFee = x->CustFee;
     y.BrokerFee = x->BrokerFee;
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -16504,17 +16504,17 @@ RspTransferBySecField Converter::CThostFtdcRspTransferBySecFieldToRust(CThostFtd
     y.FeePayFlag = x->FeePayFlag;
     y.CustFee = x->CustFee;
     y.BrokerFee = x->BrokerFee;
-    y.Message.reserve(129);
-    memcpy(y.Message.data(), x->Message, 129 * sizeof(uint8_t));
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 129; i++)
+        y.Message.push_back(x->Message[i]);
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
@@ -16607,15 +16607,15 @@ NotifyQueryFutureAccountBySecField Converter::CThostFtdcNotifyQueryFutureAccount
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.VerifyCertNoFlag = x->VerifyCertNoFlag;
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
-    y.Digest.reserve(36);
-    memcpy(y.Digest.data(), x->Digest, 36 * sizeof(uint8_t));
+    for (int i = 0; i < 36; i++)
+        y.Digest.push_back(x->Digest[i]);
     y.BankAccType = x->BankAccType;
     y.DeviceID = Converter::Gb2312ToRustString(x->DeviceID);
     y.BankSecuAccType = x->BankSecuAccType;
-    y.BrokerIDByBank.reserve(33);
-    memcpy(y.BrokerIDByBank.data(), x->BrokerIDByBank, 33 * sizeof(uint8_t));
-    y.BankSecuAcc.reserve(41);
-    memcpy(y.BankSecuAcc.data(), x->BankSecuAcc, 41 * sizeof(uint8_t));
+    for (int i = 0; i < 33; i++)
+        y.BrokerIDByBank.push_back(x->BrokerIDByBank[i]);
+    for (int i = 0; i < 41; i++)
+        y.BankSecuAcc.push_back(x->BankSecuAcc[i]);
     y.BankPwdFlag = x->BankPwdFlag;
     y.SecuPwdFlag = x->SecuPwdFlag;
     y.OperNo = Converter::Gb2312ToRustString(x->OperNo);
