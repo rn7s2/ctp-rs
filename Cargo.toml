@@ -1,13 +1,13 @@
 [package]
-name = "ctp-rs"
+name = "ctp4rs"
 version = "6.7.8"
 edition = "2024"
 authors = ["Ruiqi Lei <Rn7s2@outlook.com>"]
 description = "Safe & Idiomatic Rust bindings for CTP"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/rn7s2/ctp-rs"
-keywords = ["ctp", "ctp-rs", "ctp-binding", "quant", "trading"]
+repository = "https://github.com/rn7s2/ctp4rs"
+keywords = ["ctp", "ctp-rs", "ctp2rs", "ctp4rs", "ctp-binding", "quant", "trading"]
 categories = ["api-bindings", "finance"]
 
 [dependencies]

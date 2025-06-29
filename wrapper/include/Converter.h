@@ -490,7 +490,7 @@ struct InvestorInfoCommRecField;
 struct QryInvestorInfoCommRecField;
 struct FrontInfoField;
 
-#include "ctp-rs/src/lib.rs.h"
+#include "ctp4rs/src/lib.rs.h"
 #include "rust/cxx.h"
 #include <cstring>
 #include <ctime>

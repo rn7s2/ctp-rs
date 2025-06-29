@@ -1,29 +1,26 @@
-# ctp-rs
+# ctp4rs
 
-[![GitHub](https://img.shields.io/badge/GitHub-rn7s2/ctp-rs&logo=github)](https://github.com/rn7s2/ctp-rs)
-[![Rust](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml)
-
-<!-- [![Crate](https://img.shields.io/crates/v/ctp-rs.svg)](https://crates.io/crates/ctp-rs)
-[![API](https://docs.rs/rand/badge.svg)](https://docs.rs/ctp-rs) -->
+[![GitHub](https://img.shields.io/badge/GitHub-rn7s2/ctp4rs&logo=github)](https://github.com/rn7s2/ctp4rs)
+[![Rust](https://github.com/rn7s2/ctp4rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/rn7s2/ctp4rs/actions/workflows/rust.yml)
+[![Crate](https://img.shields.io/crates/v/ctp4rs.svg)](https://crates.io/crates/ctp4rs)
+[![API](https://docs.rs/rand/badge.svg)](https://docs.rs/ctp4rs)
 
 Safe & Idiomatic Rust bindings for CTP
 
-CTP 接口的安全又好用的 Rust 绑定
+CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.8.
 
 ## Quickstart
 
-计划发布到 [`crates.io`](https://crates.io/crates/ctp-rs)，但因 `ctp-rs` 名字被占用暂缓发布。
+可直接从 [`crates.io`](https://crates.io/crates/ctp4rs) 安装：
 
-目前可直接从 repo 安装：
-
-`cargo add --git https://github.com/rn7s2/ctp-rs.git`
+`cargo add ctp4rs`
 
 ## Examples
 
 1. md_api
 
    ```rs
-   use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
+   use ctp4rs::{MdApi, MdSpiMsg, ReqUserLoginField};
    use std::sync::{Arc, mpsc::channel};
 
    // for more fronts, see: http://www.openctp.cn/simenv.html
@@ -72,7 +69,7 @@ CTP 接口的安全又好用的 Rust 绑定
 2. td_api
 
    ```rs
-   use ctp_rs::{
+   use ctp4rs::{
        QryInstrumentField, ReqAuthenticateField, ReqUserLoginField, THOST_TE_RESUME_TYPE, TraderApi,
        TraderSpiMsg,
    };

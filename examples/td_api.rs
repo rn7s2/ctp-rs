@@ -1,4 +1,4 @@
-use ctp_rs::{
+use ctp4rs::{
     QryInstrumentField, ReqAuthenticateField, ReqUserLoginField, THOST_TE_RESUME_TYPE, TraderApi,
     TraderSpiMsg,
 };

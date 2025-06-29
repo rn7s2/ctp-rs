@@ -1,5 +1,5 @@
-#include "ctp-rs/wrapper/include/TraderApi.h"
-#include "ctp-rs/wrapper/include/Converter.h"
+#include "ctp4rs/wrapper/include/TraderApi.h"
+#include "ctp4rs/wrapper/include/Converter.h"
 
 TraderApi::TraderApi(const TraderSpi &gateway, rust::String flow_path) : gateway(gateway) {
     spi = new CTraderSpi(this);

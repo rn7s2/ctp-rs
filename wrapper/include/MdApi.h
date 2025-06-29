@@ -493,10 +493,10 @@ struct FrontInfoField;
 struct MdApi;
 struct MdSpi;
 
-#include "ctp-rs/src/lib.rs.h"
-#include "ctp-rs/wrapper/include/CMdSpi.h"
-#include "ctp-rs/lib/6.7.8/ThostFtdcMdApi.h"
-#include "ctp-rs/lib/6.7.8/ThostFtdcTraderApi.h"
+#include "ctp4rs/src/lib.rs.h"
+#include "ctp4rs/wrapper/include/CMdSpi.h"
+#include "ctp4rs/lib/6.7.8/ThostFtdcMdApi.h"
+#include "ctp4rs/lib/6.7.8/ThostFtdcTraderApi.h"
 
 #include "rust/cxx.h"
 #include <memory>
