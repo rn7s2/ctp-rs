@@ -488,6 +488,14 @@ struct TradingAccountPasswordUpdateFromSecField;
 struct RiskForbiddenRightField;
 struct InvestorInfoCommRecField;
 struct QryInvestorInfoCommRecField;
+struct CombLegField;
+struct QryCombLegField;
+struct InputOffsetSettingField;
+struct OffsetSettingField;
+struct CancelOffsetSettingField;
+struct QryOffsetSettingField;
+struct AddrAppIDRelationField;
+struct QryAddrAppIDRelationField;
 struct FrontInfoField;
 
 #include "ctp4rs/src/lib.rs.h"
@@ -1481,6 +1489,22 @@ public:
     static InvestorInfoCommRecField CThostFtdcInvestorInfoCommRecFieldToRust(CThostFtdcInvestorInfoCommRecField* x);
     static CThostFtdcQryInvestorInfoCommRecField QryInvestorInfoCommRecFieldToCpp(QryInvestorInfoCommRecField x);
     static QryInvestorInfoCommRecField CThostFtdcQryInvestorInfoCommRecFieldToRust(CThostFtdcQryInvestorInfoCommRecField* x);
+    static CThostFtdcCombLegField CombLegFieldToCpp(CombLegField x);
+    static CombLegField CThostFtdcCombLegFieldToRust(CThostFtdcCombLegField* x);
+    static CThostFtdcQryCombLegField QryCombLegFieldToCpp(QryCombLegField x);
+    static QryCombLegField CThostFtdcQryCombLegFieldToRust(CThostFtdcQryCombLegField* x);
+    static CThostFtdcInputOffsetSettingField InputOffsetSettingFieldToCpp(InputOffsetSettingField x);
+    static InputOffsetSettingField CThostFtdcInputOffsetSettingFieldToRust(CThostFtdcInputOffsetSettingField* x);
+    static CThostFtdcOffsetSettingField OffsetSettingFieldToCpp(OffsetSettingField x);
+    static OffsetSettingField CThostFtdcOffsetSettingFieldToRust(CThostFtdcOffsetSettingField* x);
+    static CThostFtdcCancelOffsetSettingField CancelOffsetSettingFieldToCpp(CancelOffsetSettingField x);
+    static CancelOffsetSettingField CThostFtdcCancelOffsetSettingFieldToRust(CThostFtdcCancelOffsetSettingField* x);
+    static CThostFtdcQryOffsetSettingField QryOffsetSettingFieldToCpp(QryOffsetSettingField x);
+    static QryOffsetSettingField CThostFtdcQryOffsetSettingFieldToRust(CThostFtdcQryOffsetSettingField* x);
+    static CThostFtdcAddrAppIDRelationField AddrAppIDRelationFieldToCpp(AddrAppIDRelationField x);
+    static AddrAppIDRelationField CThostFtdcAddrAppIDRelationFieldToRust(CThostFtdcAddrAppIDRelationField* x);
+    static CThostFtdcQryAddrAppIDRelationField QryAddrAppIDRelationFieldToCpp(QryAddrAppIDRelationField x);
+    static QryAddrAppIDRelationField CThostFtdcQryAddrAppIDRelationFieldToRust(CThostFtdcQryAddrAppIDRelationField* x);
     static CThostFtdcFrontInfoField FrontInfoFieldToCpp(FrontInfoField x);
     static FrontInfoField CThostFtdcFrontInfoFieldToRust(CThostFtdcFrontInfoField* x);
 };

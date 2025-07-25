@@ -1,13 +1,13 @@
 # ctp4rs
 
-[![GitHub](https://img.shields.io/badge/GitHub-rn7s2/ctp4rs&logo=github)](https://github.com/rn7s2/ctp4rs)
+[![GitHub](https://img.shields.io/badge/GitHub-Rn7s2/ctp4rs-green&logo=github)](https://github.com/rn7s2/ctp4rs)
 [![Rust](https://github.com/rn7s2/ctp4rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/rn7s2/ctp4rs/actions/workflows/rust.yml)
 [![Crate](https://img.shields.io/crates/v/ctp4rs.svg)](https://crates.io/crates/ctp4rs)
 [![API](https://docs.rs/rand/badge.svg)](https://docs.rs/ctp4rs)
 
 Safe & Idiomatic Rust bindings for CTP
 
-CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.8.
+CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.9.
 
 ## Quickstart
 

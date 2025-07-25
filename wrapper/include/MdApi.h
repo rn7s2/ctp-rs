@@ -488,6 +488,14 @@ struct TradingAccountPasswordUpdateFromSecField;
 struct RiskForbiddenRightField;
 struct InvestorInfoCommRecField;
 struct QryInvestorInfoCommRecField;
+struct CombLegField;
+struct QryCombLegField;
+struct InputOffsetSettingField;
+struct OffsetSettingField;
+struct CancelOffsetSettingField;
+struct QryOffsetSettingField;
+struct AddrAppIDRelationField;
+struct QryAddrAppIDRelationField;
 struct FrontInfoField;
 
 struct MdApi;
@@ -495,8 +503,8 @@ struct MdSpi;
 
 #include "ctp4rs/src/lib.rs.h"
 #include "ctp4rs/wrapper/include/CMdSpi.h"
-#include "ctp4rs/lib/6.7.8/ThostFtdcMdApi.h"
-#include "ctp4rs/lib/6.7.8/ThostFtdcTraderApi.h"
+#include "ctp4rs/lib/6.7.9/ThostFtdcMdApi.h"
+#include "ctp4rs/lib/6.7.9/ThostFtdcTraderApi.h"
 
 #include "rust/cxx.h"
 #include <memory>

@@ -488,6 +488,14 @@ struct TradingAccountPasswordUpdateFromSecField;
 struct RiskForbiddenRightField;
 struct InvestorInfoCommRecField;
 struct QryInvestorInfoCommRecField;
+struct CombLegField;
+struct QryCombLegField;
+struct InputOffsetSettingField;
+struct OffsetSettingField;
+struct CancelOffsetSettingField;
+struct QryOffsetSettingField;
+struct AddrAppIDRelationField;
+struct QryAddrAppIDRelationField;
 struct FrontInfoField;
 
 struct TraderApi;
@@ -495,8 +503,8 @@ struct TraderSpi;
 
 #include "ctp4rs/src/lib.rs.h"
 #include "ctp4rs/wrapper/include/CTraderSpi.h"
-#include "ctp4rs/lib/6.7.8/ThostFtdcMdApi.h"
-#include "ctp4rs/lib/6.7.8/ThostFtdcTraderApi.h"
+#include "ctp4rs/lib/6.7.9/ThostFtdcMdApi.h"
+#include "ctp4rs/lib/6.7.9/ThostFtdcTraderApi.h"
 
 #include "rust/cxx.h"
 #include <memory>
@@ -629,6 +637,10 @@ struct TraderApi {
     int32_t ReqQryInvestorProdRULEMargin(QryInvestorProdRULEMarginField pQryInvestorProdRULEMargin, int32_t nRequestID) const;
     int32_t ReqQryInvestorPortfSetting(QryInvestorPortfSettingField pQryInvestorPortfSetting, int32_t nRequestID) const;
     int32_t ReqQryInvestorInfoCommRec(QryInvestorInfoCommRecField pQryInvestorInfoCommRec, int32_t nRequestID) const;
+    int32_t ReqQryCombLeg(QryCombLegField pQryCombLeg, int32_t nRequestID) const;
+    int32_t ReqOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
+    int32_t ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
+    int32_t ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const;
 
     const TraderSpi &gateway;
     CThostFtdcTraderApi *api;

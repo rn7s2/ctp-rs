@@ -986,3 +986,35 @@ int32_t TraderApi::ReqQryInvestorInfoCommRec(QryInvestorInfoCommRecField pQryInv
         nRequestID
     );
 }
+
+int32_t TraderApi::ReqQryCombLeg(QryCombLegField pQryCombLeg, int32_t nRequestID) const {
+    CThostFtdcQryCombLegField req(Converter::QryCombLegFieldToCpp(pQryCombLeg));
+    return api->ReqQryCombLeg(
+        &req,
+        nRequestID
+    );
+}
+
+int32_t TraderApi::ReqOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const {
+    CThostFtdcInputOffsetSettingField req(Converter::InputOffsetSettingFieldToCpp(pInputOffsetSetting));
+    return api->ReqOffsetSetting(
+        &req,
+        nRequestID
+    );
+}
+
+int32_t TraderApi::ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const {
+    CThostFtdcInputOffsetSettingField req(Converter::InputOffsetSettingFieldToCpp(pInputOffsetSetting));
+    return api->ReqCancelOffsetSetting(
+        &req,
+        nRequestID
+    );
+}
+
+int32_t TraderApi::ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const {
+    CThostFtdcQryOffsetSettingField req(Converter::QryOffsetSettingFieldToCpp(pQryOffsetSetting));
+    return api->ReqQryOffsetSetting(
+        &req,
+        nRequestID
+    );
+}

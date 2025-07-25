@@ -1285,3 +1285,59 @@ void CTraderSpi::OnRspQryInvestorInfoCommRec(CThostFtdcInvestorInfoCommRecField*
         bIsLast
     );
 }
+
+void CTraderSpi::OnRspQryCombLeg(CThostFtdcCombLegField* pCombLeg, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->gateway.OnRspQryCombLeg(
+        Converter::CThostFtdcCombLegFieldToRust(pCombLeg),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->gateway.OnRspOffsetSetting(
+        Converter::CThostFtdcInputOffsetSettingFieldToRust(pInputOffsetSetting),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspCancelOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->gateway.OnRspCancelOffsetSetting(
+        Converter::CThostFtdcInputOffsetSettingFieldToRust(pInputOffsetSetting),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRtnOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSetting) {
+    this->gateway->gateway.OnRtnOffsetSetting(
+        Converter::CThostFtdcOffsetSettingFieldToRust(pOffsetSetting)
+    );
+}
+
+void CTraderSpi::OnErrRtnOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo) {
+    this->gateway->gateway.OnErrRtnOffsetSetting(
+        Converter::CThostFtdcInputOffsetSettingFieldToRust(pInputOffsetSetting),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo)
+    );
+}
+
+void CTraderSpi::OnErrRtnCancelOffsetSetting(CThostFtdcCancelOffsetSettingField* pCancelOffsetSetting, CThostFtdcRspInfoField* pRspInfo) {
+    this->gateway->gateway.OnErrRtnCancelOffsetSetting(
+        Converter::CThostFtdcCancelOffsetSettingFieldToRust(pCancelOffsetSetting),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo)
+    );
+}
+
+void CTraderSpi::OnRspQryOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->gateway.OnRspQryOffsetSetting(
+        Converter::CThostFtdcOffsetSettingFieldToRust(pOffsetSetting),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}

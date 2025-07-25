@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ctp4rs/lib/6.7.8/ThostFtdcMdApi.h"
-#include "ctp4rs/lib/6.7.8/ThostFtdcTraderApi.h"
+#include "ctp4rs/lib/6.7.9/ThostFtdcMdApi.h"
+#include "ctp4rs/lib/6.7.9/ThostFtdcTraderApi.h"
 
 #include <cstdint>
 
@@ -168,6 +168,13 @@ public:
     void OnRspQryInvestorProdRULEMargin(CThostFtdcInvestorProdRULEMarginField* pInvestorProdRULEMargin, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInvestorPortfSetting(CThostFtdcInvestorPortfSettingField* pInvestorPortfSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInvestorInfoCommRec(CThostFtdcInvestorInfoCommRecField* pInvestorInfoCommRec, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+    void OnRspQryCombLeg(CThostFtdcCombLegField* pCombLeg, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+    void OnRspOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+    void OnRspCancelOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+    void OnRtnOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSetting) override;
+    void OnErrRtnOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo) override;
+    void OnErrRtnCancelOffsetSetting(CThostFtdcCancelOffsetSettingField* pCancelOffsetSetting, CThostFtdcRspInfoField* pRspInfo) override;
+    void OnRspQryOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
 
 private:
     const TraderApi *gateway;
