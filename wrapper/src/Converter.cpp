@@ -15969,6 +15969,8 @@ CThostFtdcIpAddrParamField Converter::IpAddrParamFieldToCpp(IpAddrParamField x) 
     y.IsSM = x.IsSM;
     y.IsLocalAddr = x.IsLocalAddr;
     strcpy(y.Remark, x.Remark.c_str());
+    memcpy(y.Site, x.Site.data(), x.Site.size() * sizeof(uint8_t));
+    memcpy(y.NetOperator, x.NetOperator.data(), x.NetOperator.size() * sizeof(uint8_t));
     return y;
 }
 
@@ -15987,6 +15989,10 @@ IpAddrParamField Converter::CThostFtdcIpAddrParamFieldToRust(CThostFtdcIpAddrPar
     y.IsSM = x->IsSM;
     y.IsLocalAddr = x->IsLocalAddr;
     y.Remark = Converter::Gb2312ToRustString(x->Remark);
+    for (int i = 0; i < 51; i++)
+        y.Site.push_back(x->Site[i]);
+    for (int i = 0; i < 9; i++)
+        y.NetOperator.push_back(x->NetOperator[i]);
     return y;
 }
 
@@ -16020,6 +16026,8 @@ CThostFtdcTGIpAddrParamField Converter::TGIpAddrParamFieldToCpp(TGIpAddrParamFie
     y.IsSM = x.IsSM;
     y.IsLocalAddr = x.IsLocalAddr;
     strcpy(y.Remark, x.Remark.c_str());
+    memcpy(y.Site, x.Site.data(), x.Site.size() * sizeof(uint8_t));
+    memcpy(y.NetOperator, x.NetOperator.data(), x.NetOperator.size() * sizeof(uint8_t));
     return y;
 }
 
@@ -16039,6 +16047,10 @@ TGIpAddrParamField Converter::CThostFtdcTGIpAddrParamFieldToRust(CThostFtdcTGIpA
     y.IsSM = x->IsSM;
     y.IsLocalAddr = x->IsLocalAddr;
     y.Remark = Converter::Gb2312ToRustString(x->Remark);
+    for (int i = 0; i < 51; i++)
+        y.Site.push_back(x->Site[i]);
+    for (int i = 0; i < 9; i++)
+        y.NetOperator.push_back(x->NetOperator[i]);
     return y;
 }
 
@@ -16047,6 +16059,7 @@ CThostFtdcQryTGIpAddrParamField Converter::QryTGIpAddrParamFieldToCpp(QryTGIpAdd
     memset(&y, 0, sizeof(y));
     strcpy(y.BrokerID, x.BrokerID.c_str());
     strcpy(y.UserID, x.UserID.c_str());
+    strcpy(y.AppID, x.AppID.c_str());
     return y;
 }
 
@@ -16056,6 +16069,7 @@ QryTGIpAddrParamField Converter::CThostFtdcQryTGIpAddrParamFieldToRust(CThostFtd
     QryTGIpAddrParamField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
+    y.AppID = Converter::Gb2312ToRustString(x->AppID);
     return y;
 }
 
@@ -16849,6 +16863,286 @@ QryInvestorInfoCommRecField Converter::CThostFtdcQryInvestorInfoCommRecFieldToRu
     QryInvestorInfoCommRecField y;
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    return y;
+}
+
+CThostFtdcCombLegField Converter::CombLegFieldToCpp(CombLegField x) {
+    CThostFtdcCombLegField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.CombInstrumentID, x.CombInstrumentID.c_str());
+    y.LegID = x.LegID;
+    strcpy(y.LegInstrumentID, x.LegInstrumentID.c_str());
+    y.Direction = x.Direction;
+    y.LegMultiple = x.LegMultiple;
+    y.ImplyLevel = x.ImplyLevel;
+    return y;
+}
+
+CombLegField Converter::CThostFtdcCombLegFieldToRust(CThostFtdcCombLegField* x) {
+    if (x == nullptr)
+        return CombLegField{.is_null = true};
+    CombLegField y;
+    y.CombInstrumentID = Converter::Gb2312ToRustString(x->CombInstrumentID);
+    y.LegID = x->LegID;
+    y.LegInstrumentID = Converter::Gb2312ToRustString(x->LegInstrumentID);
+    y.Direction = x->Direction;
+    y.LegMultiple = x->LegMultiple;
+    y.ImplyLevel = x->ImplyLevel;
+    return y;
+}
+
+CThostFtdcQryCombLegField Converter::QryCombLegFieldToCpp(QryCombLegField x) {
+    CThostFtdcQryCombLegField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.LegInstrumentID, x.LegInstrumentID.c_str());
+    return y;
+}
+
+QryCombLegField Converter::CThostFtdcQryCombLegFieldToRust(CThostFtdcQryCombLegField* x) {
+    if (x == nullptr)
+        return QryCombLegField{.is_null = true};
+    QryCombLegField y;
+    y.LegInstrumentID = Converter::Gb2312ToRustString(x->LegInstrumentID);
+    return y;
+}
+
+CThostFtdcInputOffsetSettingField Converter::InputOffsetSettingFieldToCpp(InputOffsetSettingField x) {
+    CThostFtdcInputOffsetSettingField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.InvestorID, x.InvestorID.c_str());
+    strcpy(y.InstrumentID, x.InstrumentID.c_str());
+    strcpy(y.UnderlyingInstrID, x.UnderlyingInstrID.c_str());
+    strcpy(y.ProductID, x.ProductID.c_str());
+    y.OffsetType = x.OffsetType;
+    y.Volume = x.Volume;
+    y.IsOffset = x.IsOffset;
+    y.RequestID = x.RequestID;
+    strcpy(y.UserID, x.UserID.c_str());
+    strcpy(y.ExchangeID, x.ExchangeID.c_str());
+    strcpy(y.IPAddress, x.IPAddress.c_str());
+    strcpy(y.MacAddress, x.MacAddress.c_str());
+    return y;
+}
+
+InputOffsetSettingField Converter::CThostFtdcInputOffsetSettingFieldToRust(CThostFtdcInputOffsetSettingField* x) {
+    if (x == nullptr)
+        return InputOffsetSettingField{.is_null = true};
+    InputOffsetSettingField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
+    y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
+    y.UnderlyingInstrID = Converter::Gb2312ToRustString(x->UnderlyingInstrID);
+    y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
+    y.OffsetType = x->OffsetType;
+    y.Volume = x->Volume;
+    y.IsOffset = x->IsOffset;
+    y.RequestID = x->RequestID;
+    y.UserID = Converter::Gb2312ToRustString(x->UserID);
+    y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
+    y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
+    y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
+    return y;
+}
+
+CThostFtdcOffsetSettingField Converter::OffsetSettingFieldToCpp(OffsetSettingField x) {
+    CThostFtdcOffsetSettingField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.InvestorID, x.InvestorID.c_str());
+    strcpy(y.InstrumentID, x.InstrumentID.c_str());
+    strcpy(y.UnderlyingInstrID, x.UnderlyingInstrID.c_str());
+    strcpy(y.ProductID, x.ProductID.c_str());
+    y.OffsetType = x.OffsetType;
+    y.Volume = x.Volume;
+    y.IsOffset = x.IsOffset;
+    y.RequestID = x.RequestID;
+    strcpy(y.UserID, x.UserID.c_str());
+    strcpy(y.ExchangeID, x.ExchangeID.c_str());
+    strcpy(y.IPAddress, x.IPAddress.c_str());
+    strcpy(y.MacAddress, x.MacAddress.c_str());
+    strcpy(y.ExchangeInstID, x.ExchangeInstID.c_str());
+    memcpy(y.ExchangeSerialNo, x.ExchangeSerialNo.data(), x.ExchangeSerialNo.size() * sizeof(uint8_t));
+    strcpy(y.ExchangeProductID, x.ExchangeProductID.c_str());
+    strcpy(y.ParticipantID, x.ParticipantID.c_str());
+    strcpy(y.ClientID, x.ClientID.c_str());
+    strcpy(y.TraderID, x.TraderID.c_str());
+    y.InstallID = x.InstallID;
+    y.OrderSubmitStatus = x.OrderSubmitStatus;
+    strcpy(y.TradingDay, x.TradingDay.c_str());
+    y.SettlementID = x.SettlementID;
+    strcpy(y.InsertDate, x.InsertDate.c_str());
+    strcpy(y.InsertTime, x.InsertTime.c_str());
+    strcpy(y.CancelTime, x.CancelTime.c_str());
+    y.ExecResult = x.ExecResult;
+    y.SequenceNo = x.SequenceNo;
+    y.FrontID = x.FrontID;
+    y.SessionID = x.SessionID;
+    strcpy(y.StatusMsg, x.StatusMsg.c_str());
+    strcpy(y.ActiveUserID, x.ActiveUserID.c_str());
+    y.BrokerOffsetSettingSeq = x.BrokerOffsetSettingSeq;
+    return y;
+}
+
+OffsetSettingField Converter::CThostFtdcOffsetSettingFieldToRust(CThostFtdcOffsetSettingField* x) {
+    if (x == nullptr)
+        return OffsetSettingField{.is_null = true};
+    OffsetSettingField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
+    y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
+    y.UnderlyingInstrID = Converter::Gb2312ToRustString(x->UnderlyingInstrID);
+    y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
+    y.OffsetType = x->OffsetType;
+    y.Volume = x->Volume;
+    y.IsOffset = x->IsOffset;
+    y.RequestID = x->RequestID;
+    y.UserID = Converter::Gb2312ToRustString(x->UserID);
+    y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
+    y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
+    y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
+    y.ExchangeInstID = Converter::Gb2312ToRustString(x->ExchangeInstID);
+    for (int i = 0; i < 81; i++)
+        y.ExchangeSerialNo.push_back(x->ExchangeSerialNo[i]);
+    y.ExchangeProductID = Converter::Gb2312ToRustString(x->ExchangeProductID);
+    y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
+    y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
+    y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
+    y.InstallID = x->InstallID;
+    y.OrderSubmitStatus = x->OrderSubmitStatus;
+    y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
+    y.SettlementID = x->SettlementID;
+    y.InsertDate = Converter::Gb2312ToRustString(x->InsertDate);
+    y.InsertTime = Converter::Gb2312ToRustString(x->InsertTime);
+    y.CancelTime = Converter::Gb2312ToRustString(x->CancelTime);
+    y.ExecResult = x->ExecResult;
+    y.SequenceNo = x->SequenceNo;
+    y.FrontID = x->FrontID;
+    y.SessionID = x->SessionID;
+    y.StatusMsg = Converter::Gb2312ToRustString(x->StatusMsg);
+    y.ActiveUserID = Converter::Gb2312ToRustString(x->ActiveUserID);
+    y.BrokerOffsetSettingSeq = x->BrokerOffsetSettingSeq;
+    return y;
+}
+
+CThostFtdcCancelOffsetSettingField Converter::CancelOffsetSettingFieldToCpp(CancelOffsetSettingField x) {
+    CThostFtdcCancelOffsetSettingField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.InvestorID, x.InvestorID.c_str());
+    strcpy(y.InstrumentID, x.InstrumentID.c_str());
+    strcpy(y.UnderlyingInstrID, x.UnderlyingInstrID.c_str());
+    strcpy(y.ProductID, x.ProductID.c_str());
+    y.OffsetType = x.OffsetType;
+    y.Volume = x.Volume;
+    y.IsOffset = x.IsOffset;
+    y.RequestID = x.RequestID;
+    strcpy(y.UserID, x.UserID.c_str());
+    strcpy(y.ExchangeID, x.ExchangeID.c_str());
+    strcpy(y.IPAddress, x.IPAddress.c_str());
+    strcpy(y.MacAddress, x.MacAddress.c_str());
+    strcpy(y.ExchangeInstID, x.ExchangeInstID.c_str());
+    memcpy(y.ExchangeSerialNo, x.ExchangeSerialNo.data(), x.ExchangeSerialNo.size() * sizeof(uint8_t));
+    strcpy(y.ExchangeProductID, x.ExchangeProductID.c_str());
+    strcpy(y.TraderID, x.TraderID.c_str());
+    y.InstallID = x.InstallID;
+    strcpy(y.ParticipantID, x.ParticipantID.c_str());
+    strcpy(y.ClientID, x.ClientID.c_str());
+    y.OrderActionStatus = x.OrderActionStatus;
+    strcpy(y.StatusMsg, x.StatusMsg.c_str());
+    strcpy(y.ActionLocalID, x.ActionLocalID.c_str());
+    strcpy(y.ActionDate, x.ActionDate.c_str());
+    strcpy(y.ActionTime, x.ActionTime.c_str());
+    return y;
+}
+
+CancelOffsetSettingField Converter::CThostFtdcCancelOffsetSettingFieldToRust(CThostFtdcCancelOffsetSettingField* x) {
+    if (x == nullptr)
+        return CancelOffsetSettingField{.is_null = true};
+    CancelOffsetSettingField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
+    y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
+    y.UnderlyingInstrID = Converter::Gb2312ToRustString(x->UnderlyingInstrID);
+    y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
+    y.OffsetType = x->OffsetType;
+    y.Volume = x->Volume;
+    y.IsOffset = x->IsOffset;
+    y.RequestID = x->RequestID;
+    y.UserID = Converter::Gb2312ToRustString(x->UserID);
+    y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
+    y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
+    y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
+    y.ExchangeInstID = Converter::Gb2312ToRustString(x->ExchangeInstID);
+    for (int i = 0; i < 81; i++)
+        y.ExchangeSerialNo.push_back(x->ExchangeSerialNo[i]);
+    y.ExchangeProductID = Converter::Gb2312ToRustString(x->ExchangeProductID);
+    y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
+    y.InstallID = x->InstallID;
+    y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
+    y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
+    y.OrderActionStatus = x->OrderActionStatus;
+    y.StatusMsg = Converter::Gb2312ToRustString(x->StatusMsg);
+    y.ActionLocalID = Converter::Gb2312ToRustString(x->ActionLocalID);
+    y.ActionDate = Converter::Gb2312ToRustString(x->ActionDate);
+    y.ActionTime = Converter::Gb2312ToRustString(x->ActionTime);
+    return y;
+}
+
+CThostFtdcQryOffsetSettingField Converter::QryOffsetSettingFieldToCpp(QryOffsetSettingField x) {
+    CThostFtdcQryOffsetSettingField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.InvestorID, x.InvestorID.c_str());
+    strcpy(y.ProductID, x.ProductID.c_str());
+    y.OffsetType = x.OffsetType;
+    return y;
+}
+
+QryOffsetSettingField Converter::CThostFtdcQryOffsetSettingFieldToRust(CThostFtdcQryOffsetSettingField* x) {
+    if (x == nullptr)
+        return QryOffsetSettingField{.is_null = true};
+    QryOffsetSettingField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
+    y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
+    y.OffsetType = x->OffsetType;
+    return y;
+}
+
+CThostFtdcAddrAppIDRelationField Converter::AddrAppIDRelationFieldToCpp(AddrAppIDRelationField x) {
+    CThostFtdcAddrAppIDRelationField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.Address, x.Address.c_str());
+    y.DRIdentityID = x.DRIdentityID;
+    strcpy(y.AppID, x.AppID.c_str());
+    return y;
+}
+
+AddrAppIDRelationField Converter::CThostFtdcAddrAppIDRelationFieldToRust(CThostFtdcAddrAppIDRelationField* x) {
+    if (x == nullptr)
+        return AddrAppIDRelationField{.is_null = true};
+    AddrAppIDRelationField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.Address = Converter::Gb2312ToRustString(x->Address);
+    y.DRIdentityID = x->DRIdentityID;
+    y.AppID = Converter::Gb2312ToRustString(x->AppID);
+    return y;
+}
+
+CThostFtdcQryAddrAppIDRelationField Converter::QryAddrAppIDRelationFieldToCpp(QryAddrAppIDRelationField x) {
+    CThostFtdcQryAddrAppIDRelationField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    return y;
+}
+
+QryAddrAppIDRelationField Converter::CThostFtdcQryAddrAppIDRelationFieldToRust(CThostFtdcQryAddrAppIDRelationField* x) {
+    if (x == nullptr)
+        return QryAddrAppIDRelationField{.is_null = true};
+    QryAddrAppIDRelationField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }

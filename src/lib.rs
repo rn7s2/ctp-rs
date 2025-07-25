@@ -386,7 +386,9 @@ pub const THOST_FTDC_TPID_MinPwdLen: u8 = 'O' as u8;
 pub const THOST_FTDC_TPID_LoginFailMaxNumForIP: u8 = 'U' as u8;
 pub const THOST_FTDC_TPID_PasswordPeriod: u8 = 'V' as u8;
 pub const THOST_FTDC_TPID_PwdHistoryCmp: u8 = 'X' as u8;
-pub const THOST_FTDC_TPID_TranferChkProperty: u8 = 'D' as u8;
+pub const THOST_FTDC_TPID_TranferChkProperty: u8 = 'i' as u8;
+pub const THOST_FTDC_TPID_TradeChkPhase: u8 = 'j' as u8;
+pub const THOST_FTDC_TPID_TradeChkPriceVol: u8 = 'k' as u8;
 pub const THOST_FTDC_FI_SettlementFund: u8 = 'F' as u8;
 pub const THOST_FTDC_FI_Trade: u8 = 'T' as u8;
 pub const THOST_FTDC_FI_InvestorPosition: u8 = 'P' as u8;
@@ -1333,6 +1335,10 @@ pub const THOST_FTDC_ADV_V4: u8 = '0' as u8;
 pub const THOST_FTDC_ADV_V6: u8 = '1' as u8;
 pub const THOST_FTDC_TGQS_QryIdle: u8 = '1' as u8;
 pub const THOST_FTDC_TGQS_QryBusy: u8 = '2' as u8;
+pub const THOST_FTDC_OT_OPT_OFFSET: u8 = '0' as u8;
+pub const THOST_FTDC_OT_FUT_OFFSET: u8 = '1' as u8;
+pub const THOST_FTDC_OT_EXEC_OFFSET: u8 = '2' as u8;
+pub const THOST_FTDC_OT_PERFORM_OFFSET: u8 = '3' as u8;
 
 unsafe impl Send for MdApi {}
 unsafe impl Sync for MdApi {}
@@ -1559,6 +1565,13 @@ pub enum TraderSpiMsg {
     OnRspQryInvestorProdRULEMargin(InvestorProdRULEMarginField, RspInfoField, i32, bool),
     OnRspQryInvestorPortfSetting(InvestorPortfSettingField, RspInfoField, i32, bool),
     OnRspQryInvestorInfoCommRec(InvestorInfoCommRecField, RspInfoField, i32, bool),
+    OnRspQryCombLeg(CombLegField, RspInfoField, i32, bool),
+    OnRspOffsetSetting(InputOffsetSettingField, RspInfoField, i32, bool),
+    OnRspCancelOffsetSetting(InputOffsetSettingField, RspInfoField, i32, bool),
+    OnRtnOffsetSetting(OffsetSettingField),
+    OnErrRtnOffsetSetting(InputOffsetSettingField, RspInfoField),
+    OnErrRtnCancelOffsetSetting(CancelOffsetSettingField, RspInfoField),
+    OnRspQryOffsetSetting(OffsetSettingField, RspInfoField, i32, bool),
 }
 
 pub struct TraderSpi {
@@ -1722,6 +1735,13 @@ pub fn OnRspQryRULEInterParameter(&self, pRULEInterParameter: RULEInterParameter
 pub fn OnRspQryInvestorProdRULEMargin(&self, pInvestorProdRULEMargin: InvestorProdRULEMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdRULEMargin(pInvestorProdRULEMargin, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryInvestorPortfSetting(&self, pInvestorPortfSetting: InvestorPortfSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPortfSetting(pInvestorPortfSetting, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryInvestorInfoCommRec(&self, pInvestorInfoCommRec: InvestorInfoCommRecField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorInfoCommRec(pInvestorInfoCommRec, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
+pub fn OnRspQryCombLeg(&self, pCombLeg: CombLegField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombLeg(pCombLeg, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
+pub fn OnRspOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOffsetSetting(pInputOffsetSetting, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
+pub fn OnRspCancelOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspCancelOffsetSetting(pInputOffsetSetting, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
+pub fn OnRtnOffsetSetting(&self, pOffsetSetting: OffsetSettingField) { self.tx.send(TraderSpiMsg::OnRtnOffsetSetting(pOffsetSetting)).expect("sending TraderSpiMsg failed"); }
+pub fn OnErrRtnOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOffsetSetting(pInputOffsetSetting, pRspInfo)).expect("sending TraderSpiMsg failed"); }
+pub fn OnErrRtnCancelOffsetSetting(&self, pCancelOffsetSetting: CancelOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnCancelOffsetSetting(pCancelOffsetSetting, pRspInfo)).expect("sending TraderSpiMsg failed"); }
+pub fn OnRspQryOffsetSetting(&self, pOffsetSetting: OffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOffsetSetting(pOffsetSetting, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 }
 
 #[cxx::bridge]
@@ -1925,6 +1945,13 @@ mod ffi {
         pub fn OnRspQryInvestorProdRULEMargin(&self, pInvestorProdRULEMargin: InvestorProdRULEMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryInvestorPortfSetting(&self, pInvestorPortfSetting: InvestorPortfSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryInvestorInfoCommRec(&self, pInvestorInfoCommRec: InvestorInfoCommRecField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspQryCombLeg(&self, pCombLeg: CombLegField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspCancelOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRtnOffsetSetting(&self, pOffsetSetting: OffsetSettingField);
+        pub fn OnErrRtnOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField);
+        pub fn OnErrRtnCancelOffsetSetting(&self, pCancelOffsetSetting: CancelOffsetSettingField, pRspInfo: RspInfoField);
+        pub fn OnRspQryOffsetSetting(&self, pOffsetSetting: OffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
     }
 
     unsafe extern "C++" {
@@ -2058,6 +2085,10 @@ mod ffi {
         fn ReqQryInvestorProdRULEMargin(&self, pQryInvestorProdRULEMargin: QryInvestorProdRULEMarginField, nRequestID: i32)-> i32;
         fn ReqQryInvestorPortfSetting(&self, pQryInvestorPortfSetting: QryInvestorPortfSettingField, nRequestID: i32)-> i32;
         fn ReqQryInvestorInfoCommRec(&self, pQryInvestorInfoCommRec: QryInvestorInfoCommRecField, nRequestID: i32)-> i32;
+        fn ReqQryCombLeg(&self, pQryCombLeg: QryCombLegField, nRequestID: i32)-> i32;
+        fn ReqOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, nRequestID: i32)-> i32;
+        fn ReqCancelOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, nRequestID: i32)-> i32;
+        fn ReqQryOffsetSetting(&self, pQryOffsetSetting: QryOffsetSettingField, nRequestID: i32)-> i32;
     }
 
     #[derive(Debug, Clone, Default)]
@@ -8781,6 +8812,8 @@ mod ffi {
         IsSM: i32,
         IsLocalAddr: i32,
         Remark: String,
+        Site: Vec<u8>,
+        NetOperator: Vec<u8>,
     }
     #[derive(Debug, Clone, Default)]
     struct QryIpAddrParamField {
@@ -8802,12 +8835,15 @@ mod ffi {
         IsSM: i32,
         IsLocalAddr: i32,
         Remark: String,
+        Site: Vec<u8>,
+        NetOperator: Vec<u8>,
     }
     #[derive(Debug, Clone, Default)]
     struct QryTGIpAddrParamField {
         is_null: bool,
         BrokerID: String,
         UserID: String,
+        AppID: String,
     }
     #[derive(Debug, Clone, Default)]
     struct TGSessionQryStatusField {
@@ -9150,6 +9186,125 @@ mod ffi {
         is_null: bool,
         InvestorID: String,
         InstrumentID: String,
+        BrokerID: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct CombLegField {
+        is_null: bool,
+        CombInstrumentID: String,
+        LegID: i32,
+        LegInstrumentID: String,
+        Direction: u8,
+        LegMultiple: i32,
+        ImplyLevel: i32,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct QryCombLegField {
+        is_null: bool,
+        LegInstrumentID: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct InputOffsetSettingField {
+        is_null: bool,
+        BrokerID: String,
+        InvestorID: String,
+        InstrumentID: String,
+        UnderlyingInstrID: String,
+        ProductID: String,
+        OffsetType: u8,
+        Volume: i32,
+        IsOffset: i32,
+        RequestID: i32,
+        UserID: String,
+        ExchangeID: String,
+        IPAddress: String,
+        MacAddress: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct OffsetSettingField {
+        is_null: bool,
+        BrokerID: String,
+        InvestorID: String,
+        InstrumentID: String,
+        UnderlyingInstrID: String,
+        ProductID: String,
+        OffsetType: u8,
+        Volume: i32,
+        IsOffset: i32,
+        RequestID: i32,
+        UserID: String,
+        ExchangeID: String,
+        IPAddress: String,
+        MacAddress: String,
+        ExchangeInstID: String,
+        ExchangeSerialNo: Vec<u8>,
+        ExchangeProductID: String,
+        ParticipantID: String,
+        ClientID: String,
+        TraderID: String,
+        InstallID: i32,
+        OrderSubmitStatus: u8,
+        TradingDay: String,
+        SettlementID: i32,
+        InsertDate: String,
+        InsertTime: String,
+        CancelTime: String,
+        ExecResult: u8,
+        SequenceNo: i32,
+        FrontID: i32,
+        SessionID: i32,
+        StatusMsg: String,
+        ActiveUserID: String,
+        BrokerOffsetSettingSeq: i32,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct CancelOffsetSettingField {
+        is_null: bool,
+        BrokerID: String,
+        InvestorID: String,
+        InstrumentID: String,
+        UnderlyingInstrID: String,
+        ProductID: String,
+        OffsetType: u8,
+        Volume: i32,
+        IsOffset: i32,
+        RequestID: i32,
+        UserID: String,
+        ExchangeID: String,
+        IPAddress: String,
+        MacAddress: String,
+        ExchangeInstID: String,
+        ExchangeSerialNo: Vec<u8>,
+        ExchangeProductID: String,
+        TraderID: String,
+        InstallID: i32,
+        ParticipantID: String,
+        ClientID: String,
+        OrderActionStatus: u8,
+        StatusMsg: String,
+        ActionLocalID: String,
+        ActionDate: String,
+        ActionTime: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct QryOffsetSettingField {
+        is_null: bool,
+        BrokerID: String,
+        InvestorID: String,
+        ProductID: String,
+        OffsetType: u8,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct AddrAppIDRelationField {
+        is_null: bool,
+        BrokerID: String,
+        Address: String,
+        DRIdentityID: i32,
+        AppID: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct QryAddrAppIDRelationField {
+        is_null: bool,
         BrokerID: String,
     }
     #[derive(Debug, Clone, Default)]
