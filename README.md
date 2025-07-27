@@ -1,6 +1,6 @@
 # ctp-rs
 
-[![GitHub](https://img.shields.io/badge/GitHub-Rn7s2/ctp-rs-green&logo=github)](https://github.com/rn7s2/ctp-rs)
+[![GitHub](https://img.shields.io/badge/GitHub-Rn7s2/ctp--rs-green&logo=github)](https://github.com/rn7s2/ctp-rs)
 [![Rust](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml)
 [![Crate](https://img.shields.io/crates/v/ctp-rs.svg)](https://crates.io/crates/ctp-rs)
 [![API](https://docs.rs/rand/badge.svg)](https://docs.rs/ctp-rs)
