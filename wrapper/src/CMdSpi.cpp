@@ -1,5 +1,5 @@
-#include "ctp4rs/wrapper/include/CMdSpi.h"
-#include "ctp4rs/wrapper/include/Converter.h"
+#include "ctp-rs/wrapper/include/CMdSpi.h"
+#include "ctp-rs/wrapper/include/Converter.h"
 
 CMdSpi::CMdSpi(const MdApi* gateway) : gateway(gateway) { }
 

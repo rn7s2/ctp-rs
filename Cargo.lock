@@ -55,7 +55,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ctp4rs"
+name = "ctp-rs"
 version = "6.7.9"
 dependencies = [
  "cxx",

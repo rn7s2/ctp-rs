@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ctp4rs/lib/6.7.9/ThostFtdcMdApi.h"
-#include "ctp4rs/lib/6.7.9/ThostFtdcTraderApi.h"
+#include "ctp-rs/lib/6.7.9/ThostFtdcMdApi.h"
+#include "ctp-rs/lib/6.7.9/ThostFtdcTraderApi.h"
 
 #include <cstdint>
 

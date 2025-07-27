@@ -1765,7 +1765,7 @@ mod ffi {
     }
 
     unsafe extern "C++" {
-        include!("ctp4rs/wrapper/include/MdApi.h");
+        include!("ctp-rs/wrapper/include/MdApi.h");
         type MdApi;
 
         fn CreateMdApi(spi: &MdSpi, flow_path: String) -> UniquePtr<MdApi>;
@@ -1955,7 +1955,7 @@ mod ffi {
     }
 
     unsafe extern "C++" {
-        include!("ctp4rs/wrapper/include/TraderApi.h");
+        include!("ctp-rs/wrapper/include/TraderApi.h");
         type TraderApi;
 
         fn CreateTraderApi(spi: &TraderSpi, flow_path: String) -> UniquePtr<TraderApi>;

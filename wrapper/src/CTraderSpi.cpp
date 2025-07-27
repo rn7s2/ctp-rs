@@ -1,5 +1,5 @@
-#include "ctp4rs/wrapper/include/CTraderSpi.h"
-#include "ctp4rs/wrapper/include/Converter.h"
+#include "ctp-rs/wrapper/include/CTraderSpi.h"
+#include "ctp-rs/wrapper/include/Converter.h"
 
 CTraderSpi::CTraderSpi(const TraderApi* gateway) : gateway(gateway) { }
 

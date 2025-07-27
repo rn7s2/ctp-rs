@@ -498,7 +498,7 @@ struct AddrAppIDRelationField;
 struct QryAddrAppIDRelationField;
 struct FrontInfoField;
 
-#include "ctp4rs/src/lib.rs.h"
+#include "ctp-rs/src/lib.rs.h"
 #include "rust/cxx.h"
 #include <cstring>
 #include <ctime>
