@@ -4,13 +4,14 @@
 #![allow(non_camel_case_types)]
 #![allow(dead_code)]
 
-use cxx::UniquePtr;
 pub use ffi::*;
 use std::fs::create_dir_all;
 use std::mem::forget;
 use std::path::Path;
 use std::sync::mpsc::Sender;
 use std::sync::Arc;
+
+pub type UniquePtr<T> = cxx::UniquePtr<T>;
 
 pub enum THOST_TE_RESUME_TYPE {
     THOST_TERT_RESTART = 0,
