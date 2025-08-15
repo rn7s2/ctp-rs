@@ -7,7 +7,7 @@
 
 Safe & Idiomatic Rust bindings for CTP
 
-CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.9.
+CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.11.
 
 ## Quickstart
 
@@ -30,7 +30,13 @@ CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.9.
 
    fn main() {
        let (tx, rx) = channel();
-       let api = Arc::new(MdApi::CreateMdApiAndSpi(tx, FLOW_PATH.to_string()));
+       let api = Arc::new(MdApi::CreateMdApiAndSpi(
+           tx,
+           FLOW_PATH.to_string(),
+           false,
+           false,
+           true,
+       ));
        api.RegisterFront(FRONT_ADDR.to_string());
        api.Init();
 
@@ -85,7 +91,11 @@ CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.9.
 
    fn main() {
        let (tx, rx) = channel();
-       let api = Arc::new(TraderApi::CreateTraderApiAndSpi(tx, FLOW_PATH.to_string()));
+       let api = Arc::new(TraderApi::CreateTraderApiAndSpi(
+           tx,
+           FLOW_PATH.to_string(),
+           true,
+       ));
        api.RegisterFront(FRONT_ADDR.to_string());
        api.SubscribePublicTopic(THOST_TE_RESUME_TYPE::THOST_TERT_QUICK as i32);
        api.SubscribePrivateTopic(THOST_TE_RESUME_TYPE::THOST_TERT_RESTART as i32);

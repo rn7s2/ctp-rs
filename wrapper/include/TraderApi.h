@@ -496,6 +496,11 @@ struct CancelOffsetSettingField;
 struct QryOffsetSettingField;
 struct AddrAppIDRelationField;
 struct QryAddrAppIDRelationField;
+struct WechatUserSystemInfoField;
+struct InvestorReserveInfoField;
+struct QryInvestorDepartmentFlatField;
+struct InvestorDepartmentFlatField;
+struct QryDepartmentUserField;
 struct FrontInfoField;
 
 struct TraderApi;
@@ -503,14 +508,14 @@ struct TraderSpi;
 
 #include "ctp-rs/src/lib.rs.h"
 #include "ctp-rs/wrapper/include/CTraderSpi.h"
-#include "ctp-rs/lib/6.7.9/ThostFtdcMdApi.h"
-#include "ctp-rs/lib/6.7.9/ThostFtdcTraderApi.h"
+#include "ctp-rs/lib/ThostFtdcMdApi.h"
+#include "ctp-rs/lib/ThostFtdcTraderApi.h"
 
 #include "rust/cxx.h"
 #include <memory>
 
 struct TraderApi {
-    TraderApi(const TraderSpi &gateway, rust::String flow_path);
+    TraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode);
     FrontInfoField GetFrontInfo() const;
 
     rust::String GetApiVersion() const;
@@ -525,6 +530,8 @@ struct TraderApi {
     int32_t ReqAuthenticate(ReqAuthenticateField pReqAuthenticateField, int32_t nRequestID) const;
     int32_t RegisterUserSystemInfo(UserSystemInfoField pUserSystemInfo) const;
     int32_t SubmitUserSystemInfo(UserSystemInfoField pUserSystemInfo) const;
+    int32_t RegisterWechatUserSystemInfo(WechatUserSystemInfoField pUserSystemInfo) const;
+    int32_t SubmitWechatUserSystemInfo(WechatUserSystemInfoField pUserSystemInfo) const;
     int32_t ReqUserLogin(ReqUserLoginField pReqUserLoginField, int32_t nRequestID) const;
     int32_t ReqUserLogout(UserLogoutField pUserLogout, int32_t nRequestID) const;
     int32_t ReqUserPasswordUpdate(UserPasswordUpdateField pUserPasswordUpdate, int32_t nRequestID) const;
@@ -560,6 +567,7 @@ struct TraderApi {
     int32_t ReqQryTradingCode(QryTradingCodeField pQryTradingCode, int32_t nRequestID) const;
     int32_t ReqQryInstrumentMarginRate(QryInstrumentMarginRateField pQryInstrumentMarginRate, int32_t nRequestID) const;
     int32_t ReqQryInstrumentCommissionRate(QryInstrumentCommissionRateField pQryInstrumentCommissionRate, int32_t nRequestID) const;
+    int32_t ReqQryUserSession(QryUserSessionField pQryUserSession, int32_t nRequestID) const;
     int32_t ReqQryExchange(QryExchangeField pQryExchange, int32_t nRequestID) const;
     int32_t ReqQryProduct(QryProductField pQryProduct, int32_t nRequestID) const;
     int32_t ReqQryInstrument(QryInstrumentField pQryInstrument, int32_t nRequestID) const;
@@ -647,4 +655,4 @@ struct TraderApi {
     CTraderSpi *spi;
 };
 
-std::unique_ptr<TraderApi> CreateTraderApi(const TraderSpi &gateway, rust::String flow_path);
+std::unique_ptr<TraderApi> CreateTraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode);

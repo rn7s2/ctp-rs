@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ctp-rs/lib/6.7.9/ThostFtdcMdApi.h"
-#include "ctp-rs/lib/6.7.9/ThostFtdcTraderApi.h"
+#include "ctp-rs/lib/ThostFtdcMdApi.h"
+#include "ctp-rs/lib/ThostFtdcTraderApi.h"
 
 #include <cstdint>
 
@@ -48,6 +48,7 @@ public:
     void OnRspQryTradingCode(CThostFtdcTradingCodeField* pTradingCode, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInstrumentMarginRate(CThostFtdcInstrumentMarginRateField* pInstrumentMarginRate, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInstrumentCommissionRate(CThostFtdcInstrumentCommissionRateField* pInstrumentCommissionRate, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+    void OnRspQryUserSession(CThostFtdcUserSessionField* pUserSession, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryExchange(CThostFtdcExchangeField* pExchange, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryProduct(CThostFtdcProductField* pProduct, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInstrument(CThostFtdcInstrumentField* pInstrument, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
