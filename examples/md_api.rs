@@ -8,7 +8,13 @@ const INSTRUMENTS: &[&str] = &["au2509", "cu2509"];
 
 fn main() {
     let (tx, rx) = channel();
-    let api = Arc::new(MdApi::CreateMdApiAndSpi(tx, FLOW_PATH.to_string()));
+    let api = Arc::new(MdApi::CreateMdApiAndSpi(
+        tx,
+        FLOW_PATH.to_string(),
+        false,
+        false,
+        true,
+    ));
     api.RegisterFront(FRONT_ADDR.to_string());
     api.Init();
 

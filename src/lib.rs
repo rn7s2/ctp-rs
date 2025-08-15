@@ -390,6 +390,7 @@ pub const THOST_FTDC_TPID_PwdHistoryCmp: u8 = 'X' as u8;
 pub const THOST_FTDC_TPID_TranferChkProperty: u8 = 'i' as u8;
 pub const THOST_FTDC_TPID_TradeChkPhase: u8 = 'j' as u8;
 pub const THOST_FTDC_TPID_TradeChkPriceVol: u8 = 'k' as u8;
+pub const THOST_FTDC_TPID_NewBESMarginAlgo: u8 = 'l' as u8;
 pub const THOST_FTDC_FI_SettlementFund: u8 = 'F' as u8;
 pub const THOST_FTDC_FI_Trade: u8 = 'T' as u8;
 pub const THOST_FTDC_FI_InvestorPosition: u8 = 'P' as u8;
@@ -1340,17 +1341,19 @@ pub const THOST_FTDC_OT_OPT_OFFSET: u8 = '0' as u8;
 pub const THOST_FTDC_OT_FUT_OFFSET: u8 = '1' as u8;
 pub const THOST_FTDC_OT_EXEC_OFFSET: u8 = '2' as u8;
 pub const THOST_FTDC_OT_PERFORM_OFFSET: u8 = '3' as u8;
+pub const THOST_FTDC_AS_Trade: u8 = '0' as u8;
+pub const THOST_FTDC_AS_Member: u8 = '1' as u8;
 
 unsafe impl Send for MdApi {}
 unsafe impl Sync for MdApi {}
 
 impl MdApi {
-    pub fn CreateMdApiAndSpi(tx: Sender<MdSpiMsg>, flow_path: String) -> UniquePtr<MdApi> {
+    pub fn CreateMdApiAndSpi(tx: Sender<MdSpiMsg>, flow_path: String, is_using_udp: bool, is_multicast: bool, is_production_mode: bool) -> UniquePtr<MdApi> {
         if !Path::new(&flow_path).exists() {
             create_dir_all(&flow_path).unwrap();
         }
         let spi = Arc::pin(MdSpi { tx });
-        let api = CreateMdApi(&spi, flow_path);
+        let api = CreateMdApi(&spi, flow_path, is_using_udp, is_multicast, is_production_mode);
         forget(spi); // 让 spi 一直存在，防止被释放
         api
     }
@@ -1397,12 +1400,12 @@ unsafe impl Send for TraderApi {}
 unsafe impl Sync for TraderApi {}
 
 impl TraderApi {
-    pub fn CreateTraderApiAndSpi(tx: Sender<TraderSpiMsg>, flow_path: String) -> UniquePtr<TraderApi> {
+    pub fn CreateTraderApiAndSpi(tx: Sender<TraderSpiMsg>, flow_path: String, is_production_mode: bool) -> UniquePtr<TraderApi> {
         if !Path::new(&flow_path).exists() {
             create_dir_all(&flow_path).unwrap();
         }
         let spi = Arc::pin(TraderSpi { tx });
-        let api = CreateTraderApi(&spi, flow_path);
+        let api = CreateTraderApi(&spi, flow_path, is_production_mode);
         forget(spi); // 让 spi 一直存在，防止被释放
         api
     }
@@ -1446,6 +1449,7 @@ pub enum TraderSpiMsg {
     OnRspQryTradingCode(TradingCodeField, RspInfoField, i32, bool),
     OnRspQryInstrumentMarginRate(InstrumentMarginRateField, RspInfoField, i32, bool),
     OnRspQryInstrumentCommissionRate(InstrumentCommissionRateField, RspInfoField, i32, bool),
+    OnRspQryUserSession(UserSessionField, RspInfoField, i32, bool),
     OnRspQryExchange(ExchangeField, RspInfoField, i32, bool),
     OnRspQryProduct(ProductField, RspInfoField, i32, bool),
     OnRspQryInstrument(InstrumentField, RspInfoField, i32, bool),
@@ -1616,6 +1620,7 @@ pub fn OnRspQryInvestor(&self, pInvestor: InvestorField, pRspInfo: RspInfoField,
 pub fn OnRspQryTradingCode(&self, pTradingCode: TradingCodeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingCode(pTradingCode, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryInstrumentMarginRate(&self, pInstrumentMarginRate: InstrumentMarginRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentMarginRate(pInstrumentMarginRate, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryInstrumentCommissionRate(&self, pInstrumentCommissionRate: InstrumentCommissionRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentCommissionRate(pInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
+pub fn OnRspQryUserSession(&self, pUserSession: UserSessionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryUserSession(pUserSession, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryExchange(&self, pExchange: ExchangeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchange(pExchange, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryProduct(&self, pProduct: ProductField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProduct(pProduct, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
 pub fn OnRspQryInstrument(&self, pInstrument: InstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrument(pInstrument, pRspInfo, nRequestID, bIsLast)).expect("sending TraderSpiMsg failed"); }
@@ -1769,7 +1774,7 @@ mod ffi {
         include!("ctp-rs/wrapper/include/MdApi.h");
         type MdApi;
 
-        fn CreateMdApi(spi: &MdSpi, flow_path: String) -> UniquePtr<MdApi>;
+        fn CreateMdApi(spi: &MdSpi, flow_path: String, is_using_udp: bool, is_multicast: bool, is_production_mode: bool) -> UniquePtr<MdApi>;
 
         fn GetApiVersion(&self)-> String;
         fn Init(&self);
@@ -1826,6 +1831,7 @@ mod ffi {
         pub fn OnRspQryTradingCode(&self, pTradingCode: TradingCodeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryInstrumentMarginRate(&self, pInstrumentMarginRate: InstrumentMarginRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryInstrumentCommissionRate(&self, pInstrumentCommissionRate: InstrumentCommissionRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspQryUserSession(&self, pUserSession: UserSessionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryExchange(&self, pExchange: ExchangeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryProduct(&self, pProduct: ProductField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspQryInstrument(&self, pInstrument: InstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
@@ -1959,7 +1965,7 @@ mod ffi {
         include!("ctp-rs/wrapper/include/TraderApi.h");
         type TraderApi;
 
-        fn CreateTraderApi(spi: &TraderSpi, flow_path: String) -> UniquePtr<TraderApi>;
+        fn CreateTraderApi(spi: &TraderSpi, flow_path: String, is_production_mode: bool) -> UniquePtr<TraderApi>;
         fn GetFrontInfo(&self) -> FrontInfoField;
 
         fn GetApiVersion(&self)-> String;
@@ -1974,6 +1980,8 @@ mod ffi {
         fn ReqAuthenticate(&self, pReqAuthenticateField: ReqAuthenticateField, nRequestID: i32)-> i32;
         fn RegisterUserSystemInfo(&self, pUserSystemInfo: UserSystemInfoField)-> i32;
         fn SubmitUserSystemInfo(&self, pUserSystemInfo: UserSystemInfoField)-> i32;
+        fn RegisterWechatUserSystemInfo(&self, pUserSystemInfo: WechatUserSystemInfoField)-> i32;
+        fn SubmitWechatUserSystemInfo(&self, pUserSystemInfo: WechatUserSystemInfoField)-> i32;
         fn ReqUserLogin(&self, pReqUserLoginField: ReqUserLoginField, nRequestID: i32)-> i32;
         fn ReqUserLogout(&self, pUserLogout: UserLogoutField, nRequestID: i32)-> i32;
         fn ReqUserPasswordUpdate(&self, pUserPasswordUpdate: UserPasswordUpdateField, nRequestID: i32)-> i32;
@@ -2009,6 +2017,7 @@ mod ffi {
         fn ReqQryTradingCode(&self, pQryTradingCode: QryTradingCodeField, nRequestID: i32)-> i32;
         fn ReqQryInstrumentMarginRate(&self, pQryInstrumentMarginRate: QryInstrumentMarginRateField, nRequestID: i32)-> i32;
         fn ReqQryInstrumentCommissionRate(&self, pQryInstrumentCommissionRate: QryInstrumentCommissionRateField, nRequestID: i32)-> i32;
+        fn ReqQryUserSession(&self, pQryUserSession: QryUserSessionField, nRequestID: i32)-> i32;
         fn ReqQryExchange(&self, pQryExchange: QryExchangeField, nRequestID: i32)-> i32;
         fn ReqQryProduct(&self, pQryProduct: QryProductField, nRequestID: i32)-> i32;
         fn ReqQryInstrument(&self, pQryInstrument: QryInstrumentField, nRequestID: i32)-> i32;
@@ -2134,6 +2143,8 @@ mod ffi {
         GFEXTime: String,
         LoginDRIdentityID: i32,
         UserDRIdentityID: i32,
+        LastLoginTime: String,
+        ReserveInfo: String,
     }
     #[derive(Debug, Clone, Default)]
     struct UserLogoutField {
@@ -2499,6 +2510,7 @@ mod ffi {
         BizType: u8,
         FrozenSwap: f64,
         RemainSwap: f64,
+        OptionValue: f64,
     }
     #[derive(Debug, Clone, Default)]
     struct InvestorPositionField {
@@ -2552,6 +2564,7 @@ mod ffi {
         TasPosition: i32,
         TasPositionCost: f64,
         InstrumentID: String,
+        OptionValue: f64,
     }
     #[derive(Debug, Clone, Default)]
     struct InstrumentMarginRateField {
@@ -3309,6 +3322,7 @@ mod ffi {
         SpecProductExchangeMargin: f64,
         FrozenSwap: f64,
         RemainSwap: f64,
+        OptionValue: f64,
     }
     #[derive(Debug, Clone, Default)]
     struct SyncingInvestorPositionField {
@@ -7718,6 +7732,7 @@ mod ffi {
         SpecProductExchangeMargin: f64,
         FrozenSwap: f64,
         RemainSwap: f64,
+        OptionValue: f64,
         SyncDeltaSequenceNo: i32,
     }
     #[derive(Debug, Clone, Default)]
@@ -9257,6 +9272,7 @@ mod ffi {
         StatusMsg: String,
         ActiveUserID: String,
         BrokerOffsetSettingSeq: i32,
+        ApplySrc: u8,
     }
     #[derive(Debug, Clone, Default)]
     struct CancelOffsetSettingField {
@@ -9305,6 +9321,43 @@ mod ffi {
     }
     #[derive(Debug, Clone, Default)]
     struct QryAddrAppIDRelationField {
+        is_null: bool,
+        BrokerID: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct WechatUserSystemInfoField {
+        is_null: bool,
+        BrokerID: String,
+        UserID: String,
+        WechatCltSysInfoLen: i32,
+        WechatCltSysInfo: String,
+        ClientIPPort: i32,
+        ClientLoginTime: String,
+        ClientAppID: String,
+        ClientPublicIP: String,
+        ClientLoginRemark: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct InvestorReserveInfoField {
+        is_null: bool,
+        BrokerID: String,
+        UserID: String,
+        ReserveInfo: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct QryInvestorDepartmentFlatField {
+        is_null: bool,
+        BrokerID: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct InvestorDepartmentFlatField {
+        is_null: bool,
+        BrokerID: String,
+        InvestorID: String,
+        DepartmentID: String,
+    }
+    #[derive(Debug, Clone, Default)]
+    struct QryDepartmentUserField {
         is_null: bool,
         BrokerID: String,
     }

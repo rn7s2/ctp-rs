@@ -496,6 +496,11 @@ struct CancelOffsetSettingField;
 struct QryOffsetSettingField;
 struct AddrAppIDRelationField;
 struct QryAddrAppIDRelationField;
+struct WechatUserSystemInfoField;
+struct InvestorReserveInfoField;
+struct QryInvestorDepartmentFlatField;
+struct InvestorDepartmentFlatField;
+struct QryDepartmentUserField;
 struct FrontInfoField;
 
 struct MdApi;
@@ -503,14 +508,14 @@ struct MdSpi;
 
 #include "ctp-rs/src/lib.rs.h"
 #include "ctp-rs/wrapper/include/CMdSpi.h"
-#include "ctp-rs/lib/6.7.9/ThostFtdcMdApi.h"
-#include "ctp-rs/lib/6.7.9/ThostFtdcTraderApi.h"
+#include "ctp-rs/lib/ThostFtdcMdApi.h"
+#include "ctp-rs/lib/ThostFtdcTraderApi.h"
 
 #include "rust/cxx.h"
 #include <memory>
 
 struct MdApi {
-    MdApi(const MdSpi &gateway, rust::String flow_path);
+    MdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);
 
     rust::String GetApiVersion() const;
     void Init() const;
@@ -532,4 +537,4 @@ struct MdApi {
     CMdSpi *spi;
 };
 
-std::unique_ptr<MdApi> CreateMdApi(const MdSpi &gateway, rust::String flow_path);
+std::unique_ptr<MdApi> CreateMdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);

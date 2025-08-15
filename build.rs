@@ -5,7 +5,7 @@ use std::{
 
 fn main() {
     let root = env!("CARGO_MANIFEST_DIR");
-    let lib_dir = Path::new(&root).join("lib").join("6.7.9");
+    let lib_dir = Path::new(&root).join("lib");
 
     println!("cargo:rustc-link-search={}", lib_dir.display());
     println!("cargo:rustc-link-lib=thostmduserapi_se");

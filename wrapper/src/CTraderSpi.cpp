@@ -317,6 +317,15 @@ void CTraderSpi::OnRspQryInstrumentCommissionRate(CThostFtdcInstrumentCommission
     );
 }
 
+void CTraderSpi::OnRspQryUserSession(CThostFtdcUserSessionField* pUserSession, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->gateway.OnRspQryUserSession(
+        Converter::CThostFtdcUserSessionFieldToRust(pUserSession),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
 void CTraderSpi::OnRspQryExchange(CThostFtdcExchangeField* pExchange, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
     this->gateway->gateway.OnRspQryExchange(
         Converter::CThostFtdcExchangeFieldToRust(pExchange),

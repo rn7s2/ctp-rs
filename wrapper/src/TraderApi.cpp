@@ -1,14 +1,14 @@
 #include "ctp-rs/wrapper/include/TraderApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
-TraderApi::TraderApi(const TraderSpi &gateway, rust::String flow_path) : gateway(gateway) {
+TraderApi::TraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode) : gateway(gateway) {
     spi = new CTraderSpi(this);
-    api = CThostFtdcTraderApi::CreateFtdcTraderApi(flow_path.c_str());
+    api = CThostFtdcTraderApi::CreateFtdcTraderApi(flow_path.c_str(), is_production_mode);
     api->RegisterSpi(spi);
 }
 
-std::unique_ptr<TraderApi> CreateTraderApi(const TraderSpi &gateway, rust::String flow_path) {
-    return std::make_unique<TraderApi>(gateway, flow_path);
+std::unique_ptr<TraderApi> CreateTraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode) {
+    return std::make_unique<TraderApi>(gateway, flow_path, is_production_mode);
 }
 
 FrontInfoField TraderApi::GetFrontInfo() const {
@@ -87,6 +87,20 @@ int32_t TraderApi::RegisterUserSystemInfo(UserSystemInfoField pUserSystemInfo) c
 int32_t TraderApi::SubmitUserSystemInfo(UserSystemInfoField pUserSystemInfo) const {
     CThostFtdcUserSystemInfoField req(Converter::UserSystemInfoFieldToCpp(pUserSystemInfo));
     return api->SubmitUserSystemInfo(
+        &req
+    );
+}
+
+int32_t TraderApi::RegisterWechatUserSystemInfo(WechatUserSystemInfoField pUserSystemInfo) const {
+    CThostFtdcWechatUserSystemInfoField req(Converter::WechatUserSystemInfoFieldToCpp(pUserSystemInfo));
+    return api->RegisterWechatUserSystemInfo(
+        &req
+    );
+}
+
+int32_t TraderApi::SubmitWechatUserSystemInfo(WechatUserSystemInfoField pUserSystemInfo) const {
+    CThostFtdcWechatUserSystemInfoField req(Converter::WechatUserSystemInfoFieldToCpp(pUserSystemInfo));
+    return api->SubmitWechatUserSystemInfo(
         &req
     );
 }
@@ -366,6 +380,14 @@ int32_t TraderApi::ReqQryInstrumentMarginRate(QryInstrumentMarginRateField pQryI
 int32_t TraderApi::ReqQryInstrumentCommissionRate(QryInstrumentCommissionRateField pQryInstrumentCommissionRate, int32_t nRequestID) const {
     CThostFtdcQryInstrumentCommissionRateField req(Converter::QryInstrumentCommissionRateFieldToCpp(pQryInstrumentCommissionRate));
     return api->ReqQryInstrumentCommissionRate(
+        &req,
+        nRequestID
+    );
+}
+
+int32_t TraderApi::ReqQryUserSession(QryUserSessionField pQryUserSession, int32_t nRequestID) const {
+    CThostFtdcQryUserSessionField req(Converter::QryUserSessionFieldToCpp(pQryUserSession));
+    return api->ReqQryUserSession(
         &req,
         nRequestID
     );

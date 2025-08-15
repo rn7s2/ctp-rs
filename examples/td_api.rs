@@ -14,7 +14,11 @@ const FLOW_PATH: &str = "TraderFlow/";
 
 fn main() {
     let (tx, rx) = channel();
-    let api = Arc::new(TraderApi::CreateTraderApiAndSpi(tx, FLOW_PATH.to_string()));
+    let api = Arc::new(TraderApi::CreateTraderApiAndSpi(
+        tx,
+        FLOW_PATH.to_string(),
+        true,
+    ));
     api.RegisterFront(FRONT_ADDR.to_string());
     api.SubscribePublicTopic(THOST_TE_RESUME_TYPE::THOST_TERT_QUICK as i32);
     api.SubscribePrivateTopic(THOST_TE_RESUME_TYPE::THOST_TERT_RESTART as i32);

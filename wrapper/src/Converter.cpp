@@ -168,6 +168,8 @@ CThostFtdcRspUserLoginField Converter::RspUserLoginFieldToCpp(RspUserLoginField 
     strcpy(y.GFEXTime, x.GFEXTime.c_str());
     y.LoginDRIdentityID = x.LoginDRIdentityID;
     y.UserDRIdentityID = x.UserDRIdentityID;
+    strcpy(y.LastLoginTime, x.LastLoginTime.c_str());
+    strcpy(y.ReserveInfo, x.ReserveInfo.c_str());
     return y;
 }
 
@@ -192,6 +194,8 @@ RspUserLoginField Converter::CThostFtdcRspUserLoginFieldToRust(CThostFtdcRspUser
     y.GFEXTime = Converter::Gb2312ToRustString(x->GFEXTime);
     y.LoginDRIdentityID = x->LoginDRIdentityID;
     y.UserDRIdentityID = x->UserDRIdentityID;
+    y.LastLoginTime = Converter::Gb2312ToRustString(x->LastLoginTime);
+    y.ReserveInfo = Converter::Gb2312ToRustString(x->ReserveInfo);
     return y;
 }
 
@@ -1008,6 +1012,7 @@ CThostFtdcTradingAccountField Converter::TradingAccountFieldToCpp(TradingAccount
     y.BizType = x.BizType;
     y.FrozenSwap = x.FrozenSwap;
     y.RemainSwap = x.RemainSwap;
+    y.OptionValue = x.OptionValue;
     return y;
 }
 
@@ -1064,6 +1069,7 @@ TradingAccountField Converter::CThostFtdcTradingAccountFieldToRust(CThostFtdcTra
     y.BizType = x->BizType;
     y.FrozenSwap = x->FrozenSwap;
     y.RemainSwap = x->RemainSwap;
+    y.OptionValue = x->OptionValue;
     return y;
 }
 
@@ -1119,6 +1125,7 @@ CThostFtdcInvestorPositionField Converter::InvestorPositionFieldToCpp(InvestorPo
     y.TasPosition = x.TasPosition;
     y.TasPositionCost = x.TasPositionCost;
     strcpy(y.InstrumentID, x.InstrumentID.c_str());
+    y.OptionValue = x.OptionValue;
     return y;
 }
 
@@ -1175,6 +1182,7 @@ InvestorPositionField Converter::CThostFtdcInvestorPositionFieldToRust(CThostFtd
     y.TasPosition = x->TasPosition;
     y.TasPositionCost = x->TasPositionCost;
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
+    y.OptionValue = x->OptionValue;
     return y;
 }
 
@@ -2839,6 +2847,7 @@ CThostFtdcSyncingTradingAccountField Converter::SyncingTradingAccountFieldToCpp(
     y.SpecProductExchangeMargin = x.SpecProductExchangeMargin;
     y.FrozenSwap = x.FrozenSwap;
     y.RemainSwap = x.RemainSwap;
+    y.OptionValue = x.OptionValue;
     return y;
 }
 
@@ -2894,6 +2903,7 @@ SyncingTradingAccountField Converter::CThostFtdcSyncingTradingAccountFieldToRust
     y.SpecProductExchangeMargin = x->SpecProductExchangeMargin;
     y.FrozenSwap = x->FrozenSwap;
     y.RemainSwap = x->RemainSwap;
+    y.OptionValue = x->OptionValue;
     return y;
 }
 
@@ -13274,6 +13284,7 @@ CThostFtdcSyncDeltaTradingAccountField Converter::SyncDeltaTradingAccountFieldTo
     y.SpecProductExchangeMargin = x.SpecProductExchangeMargin;
     y.FrozenSwap = x.FrozenSwap;
     y.RemainSwap = x.RemainSwap;
+    y.OptionValue = x.OptionValue;
     y.SyncDeltaSequenceNo = x.SyncDeltaSequenceNo;
     return y;
 }
@@ -13330,6 +13341,7 @@ SyncDeltaTradingAccountField Converter::CThostFtdcSyncDeltaTradingAccountFieldTo
     y.SpecProductExchangeMargin = x->SpecProductExchangeMargin;
     y.FrozenSwap = x->FrozenSwap;
     y.RemainSwap = x->RemainSwap;
+    y.OptionValue = x->OptionValue;
     y.SyncDeltaSequenceNo = x->SyncDeltaSequenceNo;
     return y;
 }
@@ -16982,6 +16994,7 @@ CThostFtdcOffsetSettingField Converter::OffsetSettingFieldToCpp(OffsetSettingFie
     strcpy(y.StatusMsg, x.StatusMsg.c_str());
     strcpy(y.ActiveUserID, x.ActiveUserID.c_str());
     y.BrokerOffsetSettingSeq = x.BrokerOffsetSettingSeq;
+    y.ApplySrc = x.ApplySrc;
     return y;
 }
 
@@ -17023,6 +17036,7 @@ OffsetSettingField Converter::CThostFtdcOffsetSettingFieldToRust(CThostFtdcOffse
     y.StatusMsg = Converter::Gb2312ToRustString(x->StatusMsg);
     y.ActiveUserID = Converter::Gb2312ToRustString(x->ActiveUserID);
     y.BrokerOffsetSettingSeq = x->BrokerOffsetSettingSeq;
+    y.ApplySrc = x->ApplySrc;
     return y;
 }
 
@@ -17143,6 +17157,105 @@ QryAddrAppIDRelationField Converter::CThostFtdcQryAddrAppIDRelationFieldToRust(C
     if (x == nullptr)
         return QryAddrAppIDRelationField{.is_null = true};
     QryAddrAppIDRelationField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    return y;
+}
+
+CThostFtdcWechatUserSystemInfoField Converter::WechatUserSystemInfoFieldToCpp(WechatUserSystemInfoField x) {
+    CThostFtdcWechatUserSystemInfoField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.UserID, x.UserID.c_str());
+    y.WechatCltSysInfoLen = x.WechatCltSysInfoLen;
+    strcpy(y.WechatCltSysInfo, x.WechatCltSysInfo.c_str());
+    y.ClientIPPort = x.ClientIPPort;
+    strcpy(y.ClientLoginTime, x.ClientLoginTime.c_str());
+    strcpy(y.ClientAppID, x.ClientAppID.c_str());
+    strcpy(y.ClientPublicIP, x.ClientPublicIP.c_str());
+    strcpy(y.ClientLoginRemark, x.ClientLoginRemark.c_str());
+    return y;
+}
+
+WechatUserSystemInfoField Converter::CThostFtdcWechatUserSystemInfoFieldToRust(CThostFtdcWechatUserSystemInfoField* x) {
+    if (x == nullptr)
+        return WechatUserSystemInfoField{.is_null = true};
+    WechatUserSystemInfoField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.UserID = Converter::Gb2312ToRustString(x->UserID);
+    y.WechatCltSysInfoLen = x->WechatCltSysInfoLen;
+    y.WechatCltSysInfo = Converter::Gb2312ToRustString(x->WechatCltSysInfo);
+    y.ClientIPPort = x->ClientIPPort;
+    y.ClientLoginTime = Converter::Gb2312ToRustString(x->ClientLoginTime);
+    y.ClientAppID = Converter::Gb2312ToRustString(x->ClientAppID);
+    y.ClientPublicIP = Converter::Gb2312ToRustString(x->ClientPublicIP);
+    y.ClientLoginRemark = Converter::Gb2312ToRustString(x->ClientLoginRemark);
+    return y;
+}
+
+CThostFtdcInvestorReserveInfoField Converter::InvestorReserveInfoFieldToCpp(InvestorReserveInfoField x) {
+    CThostFtdcInvestorReserveInfoField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.UserID, x.UserID.c_str());
+    strcpy(y.ReserveInfo, x.ReserveInfo.c_str());
+    return y;
+}
+
+InvestorReserveInfoField Converter::CThostFtdcInvestorReserveInfoFieldToRust(CThostFtdcInvestorReserveInfoField* x) {
+    if (x == nullptr)
+        return InvestorReserveInfoField{.is_null = true};
+    InvestorReserveInfoField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.UserID = Converter::Gb2312ToRustString(x->UserID);
+    y.ReserveInfo = Converter::Gb2312ToRustString(x->ReserveInfo);
+    return y;
+}
+
+CThostFtdcQryInvestorDepartmentFlatField Converter::QryInvestorDepartmentFlatFieldToCpp(QryInvestorDepartmentFlatField x) {
+    CThostFtdcQryInvestorDepartmentFlatField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    return y;
+}
+
+QryInvestorDepartmentFlatField Converter::CThostFtdcQryInvestorDepartmentFlatFieldToRust(CThostFtdcQryInvestorDepartmentFlatField* x) {
+    if (x == nullptr)
+        return QryInvestorDepartmentFlatField{.is_null = true};
+    QryInvestorDepartmentFlatField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    return y;
+}
+
+CThostFtdcInvestorDepartmentFlatField Converter::InvestorDepartmentFlatFieldToCpp(InvestorDepartmentFlatField x) {
+    CThostFtdcInvestorDepartmentFlatField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    strcpy(y.InvestorID, x.InvestorID.c_str());
+    strcpy(y.DepartmentID, x.DepartmentID.c_str());
+    return y;
+}
+
+InvestorDepartmentFlatField Converter::CThostFtdcInvestorDepartmentFlatFieldToRust(CThostFtdcInvestorDepartmentFlatField* x) {
+    if (x == nullptr)
+        return InvestorDepartmentFlatField{.is_null = true};
+    InvestorDepartmentFlatField y;
+    y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
+    y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
+    y.DepartmentID = Converter::Gb2312ToRustString(x->DepartmentID);
+    return y;
+}
+
+CThostFtdcQryDepartmentUserField Converter::QryDepartmentUserFieldToCpp(QryDepartmentUserField x) {
+    CThostFtdcQryDepartmentUserField y;
+    memset(&y, 0, sizeof(y));
+    strcpy(y.BrokerID, x.BrokerID.c_str());
+    return y;
+}
+
+QryDepartmentUserField Converter::CThostFtdcQryDepartmentUserFieldToRust(CThostFtdcQryDepartmentUserField* x) {
+    if (x == nullptr)
+        return QryDepartmentUserField{.is_null = true};
+    QryDepartmentUserField y;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }

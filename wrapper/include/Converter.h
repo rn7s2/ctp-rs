@@ -496,6 +496,11 @@ struct CancelOffsetSettingField;
 struct QryOffsetSettingField;
 struct AddrAppIDRelationField;
 struct QryAddrAppIDRelationField;
+struct WechatUserSystemInfoField;
+struct InvestorReserveInfoField;
+struct QryInvestorDepartmentFlatField;
+struct InvestorDepartmentFlatField;
+struct QryDepartmentUserField;
 struct FrontInfoField;
 
 #include "ctp-rs/src/lib.rs.h"
@@ -1505,6 +1510,16 @@ public:
     static AddrAppIDRelationField CThostFtdcAddrAppIDRelationFieldToRust(CThostFtdcAddrAppIDRelationField* x);
     static CThostFtdcQryAddrAppIDRelationField QryAddrAppIDRelationFieldToCpp(QryAddrAppIDRelationField x);
     static QryAddrAppIDRelationField CThostFtdcQryAddrAppIDRelationFieldToRust(CThostFtdcQryAddrAppIDRelationField* x);
+    static CThostFtdcWechatUserSystemInfoField WechatUserSystemInfoFieldToCpp(WechatUserSystemInfoField x);
+    static WechatUserSystemInfoField CThostFtdcWechatUserSystemInfoFieldToRust(CThostFtdcWechatUserSystemInfoField* x);
+    static CThostFtdcInvestorReserveInfoField InvestorReserveInfoFieldToCpp(InvestorReserveInfoField x);
+    static InvestorReserveInfoField CThostFtdcInvestorReserveInfoFieldToRust(CThostFtdcInvestorReserveInfoField* x);
+    static CThostFtdcQryInvestorDepartmentFlatField QryInvestorDepartmentFlatFieldToCpp(QryInvestorDepartmentFlatField x);
+    static QryInvestorDepartmentFlatField CThostFtdcQryInvestorDepartmentFlatFieldToRust(CThostFtdcQryInvestorDepartmentFlatField* x);
+    static CThostFtdcInvestorDepartmentFlatField InvestorDepartmentFlatFieldToCpp(InvestorDepartmentFlatField x);
+    static InvestorDepartmentFlatField CThostFtdcInvestorDepartmentFlatFieldToRust(CThostFtdcInvestorDepartmentFlatField* x);
+    static CThostFtdcQryDepartmentUserField QryDepartmentUserFieldToCpp(QryDepartmentUserField x);
+    static QryDepartmentUserField CThostFtdcQryDepartmentUserFieldToRust(CThostFtdcQryDepartmentUserField* x);
     static CThostFtdcFrontInfoField FrontInfoFieldToCpp(FrontInfoField x);
     static FrontInfoField CThostFtdcFrontInfoFieldToRust(CThostFtdcFrontInfoField* x);
 };

@@ -1,14 +1,14 @@
 #include "ctp-rs/wrapper/include/MdApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
-MdApi::MdApi(const MdSpi &gateway, rust::String flow_path) : gateway(gateway) {
+MdApi::MdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) : gateway(gateway) {
     spi = new CMdSpi(this);
-    api = CThostFtdcMdApi::CreateFtdcMdApi(flow_path.c_str());
+    api = CThostFtdcMdApi::CreateFtdcMdApi(flow_path.c_str(), is_using_udp, is_multicast, is_production_mode);
     api->RegisterSpi(spi);
 }
 
-std::unique_ptr<MdApi> CreateMdApi(const MdSpi &gateway, rust::String flow_path) {
-    return std::make_unique<MdApi>(gateway, flow_path);
+std::unique_ptr<MdApi> CreateMdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) {
+    return std::make_unique<MdApi>(gateway, flow_path, is_using_udp, is_multicast, is_production_mode);
 }
 
 rust::String MdApi::GetApiVersion() const {
