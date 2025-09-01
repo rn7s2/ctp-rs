@@ -105,7 +105,7 @@ CThostFtdcDisseminationField Converter::DisseminationFieldToCpp(DisseminationFie
 DisseminationField Converter::CThostFtdcDisseminationFieldToRust(CThostFtdcDisseminationField* x) {
     if (x == nullptr)
         return DisseminationField{.is_null = true};
-    DisseminationField y;
+    DisseminationField y{};
     y.SequenceSeries = x->SequenceSeries;
     y.SequenceNo = x->SequenceNo;
     return y;
@@ -132,7 +132,7 @@ CThostFtdcReqUserLoginField Converter::ReqUserLoginFieldToCpp(ReqUserLoginField 
 ReqUserLoginField Converter::CThostFtdcReqUserLoginFieldToRust(CThostFtdcReqUserLoginField* x) {
     if (x == nullptr)
         return ReqUserLoginField{.is_null = true};
-    ReqUserLoginField y;
+    ReqUserLoginField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -176,7 +176,7 @@ CThostFtdcRspUserLoginField Converter::RspUserLoginFieldToCpp(RspUserLoginField 
 RspUserLoginField Converter::CThostFtdcRspUserLoginFieldToRust(CThostFtdcRspUserLoginField* x) {
     if (x == nullptr)
         return RspUserLoginField{.is_null = true};
-    RspUserLoginField y;
+    RspUserLoginField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.LoginTime = Converter::Gb2312ToRustString(x->LoginTime);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -210,7 +210,7 @@ CThostFtdcUserLogoutField Converter::UserLogoutFieldToCpp(UserLogoutField x) {
 UserLogoutField Converter::CThostFtdcUserLogoutFieldToRust(CThostFtdcUserLogoutField* x) {
     if (x == nullptr)
         return UserLogoutField{.is_null = true};
-    UserLogoutField y;
+    UserLogoutField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -227,7 +227,7 @@ CThostFtdcForceUserLogoutField Converter::ForceUserLogoutFieldToCpp(ForceUserLog
 ForceUserLogoutField Converter::CThostFtdcForceUserLogoutFieldToRust(CThostFtdcForceUserLogoutField* x) {
     if (x == nullptr)
         return ForceUserLogoutField{.is_null = true};
-    ForceUserLogoutField y;
+    ForceUserLogoutField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -247,7 +247,7 @@ CThostFtdcReqAuthenticateField Converter::ReqAuthenticateFieldToCpp(ReqAuthentic
 ReqAuthenticateField Converter::CThostFtdcReqAuthenticateFieldToRust(CThostFtdcReqAuthenticateField* x) {
     if (x == nullptr)
         return ReqAuthenticateField{.is_null = true};
-    ReqAuthenticateField y;
+    ReqAuthenticateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserProductInfo = Converter::Gb2312ToRustString(x->UserProductInfo);
@@ -270,7 +270,7 @@ CThostFtdcRspAuthenticateField Converter::RspAuthenticateFieldToCpp(RspAuthentic
 RspAuthenticateField Converter::CThostFtdcRspAuthenticateFieldToRust(CThostFtdcRspAuthenticateField* x) {
     if (x == nullptr)
         return RspAuthenticateField{.is_null = true};
-    RspAuthenticateField y;
+    RspAuthenticateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserProductInfo = Converter::Gb2312ToRustString(x->UserProductInfo);
@@ -296,7 +296,7 @@ CThostFtdcAuthenticationInfoField Converter::AuthenticationInfoFieldToCpp(Authen
 AuthenticationInfoField Converter::CThostFtdcAuthenticationInfoFieldToRust(CThostFtdcAuthenticationInfoField* x) {
     if (x == nullptr)
         return AuthenticationInfoField{.is_null = true};
-    AuthenticationInfoField y;
+    AuthenticationInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserProductInfo = Converter::Gb2312ToRustString(x->UserProductInfo);
@@ -331,7 +331,7 @@ CThostFtdcRspUserLogin2Field Converter::RspUserLogin2FieldToCpp(RspUserLogin2Fie
 RspUserLogin2Field Converter::CThostFtdcRspUserLogin2FieldToRust(CThostFtdcRspUserLogin2Field* x) {
     if (x == nullptr)
         return RspUserLogin2Field{.is_null = true};
-    RspUserLogin2Field y;
+    RspUserLogin2Field y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.LoginTime = Converter::Gb2312ToRustString(x->LoginTime);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -372,7 +372,7 @@ CThostFtdcTransferHeaderField Converter::TransferHeaderFieldToCpp(TransferHeader
 TransferHeaderField Converter::CThostFtdcTransferHeaderFieldToRust(CThostFtdcTransferHeaderField* x) {
     if (x == nullptr)
         return TransferHeaderField{.is_null = true};
-    TransferHeaderField y;
+    TransferHeaderField y{};
     y.Version = Converter::Gb2312ToRustString(x->Version);
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.TradeDate = Converter::Gb2312ToRustString(x->TradeDate);
@@ -405,7 +405,7 @@ CThostFtdcTransferBankToFutureReqField Converter::TransferBankToFutureReqFieldTo
 TransferBankToFutureReqField Converter::CThostFtdcTransferBankToFutureReqFieldToRust(CThostFtdcTransferBankToFutureReqField* x) {
     if (x == nullptr)
         return TransferBankToFutureReqField{.is_null = true};
-    TransferBankToFutureReqField y;
+    TransferBankToFutureReqField y{};
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
     y.FuturePwdFlag = x->FuturePwdFlag;
     y.FutureAccPwd = Converter::Gb2312ToRustString(x->FutureAccPwd);
@@ -430,7 +430,7 @@ CThostFtdcTransferBankToFutureRspField Converter::TransferBankToFutureRspFieldTo
 TransferBankToFutureRspField Converter::CThostFtdcTransferBankToFutureRspFieldToRust(CThostFtdcTransferBankToFutureRspField* x) {
     if (x == nullptr)
         return TransferBankToFutureRspField{.is_null = true};
-    TransferBankToFutureRspField y;
+    TransferBankToFutureRspField y{};
     y.RetCode = Converter::Gb2312ToRustString(x->RetCode);
     y.RetInfo = Converter::Gb2312ToRustString(x->RetInfo);
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
@@ -455,7 +455,7 @@ CThostFtdcTransferFutureToBankReqField Converter::TransferFutureToBankReqFieldTo
 TransferFutureToBankReqField Converter::CThostFtdcTransferFutureToBankReqFieldToRust(CThostFtdcTransferFutureToBankReqField* x) {
     if (x == nullptr)
         return TransferFutureToBankReqField{.is_null = true};
-    TransferFutureToBankReqField y;
+    TransferFutureToBankReqField y{};
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
     y.FuturePwdFlag = x->FuturePwdFlag;
     y.FutureAccPwd = Converter::Gb2312ToRustString(x->FutureAccPwd);
@@ -480,7 +480,7 @@ CThostFtdcTransferFutureToBankRspField Converter::TransferFutureToBankRspFieldTo
 TransferFutureToBankRspField Converter::CThostFtdcTransferFutureToBankRspFieldToRust(CThostFtdcTransferFutureToBankRspField* x) {
     if (x == nullptr)
         return TransferFutureToBankRspField{.is_null = true};
-    TransferFutureToBankRspField y;
+    TransferFutureToBankRspField y{};
     y.RetCode = Converter::Gb2312ToRustString(x->RetCode);
     y.RetInfo = Converter::Gb2312ToRustString(x->RetInfo);
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
@@ -503,7 +503,7 @@ CThostFtdcTransferQryBankReqField Converter::TransferQryBankReqFieldToCpp(Transf
 TransferQryBankReqField Converter::CThostFtdcTransferQryBankReqFieldToRust(CThostFtdcTransferQryBankReqField* x) {
     if (x == nullptr)
         return TransferQryBankReqField{.is_null = true};
-    TransferQryBankReqField y;
+    TransferQryBankReqField y{};
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
     y.FuturePwdFlag = x->FuturePwdFlag;
     y.FutureAccPwd = Converter::Gb2312ToRustString(x->FutureAccPwd);
@@ -527,7 +527,7 @@ CThostFtdcTransferQryBankRspField Converter::TransferQryBankRspFieldToCpp(Transf
 TransferQryBankRspField Converter::CThostFtdcTransferQryBankRspFieldToRust(CThostFtdcTransferQryBankRspField* x) {
     if (x == nullptr)
         return TransferQryBankRspField{.is_null = true};
-    TransferQryBankRspField y;
+    TransferQryBankRspField y{};
     y.RetCode = Converter::Gb2312ToRustString(x->RetCode);
     y.RetInfo = Converter::Gb2312ToRustString(x->RetInfo);
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
@@ -548,7 +548,7 @@ CThostFtdcTransferQryDetailReqField Converter::TransferQryDetailReqFieldToCpp(Tr
 TransferQryDetailReqField Converter::CThostFtdcTransferQryDetailReqFieldToRust(CThostFtdcTransferQryDetailReqField* x) {
     if (x == nullptr)
         return TransferQryDetailReqField{.is_null = true};
-    TransferQryDetailReqField y;
+    TransferQryDetailReqField y{};
     y.FutureAccount = Converter::Gb2312ToRustString(x->FutureAccount);
     return y;
 }
@@ -576,7 +576,7 @@ CThostFtdcTransferQryDetailRspField Converter::TransferQryDetailRspFieldToCpp(Tr
 TransferQryDetailRspField Converter::CThostFtdcTransferQryDetailRspFieldToRust(CThostFtdcTransferQryDetailRspField* x) {
     if (x == nullptr)
         return TransferQryDetailRspField{.is_null = true};
-    TransferQryDetailRspField y;
+    TransferQryDetailRspField y{};
     y.TradeDate = Converter::Gb2312ToRustString(x->TradeDate);
     y.TradeTime = Converter::Gb2312ToRustString(x->TradeTime);
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
@@ -605,7 +605,7 @@ CThostFtdcRspInfoField Converter::RspInfoFieldToCpp(RspInfoField x) {
 RspInfoField Converter::CThostFtdcRspInfoFieldToRust(CThostFtdcRspInfoField* x) {
     if (x == nullptr)
         return RspInfoField{.is_null = true};
-    RspInfoField y;
+    RspInfoField y{};
     y.ErrorID = x->ErrorID;
     y.ErrorMsg = Converter::Gb2312ToRustString(x->ErrorMsg);
     return y;
@@ -623,7 +623,7 @@ CThostFtdcExchangeField Converter::ExchangeFieldToCpp(ExchangeField x) {
 ExchangeField Converter::CThostFtdcExchangeFieldToRust(CThostFtdcExchangeField* x) {
     if (x == nullptr)
         return ExchangeField{.is_null = true};
-    ExchangeField y;
+    ExchangeField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ExchangeName = Converter::Gb2312ToRustString(x->ExchangeName);
     y.ExchangeProperty = x->ExchangeProperty;
@@ -658,7 +658,7 @@ CThostFtdcProductField Converter::ProductFieldToCpp(ProductField x) {
 ProductField Converter::CThostFtdcProductFieldToRust(CThostFtdcProductField* x) {
     if (x == nullptr)
         return ProductField{.is_null = true};
-    ProductField y;
+    ProductField y{};
     y.ProductName = Converter::Gb2312ToRustString(x->ProductName);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductClass = x->ProductClass;
@@ -721,7 +721,7 @@ CThostFtdcInstrumentField Converter::InstrumentFieldToCpp(InstrumentField x) {
 InstrumentField Converter::CThostFtdcInstrumentFieldToRust(CThostFtdcInstrumentField* x) {
     if (x == nullptr)
         return InstrumentField{.is_null = true};
-    InstrumentField y;
+    InstrumentField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentName = Converter::Gb2312ToRustString(x->InstrumentName);
     y.ProductClass = x->ProductClass;
@@ -769,7 +769,7 @@ CThostFtdcBrokerField Converter::BrokerFieldToCpp(BrokerField x) {
 BrokerField Converter::CThostFtdcBrokerFieldToRust(CThostFtdcBrokerField* x) {
     if (x == nullptr)
         return BrokerField{.is_null = true};
-    BrokerField y;
+    BrokerField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.BrokerAbbr = Converter::Gb2312ToRustString(x->BrokerAbbr);
     y.BrokerName = Converter::Gb2312ToRustString(x->BrokerName);
@@ -795,7 +795,7 @@ CThostFtdcTraderField Converter::TraderFieldToCpp(TraderField x) {
 TraderField Converter::CThostFtdcTraderFieldToRust(CThostFtdcTraderField* x) {
     if (x == nullptr)
         return TraderField{.is_null = true};
-    TraderField y;
+    TraderField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -832,7 +832,7 @@ CThostFtdcInvestorField Converter::InvestorFieldToCpp(InvestorField x) {
 InvestorField Converter::CThostFtdcInvestorFieldToRust(CThostFtdcInvestorField* x) {
     if (x == nullptr)
         return InvestorField{.is_null = true};
-    InvestorField y;
+    InvestorField y{};
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorGroupID = Converter::Gb2312ToRustString(x->InvestorGroupID);
@@ -869,7 +869,7 @@ CThostFtdcTradingCodeField Converter::TradingCodeFieldToCpp(TradingCodeField x) 
 TradingCodeField Converter::CThostFtdcTradingCodeFieldToRust(CThostFtdcTradingCodeField* x) {
     if (x == nullptr)
         return TradingCodeField{.is_null = true};
-    TradingCodeField y;
+    TradingCodeField y{};
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -895,7 +895,7 @@ CThostFtdcPartBrokerField Converter::PartBrokerFieldToCpp(PartBrokerField x) {
 PartBrokerField Converter::CThostFtdcPartBrokerFieldToRust(CThostFtdcPartBrokerField* x) {
     if (x == nullptr)
         return PartBrokerField{.is_null = true};
-    PartBrokerField y;
+    PartBrokerField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -916,7 +916,7 @@ CThostFtdcSuperUserField Converter::SuperUserFieldToCpp(SuperUserField x) {
 SuperUserField Converter::CThostFtdcSuperUserFieldToRust(CThostFtdcSuperUserField* x) {
     if (x == nullptr)
         return SuperUserField{.is_null = true};
-    SuperUserField y;
+    SuperUserField y{};
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserName = Converter::Gb2312ToRustString(x->UserName);
     y.Password = Converter::Gb2312ToRustString(x->Password);
@@ -935,7 +935,7 @@ CThostFtdcSuperUserFunctionField Converter::SuperUserFunctionFieldToCpp(SuperUse
 SuperUserFunctionField Converter::CThostFtdcSuperUserFunctionFieldToRust(CThostFtdcSuperUserFunctionField* x) {
     if (x == nullptr)
         return SuperUserFunctionField{.is_null = true};
-    SuperUserFunctionField y;
+    SuperUserFunctionField y{};
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.FunctionCode = x->FunctionCode;
     return y;
@@ -953,7 +953,7 @@ CThostFtdcInvestorGroupField Converter::InvestorGroupFieldToCpp(InvestorGroupFie
 InvestorGroupField Converter::CThostFtdcInvestorGroupFieldToRust(CThostFtdcInvestorGroupField* x) {
     if (x == nullptr)
         return InvestorGroupField{.is_null = true};
-    InvestorGroupField y;
+    InvestorGroupField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorGroupID = Converter::Gb2312ToRustString(x->InvestorGroupID);
     y.InvestorGroupName = Converter::Gb2312ToRustString(x->InvestorGroupName);
@@ -1019,7 +1019,7 @@ CThostFtdcTradingAccountField Converter::TradingAccountFieldToCpp(TradingAccount
 TradingAccountField Converter::CThostFtdcTradingAccountFieldToRust(CThostFtdcTradingAccountField* x) {
     if (x == nullptr)
         return TradingAccountField{.is_null = true};
-    TradingAccountField y;
+    TradingAccountField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.PreMortgage = x->PreMortgage;
@@ -1132,7 +1132,7 @@ CThostFtdcInvestorPositionField Converter::InvestorPositionFieldToCpp(InvestorPo
 InvestorPositionField Converter::CThostFtdcInvestorPositionFieldToRust(CThostFtdcInvestorPositionField* x) {
     if (x == nullptr)
         return InvestorPositionField{.is_null = true};
-    InvestorPositionField y;
+    InvestorPositionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.PosiDirection = x->PosiDirection;
@@ -1207,7 +1207,7 @@ CThostFtdcInstrumentMarginRateField Converter::InstrumentMarginRateFieldToCpp(In
 InstrumentMarginRateField Converter::CThostFtdcInstrumentMarginRateFieldToRust(CThostFtdcInstrumentMarginRateField* x) {
     if (x == nullptr)
         return InstrumentMarginRateField{.is_null = true};
-    InstrumentMarginRateField y;
+    InstrumentMarginRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -1245,7 +1245,7 @@ CThostFtdcInstrumentCommissionRateField Converter::InstrumentCommissionRateField
 InstrumentCommissionRateField Converter::CThostFtdcInstrumentCommissionRateFieldToRust(CThostFtdcInstrumentCommissionRateField* x) {
     if (x == nullptr)
         return InstrumentCommissionRateField{.is_null = true};
-    InstrumentCommissionRateField y;
+    InstrumentCommissionRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -1317,7 +1317,7 @@ CThostFtdcDepthMarketDataField Converter::DepthMarketDataFieldToCpp(DepthMarketD
 DepthMarketDataField Converter::CThostFtdcDepthMarketDataFieldToRust(CThostFtdcDepthMarketDataField* x) {
     if (x == nullptr)
         return DepthMarketDataField{.is_null = true};
-    DepthMarketDataField y;
+    DepthMarketDataField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.LastPrice = x->LastPrice;
@@ -1381,7 +1381,7 @@ CThostFtdcInstrumentTradingRightField Converter::InstrumentTradingRightFieldToCp
 InstrumentTradingRightField Converter::CThostFtdcInstrumentTradingRightFieldToRust(CThostFtdcInstrumentTradingRightField* x) {
     if (x == nullptr)
         return InstrumentTradingRightField{.is_null = true};
-    InstrumentTradingRightField y;
+    InstrumentTradingRightField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -1406,7 +1406,7 @@ CThostFtdcBrokerUserField Converter::BrokerUserFieldToCpp(BrokerUserField x) {
 BrokerUserField Converter::CThostFtdcBrokerUserFieldToRust(CThostFtdcBrokerUserField* x) {
     if (x == nullptr)
         return BrokerUserField{.is_null = true};
-    BrokerUserField y;
+    BrokerUserField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserName = Converter::Gb2312ToRustString(x->UserName);
@@ -1433,7 +1433,7 @@ CThostFtdcBrokerUserPasswordField Converter::BrokerUserPasswordFieldToCpp(Broker
 BrokerUserPasswordField Converter::CThostFtdcBrokerUserPasswordFieldToRust(CThostFtdcBrokerUserPasswordField* x) {
     if (x == nullptr)
         return BrokerUserPasswordField{.is_null = true};
-    BrokerUserPasswordField y;
+    BrokerUserPasswordField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.Password = Converter::Gb2312ToRustString(x->Password);
@@ -1456,7 +1456,7 @@ CThostFtdcBrokerUserFunctionField Converter::BrokerUserFunctionFieldToCpp(Broker
 BrokerUserFunctionField Converter::CThostFtdcBrokerUserFunctionFieldToRust(CThostFtdcBrokerUserFunctionField* x) {
     if (x == nullptr)
         return BrokerUserFunctionField{.is_null = true};
-    BrokerUserFunctionField y;
+    BrokerUserFunctionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.BrokerFunctionCode = x->BrokerFunctionCode;
@@ -1492,7 +1492,7 @@ CThostFtdcTraderOfferField Converter::TraderOfferFieldToCpp(TraderOfferField x) 
 TraderOfferField Converter::CThostFtdcTraderOfferFieldToRust(CThostFtdcTraderOfferField* x) {
     if (x == nullptr)
         return TraderOfferField{.is_null = true};
-    TraderOfferField y;
+    TraderOfferField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -1534,7 +1534,7 @@ CThostFtdcSettlementInfoField Converter::SettlementInfoFieldToCpp(SettlementInfo
 SettlementInfoField Converter::CThostFtdcSettlementInfoFieldToRust(CThostFtdcSettlementInfoField* x) {
     if (x == nullptr)
         return SettlementInfoField{.is_null = true};
-    SettlementInfoField y;
+    SettlementInfoField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.SettlementID = x->SettlementID;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -1566,7 +1566,7 @@ CThostFtdcInstrumentMarginRateAdjustField Converter::InstrumentMarginRateAdjustF
 InstrumentMarginRateAdjustField Converter::CThostFtdcInstrumentMarginRateAdjustFieldToRust(CThostFtdcInstrumentMarginRateAdjustField* x) {
     if (x == nullptr)
         return InstrumentMarginRateAdjustField{.is_null = true};
-    InstrumentMarginRateAdjustField y;
+    InstrumentMarginRateAdjustField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -1597,7 +1597,7 @@ CThostFtdcExchangeMarginRateField Converter::ExchangeMarginRateFieldToCpp(Exchan
 ExchangeMarginRateField Converter::CThostFtdcExchangeMarginRateFieldToRust(CThostFtdcExchangeMarginRateField* x) {
     if (x == nullptr)
         return ExchangeMarginRateField{.is_null = true};
-    ExchangeMarginRateField y;
+    ExchangeMarginRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.HedgeFlag = x->HedgeFlag;
     y.LongMarginRatioByMoney = x->LongMarginRatioByMoney;
@@ -1633,7 +1633,7 @@ CThostFtdcExchangeMarginRateAdjustField Converter::ExchangeMarginRateAdjustField
 ExchangeMarginRateAdjustField Converter::CThostFtdcExchangeMarginRateAdjustFieldToRust(CThostFtdcExchangeMarginRateAdjustField* x) {
     if (x == nullptr)
         return ExchangeMarginRateAdjustField{.is_null = true};
-    ExchangeMarginRateAdjustField y;
+    ExchangeMarginRateAdjustField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.HedgeFlag = x->HedgeFlag;
     y.LongMarginRatioByMoney = x->LongMarginRatioByMoney;
@@ -1666,7 +1666,7 @@ CThostFtdcExchangeRateField Converter::ExchangeRateFieldToCpp(ExchangeRateField 
 ExchangeRateField Converter::CThostFtdcExchangeRateFieldToRust(CThostFtdcExchangeRateField* x) {
     if (x == nullptr)
         return ExchangeRateField{.is_null = true};
-    ExchangeRateField y;
+    ExchangeRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.FromCurrencyID = Converter::Gb2312ToRustString(x->FromCurrencyID);
     y.FromCurrencyUnit = x->FromCurrencyUnit;
@@ -1686,7 +1686,7 @@ CThostFtdcSettlementRefField Converter::SettlementRefFieldToCpp(SettlementRefFie
 SettlementRefField Converter::CThostFtdcSettlementRefFieldToRust(CThostFtdcSettlementRefField* x) {
     if (x == nullptr)
         return SettlementRefField{.is_null = true};
-    SettlementRefField y;
+    SettlementRefField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.SettlementID = x->SettlementID;
     return y;
@@ -1705,7 +1705,7 @@ CThostFtdcCurrentTimeField Converter::CurrentTimeFieldToCpp(CurrentTimeField x) 
 CurrentTimeField Converter::CThostFtdcCurrentTimeFieldToRust(CThostFtdcCurrentTimeField* x) {
     if (x == nullptr)
         return CurrentTimeField{.is_null = true};
-    CurrentTimeField y;
+    CurrentTimeField y{};
     y.CurrDate = Converter::Gb2312ToRustString(x->CurrDate);
     y.CurrTime = Converter::Gb2312ToRustString(x->CurrTime);
     y.CurrMillisec = x->CurrMillisec;
@@ -1725,7 +1725,7 @@ CThostFtdcCommPhaseField Converter::CommPhaseFieldToCpp(CommPhaseField x) {
 CommPhaseField Converter::CThostFtdcCommPhaseFieldToRust(CThostFtdcCommPhaseField* x) {
     if (x == nullptr)
         return CommPhaseField{.is_null = true};
-    CommPhaseField y;
+    CommPhaseField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.CommPhaseNo = x->CommPhaseNo;
     y.SystemID = Converter::Gb2312ToRustString(x->SystemID);
@@ -1764,7 +1764,7 @@ CThostFtdcLoginInfoField Converter::LoginInfoFieldToCpp(LoginInfoField x) {
 LoginInfoField Converter::CThostFtdcLoginInfoFieldToRust(CThostFtdcLoginInfoField* x) {
     if (x == nullptr)
         return LoginInfoField{.is_null = true};
-    LoginInfoField y;
+    LoginInfoField y{};
     y.FrontID = x->FrontID;
     y.SessionID = x->SessionID;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -1804,7 +1804,7 @@ CThostFtdcLogoutAllField Converter::LogoutAllFieldToCpp(LogoutAllField x) {
 LogoutAllField Converter::CThostFtdcLogoutAllFieldToRust(CThostFtdcLogoutAllField* x) {
     if (x == nullptr)
         return LogoutAllField{.is_null = true};
-    LogoutAllField y;
+    LogoutAllField y{};
     y.FrontID = x->FrontID;
     y.SessionID = x->SessionID;
     y.SystemName = Converter::Gb2312ToRustString(x->SystemName);
@@ -1824,7 +1824,7 @@ CThostFtdcFrontStatusField Converter::FrontStatusFieldToCpp(FrontStatusField x) 
 FrontStatusField Converter::CThostFtdcFrontStatusFieldToRust(CThostFtdcFrontStatusField* x) {
     if (x == nullptr)
         return FrontStatusField{.is_null = true};
-    FrontStatusField y;
+    FrontStatusField y{};
     y.FrontID = x->FrontID;
     y.LastReportDate = Converter::Gb2312ToRustString(x->LastReportDate);
     y.LastReportTime = Converter::Gb2312ToRustString(x->LastReportTime);
@@ -1845,7 +1845,7 @@ CThostFtdcUserPasswordUpdateField Converter::UserPasswordUpdateFieldToCpp(UserPa
 UserPasswordUpdateField Converter::CThostFtdcUserPasswordUpdateFieldToRust(CThostFtdcUserPasswordUpdateField* x) {
     if (x == nullptr)
         return UserPasswordUpdateField{.is_null = true};
-    UserPasswordUpdateField y;
+    UserPasswordUpdateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.OldPassword = Converter::Gb2312ToRustString(x->OldPassword);
@@ -1894,7 +1894,7 @@ CThostFtdcInputOrderField Converter::InputOrderFieldToCpp(InputOrderField x) {
 InputOrderField Converter::CThostFtdcInputOrderFieldToRust(CThostFtdcInputOrderField* x) {
     if (x == nullptr)
         return InputOrderField{.is_null = true};
-    InputOrderField y;
+    InputOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderRef = Converter::Gb2312ToRustString(x->OrderRef);
@@ -2004,7 +2004,7 @@ CThostFtdcOrderField Converter::OrderFieldToCpp(OrderField x) {
 OrderField Converter::CThostFtdcOrderFieldToRust(CThostFtdcOrderField* x) {
     if (x == nullptr)
         return OrderField{.is_null = true};
-    OrderField y;
+    OrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderRef = Converter::Gb2312ToRustString(x->OrderRef);
@@ -2127,7 +2127,7 @@ CThostFtdcExchangeOrderField Converter::ExchangeOrderFieldToCpp(ExchangeOrderFie
 ExchangeOrderField Converter::CThostFtdcExchangeOrderFieldToRust(CThostFtdcExchangeOrderField* x) {
     if (x == nullptr)
         return ExchangeOrderField{.is_null = true};
-    ExchangeOrderField y;
+    ExchangeOrderField y{};
     y.OrderPriceType = x->OrderPriceType;
     y.Direction = x->Direction;
     y.CombOffsetFlag = Converter::Gb2312ToRustString(x->CombOffsetFlag);
@@ -2192,7 +2192,7 @@ CThostFtdcExchangeOrderInsertErrorField Converter::ExchangeOrderInsertErrorField
 ExchangeOrderInsertErrorField Converter::CThostFtdcExchangeOrderInsertErrorFieldToRust(CThostFtdcExchangeOrderInsertErrorField* x) {
     if (x == nullptr)
         return ExchangeOrderInsertErrorField{.is_null = true};
-    ExchangeOrderInsertErrorField y;
+    ExchangeOrderInsertErrorField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
@@ -2231,7 +2231,7 @@ CThostFtdcInputOrderActionField Converter::InputOrderActionFieldToCpp(InputOrder
 InputOrderActionField Converter::CThostFtdcInputOrderActionFieldToRust(CThostFtdcInputOrderActionField* x) {
     if (x == nullptr)
         return InputOrderActionField{.is_null = true};
-    InputOrderActionField y;
+    InputOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderActionRef = x->OrderActionRef;
@@ -2294,7 +2294,7 @@ CThostFtdcOrderActionField Converter::OrderActionFieldToCpp(OrderActionField x) 
 OrderActionField Converter::CThostFtdcOrderActionFieldToRust(CThostFtdcOrderActionField* x) {
     if (x == nullptr)
         return OrderActionField{.is_null = true};
-    OrderActionField y;
+    OrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderActionRef = x->OrderActionRef;
@@ -2357,7 +2357,7 @@ CThostFtdcExchangeOrderActionField Converter::ExchangeOrderActionFieldToCpp(Exch
 ExchangeOrderActionField Converter::CThostFtdcExchangeOrderActionFieldToRust(CThostFtdcExchangeOrderActionField* x) {
     if (x == nullptr)
         return ExchangeOrderActionField{.is_null = true};
-    ExchangeOrderActionField y;
+    ExchangeOrderActionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.OrderSysID = Converter::Gb2312ToRustString(x->OrderSysID);
     y.ActionFlag = x->ActionFlag;
@@ -2397,7 +2397,7 @@ CThostFtdcExchangeOrderActionErrorField Converter::ExchangeOrderActionErrorField
 ExchangeOrderActionErrorField Converter::CThostFtdcExchangeOrderActionErrorFieldToRust(CThostFtdcExchangeOrderActionErrorField* x) {
     if (x == nullptr)
         return ExchangeOrderActionErrorField{.is_null = true};
-    ExchangeOrderActionErrorField y;
+    ExchangeOrderActionErrorField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.OrderSysID = Converter::Gb2312ToRustString(x->OrderSysID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
@@ -2440,7 +2440,7 @@ CThostFtdcExchangeTradeField Converter::ExchangeTradeFieldToCpp(ExchangeTradeFie
 ExchangeTradeField Converter::CThostFtdcExchangeTradeFieldToRust(CThostFtdcExchangeTradeField* x) {
     if (x == nullptr)
         return ExchangeTradeField{.is_null = true};
-    ExchangeTradeField y;
+    ExchangeTradeField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.TradeID = Converter::Gb2312ToRustString(x->TradeID);
     y.Direction = x->Direction;
@@ -2506,7 +2506,7 @@ CThostFtdcTradeField Converter::TradeFieldToCpp(TradeField x) {
 TradeField Converter::CThostFtdcTradeFieldToRust(CThostFtdcTradeField* x) {
     if (x == nullptr)
         return TradeField{.is_null = true};
-    TradeField y;
+    TradeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderRef = Converter::Gb2312ToRustString(x->OrderRef);
@@ -2562,7 +2562,7 @@ CThostFtdcUserSessionField Converter::UserSessionFieldToCpp(UserSessionField x) 
 UserSessionField Converter::CThostFtdcUserSessionFieldToRust(CThostFtdcUserSessionField* x) {
     if (x == nullptr)
         return UserSessionField{.is_null = true};
-    UserSessionField y;
+    UserSessionField y{};
     y.FrontID = x->FrontID;
     y.SessionID = x->SessionID;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -2596,7 +2596,7 @@ CThostFtdcQryMaxOrderVolumeField Converter::QryMaxOrderVolumeFieldToCpp(QryMaxOr
 QryMaxOrderVolumeField Converter::CThostFtdcQryMaxOrderVolumeFieldToRust(CThostFtdcQryMaxOrderVolumeField* x) {
     if (x == nullptr)
         return QryMaxOrderVolumeField{.is_null = true};
-    QryMaxOrderVolumeField y;
+    QryMaxOrderVolumeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.Direction = x->Direction;
@@ -2625,7 +2625,7 @@ CThostFtdcSettlementInfoConfirmField Converter::SettlementInfoConfirmFieldToCpp(
 SettlementInfoConfirmField Converter::CThostFtdcSettlementInfoConfirmFieldToRust(CThostFtdcSettlementInfoConfirmField* x) {
     if (x == nullptr)
         return SettlementInfoConfirmField{.is_null = true};
-    SettlementInfoConfirmField y;
+    SettlementInfoConfirmField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ConfirmDate = Converter::Gb2312ToRustString(x->ConfirmDate);
@@ -2654,7 +2654,7 @@ CThostFtdcSyncDepositField Converter::SyncDepositFieldToCpp(SyncDepositField x) 
 SyncDepositField Converter::CThostFtdcSyncDepositFieldToRust(CThostFtdcSyncDepositField* x) {
     if (x == nullptr)
         return SyncDepositField{.is_null = true};
-    SyncDepositField y;
+    SyncDepositField y{};
     for (int i = 0; i < 15; i++)
         y.DepositSeqNo.push_back(x->DepositSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -2683,7 +2683,7 @@ CThostFtdcSyncFundMortgageField Converter::SyncFundMortgageFieldToCpp(SyncFundMo
 SyncFundMortgageField Converter::CThostFtdcSyncFundMortgageFieldToRust(CThostFtdcSyncFundMortgageField* x) {
     if (x == nullptr)
         return SyncFundMortgageField{.is_null = true};
-    SyncFundMortgageField y;
+    SyncFundMortgageField y{};
     for (int i = 0; i < 15; i++)
         y.MortgageSeqNo.push_back(x->MortgageSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -2704,7 +2704,7 @@ CThostFtdcBrokerSyncField Converter::BrokerSyncFieldToCpp(BrokerSyncField x) {
 BrokerSyncField Converter::CThostFtdcBrokerSyncFieldToRust(CThostFtdcBrokerSyncField* x) {
     if (x == nullptr)
         return BrokerSyncField{.is_null = true};
-    BrokerSyncField y;
+    BrokerSyncField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -2733,7 +2733,7 @@ CThostFtdcSyncingInvestorField Converter::SyncingInvestorFieldToCpp(SyncingInves
 SyncingInvestorField Converter::CThostFtdcSyncingInvestorFieldToRust(CThostFtdcSyncingInvestorField* x) {
     if (x == nullptr)
         return SyncingInvestorField{.is_null = true};
-    SyncingInvestorField y;
+    SyncingInvestorField y{};
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorGroupID = Converter::Gb2312ToRustString(x->InvestorGroupID);
@@ -2767,7 +2767,7 @@ CThostFtdcSyncingTradingCodeField Converter::SyncingTradingCodeFieldToCpp(Syncin
 SyncingTradingCodeField Converter::CThostFtdcSyncingTradingCodeFieldToRust(CThostFtdcSyncingTradingCodeField* x) {
     if (x == nullptr)
         return SyncingTradingCodeField{.is_null = true};
-    SyncingTradingCodeField y;
+    SyncingTradingCodeField y{};
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -2789,7 +2789,7 @@ CThostFtdcSyncingInvestorGroupField Converter::SyncingInvestorGroupFieldToCpp(Sy
 SyncingInvestorGroupField Converter::CThostFtdcSyncingInvestorGroupFieldToRust(CThostFtdcSyncingInvestorGroupField* x) {
     if (x == nullptr)
         return SyncingInvestorGroupField{.is_null = true};
-    SyncingInvestorGroupField y;
+    SyncingInvestorGroupField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorGroupID = Converter::Gb2312ToRustString(x->InvestorGroupID);
     y.InvestorGroupName = Converter::Gb2312ToRustString(x->InvestorGroupName);
@@ -2854,7 +2854,7 @@ CThostFtdcSyncingTradingAccountField Converter::SyncingTradingAccountFieldToCpp(
 SyncingTradingAccountField Converter::CThostFtdcSyncingTradingAccountFieldToRust(CThostFtdcSyncingTradingAccountField* x) {
     if (x == nullptr)
         return SyncingTradingAccountField{.is_null = true};
-    SyncingTradingAccountField y;
+    SyncingTradingAccountField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.PreMortgage = x->PreMortgage;
@@ -2965,7 +2965,7 @@ CThostFtdcSyncingInvestorPositionField Converter::SyncingInvestorPositionFieldTo
 SyncingInvestorPositionField Converter::CThostFtdcSyncingInvestorPositionFieldToRust(CThostFtdcSyncingInvestorPositionField* x) {
     if (x == nullptr)
         return SyncingInvestorPositionField{.is_null = true};
-    SyncingInvestorPositionField y;
+    SyncingInvestorPositionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.PosiDirection = x->PosiDirection;
@@ -3037,7 +3037,7 @@ CThostFtdcSyncingInstrumentMarginRateField Converter::SyncingInstrumentMarginRat
 SyncingInstrumentMarginRateField Converter::CThostFtdcSyncingInstrumentMarginRateFieldToRust(CThostFtdcSyncingInstrumentMarginRateField* x) {
     if (x == nullptr)
         return SyncingInstrumentMarginRateField{.is_null = true};
-    SyncingInstrumentMarginRateField y;
+    SyncingInstrumentMarginRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -3070,7 +3070,7 @@ CThostFtdcSyncingInstrumentCommissionRateField Converter::SyncingInstrumentCommi
 SyncingInstrumentCommissionRateField Converter::CThostFtdcSyncingInstrumentCommissionRateFieldToRust(CThostFtdcSyncingInstrumentCommissionRateField* x) {
     if (x == nullptr)
         return SyncingInstrumentCommissionRateField{.is_null = true};
-    SyncingInstrumentCommissionRateField y;
+    SyncingInstrumentCommissionRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -3098,7 +3098,7 @@ CThostFtdcSyncingInstrumentTradingRightField Converter::SyncingInstrumentTrading
 SyncingInstrumentTradingRightField Converter::CThostFtdcSyncingInstrumentTradingRightFieldToRust(CThostFtdcSyncingInstrumentTradingRightField* x) {
     if (x == nullptr)
         return SyncingInstrumentTradingRightField{.is_null = true};
-    SyncingInstrumentTradingRightField y;
+    SyncingInstrumentTradingRightField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -3124,7 +3124,7 @@ CThostFtdcQryOrderField Converter::QryOrderFieldToCpp(QryOrderField x) {
 QryOrderField Converter::CThostFtdcQryOrderFieldToRust(CThostFtdcQryOrderField* x) {
     if (x == nullptr)
         return QryOrderField{.is_null = true};
-    QryOrderField y;
+    QryOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3153,7 +3153,7 @@ CThostFtdcQryTradeField Converter::QryTradeFieldToCpp(QryTradeField x) {
 QryTradeField Converter::CThostFtdcQryTradeFieldToRust(CThostFtdcQryTradeField* x) {
     if (x == nullptr)
         return QryTradeField{.is_null = true};
-    QryTradeField y;
+    QryTradeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3179,7 +3179,7 @@ CThostFtdcQryInvestorPositionField Converter::QryInvestorPositionFieldToCpp(QryI
 QryInvestorPositionField Converter::CThostFtdcQryInvestorPositionFieldToRust(CThostFtdcQryInvestorPositionField* x) {
     if (x == nullptr)
         return QryInvestorPositionField{.is_null = true};
-    QryInvestorPositionField y;
+    QryInvestorPositionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3202,7 +3202,7 @@ CThostFtdcQryTradingAccountField Converter::QryTradingAccountFieldToCpp(QryTradi
 QryTradingAccountField Converter::CThostFtdcQryTradingAccountFieldToRust(CThostFtdcQryTradingAccountField* x) {
     if (x == nullptr)
         return QryTradingAccountField{.is_null = true};
-    QryTradingAccountField y;
+    QryTradingAccountField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
@@ -3222,7 +3222,7 @@ CThostFtdcQryInvestorField Converter::QryInvestorFieldToCpp(QryInvestorField x) 
 QryInvestorField Converter::CThostFtdcQryInvestorFieldToRust(CThostFtdcQryInvestorField* x) {
     if (x == nullptr)
         return QryInvestorField{.is_null = true};
-    QryInvestorField y;
+    QryInvestorField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -3243,7 +3243,7 @@ CThostFtdcQryTradingCodeField Converter::QryTradingCodeFieldToCpp(QryTradingCode
 QryTradingCodeField Converter::CThostFtdcQryTradingCodeFieldToRust(CThostFtdcQryTradingCodeField* x) {
     if (x == nullptr)
         return QryTradingCodeField{.is_null = true};
-    QryTradingCodeField y;
+    QryTradingCodeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3263,7 +3263,7 @@ CThostFtdcQryInvestorGroupField Converter::QryInvestorGroupFieldToCpp(QryInvesto
 QryInvestorGroupField Converter::CThostFtdcQryInvestorGroupFieldToRust(CThostFtdcQryInvestorGroupField* x) {
     if (x == nullptr)
         return QryInvestorGroupField{.is_null = true};
-    QryInvestorGroupField y;
+    QryInvestorGroupField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -3283,7 +3283,7 @@ CThostFtdcQryInstrumentMarginRateField Converter::QryInstrumentMarginRateFieldTo
 QryInstrumentMarginRateField Converter::CThostFtdcQryInstrumentMarginRateFieldToRust(CThostFtdcQryInstrumentMarginRateField* x) {
     if (x == nullptr)
         return QryInstrumentMarginRateField{.is_null = true};
-    QryInstrumentMarginRateField y;
+    QryInstrumentMarginRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.HedgeFlag = x->HedgeFlag;
@@ -3307,7 +3307,7 @@ CThostFtdcQryInstrumentCommissionRateField Converter::QryInstrumentCommissionRat
 QryInstrumentCommissionRateField Converter::CThostFtdcQryInstrumentCommissionRateFieldToRust(CThostFtdcQryInstrumentCommissionRateField* x) {
     if (x == nullptr)
         return QryInstrumentCommissionRateField{.is_null = true};
-    QryInstrumentCommissionRateField y;
+    QryInstrumentCommissionRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3328,7 +3328,7 @@ CThostFtdcQryInstrumentTradingRightField Converter::QryInstrumentTradingRightFie
 QryInstrumentTradingRightField Converter::CThostFtdcQryInstrumentTradingRightFieldToRust(CThostFtdcQryInstrumentTradingRightField* x) {
     if (x == nullptr)
         return QryInstrumentTradingRightField{.is_null = true};
-    QryInstrumentTradingRightField y;
+    QryInstrumentTradingRightField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -3345,7 +3345,7 @@ CThostFtdcQryBrokerField Converter::QryBrokerFieldToCpp(QryBrokerField x) {
 QryBrokerField Converter::CThostFtdcQryBrokerFieldToRust(CThostFtdcQryBrokerField* x) {
     if (x == nullptr)
         return QryBrokerField{.is_null = true};
-    QryBrokerField y;
+    QryBrokerField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -3362,7 +3362,7 @@ CThostFtdcQryTraderField Converter::QryTraderFieldToCpp(QryTraderField x) {
 QryTraderField Converter::CThostFtdcQryTraderFieldToRust(CThostFtdcQryTraderField* x) {
     if (x == nullptr)
         return QryTraderField{.is_null = true};
-    QryTraderField y;
+    QryTraderField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
@@ -3379,7 +3379,7 @@ CThostFtdcQrySuperUserFunctionField Converter::QrySuperUserFunctionFieldToCpp(Qr
 QrySuperUserFunctionField Converter::CThostFtdcQrySuperUserFunctionFieldToRust(CThostFtdcQrySuperUserFunctionField* x) {
     if (x == nullptr)
         return QrySuperUserFunctionField{.is_null = true};
-    QrySuperUserFunctionField y;
+    QrySuperUserFunctionField y{};
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
 }
@@ -3397,7 +3397,7 @@ CThostFtdcQryUserSessionField Converter::QryUserSessionFieldToCpp(QryUserSession
 QryUserSessionField Converter::CThostFtdcQryUserSessionFieldToRust(CThostFtdcQryUserSessionField* x) {
     if (x == nullptr)
         return QryUserSessionField{.is_null = true};
-    QryUserSessionField y;
+    QryUserSessionField y{};
     y.FrontID = x->FrontID;
     y.SessionID = x->SessionID;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -3417,7 +3417,7 @@ CThostFtdcQryPartBrokerField Converter::QryPartBrokerFieldToCpp(QryPartBrokerFie
 QryPartBrokerField Converter::CThostFtdcQryPartBrokerFieldToRust(CThostFtdcQryPartBrokerField* x) {
     if (x == nullptr)
         return QryPartBrokerField{.is_null = true};
-    QryPartBrokerField y;
+    QryPartBrokerField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -3434,7 +3434,7 @@ CThostFtdcQryFrontStatusField Converter::QryFrontStatusFieldToCpp(QryFrontStatus
 QryFrontStatusField Converter::CThostFtdcQryFrontStatusFieldToRust(CThostFtdcQryFrontStatusField* x) {
     if (x == nullptr)
         return QryFrontStatusField{.is_null = true};
-    QryFrontStatusField y;
+    QryFrontStatusField y{};
     y.FrontID = x->FrontID;
     return y;
 }
@@ -3453,7 +3453,7 @@ CThostFtdcQryExchangeOrderField Converter::QryExchangeOrderFieldToCpp(QryExchang
 QryExchangeOrderField Converter::CThostFtdcQryExchangeOrderFieldToRust(CThostFtdcQryExchangeOrderField* x) {
     if (x == nullptr)
         return QryExchangeOrderField{.is_null = true};
-    QryExchangeOrderField y;
+    QryExchangeOrderField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3474,7 +3474,7 @@ CThostFtdcQryOrderActionField Converter::QryOrderActionFieldToCpp(QryOrderAction
 QryOrderActionField Converter::CThostFtdcQryOrderActionFieldToRust(CThostFtdcQryOrderActionField* x) {
     if (x == nullptr)
         return QryOrderActionField{.is_null = true};
-    QryOrderActionField y;
+    QryOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3494,7 +3494,7 @@ CThostFtdcQryExchangeOrderActionField Converter::QryExchangeOrderActionFieldToCp
 QryExchangeOrderActionField Converter::CThostFtdcQryExchangeOrderActionFieldToRust(CThostFtdcQryExchangeOrderActionField* x) {
     if (x == nullptr)
         return QryExchangeOrderActionField{.is_null = true};
-    QryExchangeOrderActionField y;
+    QryExchangeOrderActionField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3512,7 +3512,7 @@ CThostFtdcQrySuperUserField Converter::QrySuperUserFieldToCpp(QrySuperUserField 
 QrySuperUserField Converter::CThostFtdcQrySuperUserFieldToRust(CThostFtdcQrySuperUserField* x) {
     if (x == nullptr)
         return QrySuperUserField{.is_null = true};
-    QrySuperUserField y;
+    QrySuperUserField y{};
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
 }
@@ -3527,7 +3527,7 @@ CThostFtdcQryExchangeField Converter::QryExchangeFieldToCpp(QryExchangeField x) 
 QryExchangeField Converter::CThostFtdcQryExchangeFieldToRust(CThostFtdcQryExchangeField* x) {
     if (x == nullptr)
         return QryExchangeField{.is_null = true};
-    QryExchangeField y;
+    QryExchangeField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     return y;
 }
@@ -3544,7 +3544,7 @@ CThostFtdcQryProductField Converter::QryProductFieldToCpp(QryProductField x) {
 QryProductField Converter::CThostFtdcQryProductFieldToRust(CThostFtdcQryProductField* x) {
     if (x == nullptr)
         return QryProductField{.is_null = true};
-    QryProductField y;
+    QryProductField y{};
     y.ProductClass = x->ProductClass;
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -3564,7 +3564,7 @@ CThostFtdcQryInstrumentField Converter::QryInstrumentFieldToCpp(QryInstrumentFie
 QryInstrumentField Converter::CThostFtdcQryInstrumentFieldToRust(CThostFtdcQryInstrumentField* x) {
     if (x == nullptr)
         return QryInstrumentField{.is_null = true};
-    QryInstrumentField y;
+    QryInstrumentField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ExchangeInstID = Converter::Gb2312ToRustString(x->ExchangeInstID);
@@ -3584,7 +3584,7 @@ CThostFtdcQryDepthMarketDataField Converter::QryDepthMarketDataFieldToCpp(QryDep
 QryDepthMarketDataField Converter::CThostFtdcQryDepthMarketDataFieldToRust(CThostFtdcQryDepthMarketDataField* x) {
     if (x == nullptr)
         return QryDepthMarketDataField{.is_null = true};
-    QryDepthMarketDataField y;
+    QryDepthMarketDataField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ProductClass = x->ProductClass;
@@ -3602,7 +3602,7 @@ CThostFtdcQryBrokerUserField Converter::QryBrokerUserFieldToCpp(QryBrokerUserFie
 QryBrokerUserField Converter::CThostFtdcQryBrokerUserFieldToRust(CThostFtdcQryBrokerUserField* x) {
     if (x == nullptr)
         return QryBrokerUserField{.is_null = true};
-    QryBrokerUserField y;
+    QryBrokerUserField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -3619,7 +3619,7 @@ CThostFtdcQryBrokerUserFunctionField Converter::QryBrokerUserFunctionFieldToCpp(
 QryBrokerUserFunctionField Converter::CThostFtdcQryBrokerUserFunctionFieldToRust(CThostFtdcQryBrokerUserFunctionField* x) {
     if (x == nullptr)
         return QryBrokerUserFunctionField{.is_null = true};
-    QryBrokerUserFunctionField y;
+    QryBrokerUserFunctionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -3637,7 +3637,7 @@ CThostFtdcQryTraderOfferField Converter::QryTraderOfferFieldToCpp(QryTraderOffer
 QryTraderOfferField Converter::CThostFtdcQryTraderOfferFieldToRust(CThostFtdcQryTraderOfferField* x) {
     if (x == nullptr)
         return QryTraderOfferField{.is_null = true};
-    QryTraderOfferField y;
+    QryTraderOfferField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
@@ -3655,7 +3655,7 @@ CThostFtdcQrySyncDepositField Converter::QrySyncDepositFieldToCpp(QrySyncDeposit
 QrySyncDepositField Converter::CThostFtdcQrySyncDepositFieldToRust(CThostFtdcQrySyncDepositField* x) {
     if (x == nullptr)
         return QrySyncDepositField{.is_null = true};
-    QrySyncDepositField y;
+    QrySyncDepositField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     for (int i = 0; i < 15; i++)
         y.DepositSeqNo.push_back(x->DepositSeqNo[i]);
@@ -3676,7 +3676,7 @@ CThostFtdcQrySettlementInfoField Converter::QrySettlementInfoFieldToCpp(QrySettl
 QrySettlementInfoField Converter::CThostFtdcQrySettlementInfoFieldToRust(CThostFtdcQrySettlementInfoField* x) {
     if (x == nullptr)
         return QrySettlementInfoField{.is_null = true};
-    QrySettlementInfoField y;
+    QrySettlementInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
@@ -3698,7 +3698,7 @@ CThostFtdcQryExchangeMarginRateField Converter::QryExchangeMarginRateFieldToCpp(
 QryExchangeMarginRateField Converter::CThostFtdcQryExchangeMarginRateFieldToRust(CThostFtdcQryExchangeMarginRateField* x) {
     if (x == nullptr)
         return QryExchangeMarginRateField{.is_null = true};
-    QryExchangeMarginRateField y;
+    QryExchangeMarginRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.HedgeFlag = x->HedgeFlag;
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3718,7 +3718,7 @@ CThostFtdcQryExchangeMarginRateAdjustField Converter::QryExchangeMarginRateAdjus
 QryExchangeMarginRateAdjustField Converter::CThostFtdcQryExchangeMarginRateAdjustFieldToRust(CThostFtdcQryExchangeMarginRateAdjustField* x) {
     if (x == nullptr)
         return QryExchangeMarginRateAdjustField{.is_null = true};
-    QryExchangeMarginRateAdjustField y;
+    QryExchangeMarginRateAdjustField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.HedgeFlag = x->HedgeFlag;
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -3737,7 +3737,7 @@ CThostFtdcQryExchangeRateField Converter::QryExchangeRateFieldToCpp(QryExchangeR
 QryExchangeRateField Converter::CThostFtdcQryExchangeRateFieldToRust(CThostFtdcQryExchangeRateField* x) {
     if (x == nullptr)
         return QryExchangeRateField{.is_null = true};
-    QryExchangeRateField y;
+    QryExchangeRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.FromCurrencyID = Converter::Gb2312ToRustString(x->FromCurrencyID);
     y.ToCurrencyID = Converter::Gb2312ToRustString(x->ToCurrencyID);
@@ -3755,7 +3755,7 @@ CThostFtdcQrySyncFundMortgageField Converter::QrySyncFundMortgageFieldToCpp(QryS
 QrySyncFundMortgageField Converter::CThostFtdcQrySyncFundMortgageFieldToRust(CThostFtdcQrySyncFundMortgageField* x) {
     if (x == nullptr)
         return QrySyncFundMortgageField{.is_null = true};
-    QrySyncFundMortgageField y;
+    QrySyncFundMortgageField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     for (int i = 0; i < 15; i++)
         y.MortgageSeqNo.push_back(x->MortgageSeqNo[i]);
@@ -3780,7 +3780,7 @@ CThostFtdcQryHisOrderField Converter::QryHisOrderFieldToCpp(QryHisOrderField x) 
 QryHisOrderField Converter::CThostFtdcQryHisOrderFieldToRust(CThostFtdcQryHisOrderField* x) {
     if (x == nullptr)
         return QryHisOrderField{.is_null = true};
-    QryHisOrderField y;
+    QryHisOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3809,7 +3809,7 @@ CThostFtdcOptionInstrMiniMarginField Converter::OptionInstrMiniMarginFieldToCpp(
 OptionInstrMiniMarginField Converter::CThostFtdcOptionInstrMiniMarginFieldToRust(CThostFtdcOptionInstrMiniMarginField* x) {
     if (x == nullptr)
         return OptionInstrMiniMarginField{.is_null = true};
-    OptionInstrMiniMarginField y;
+    OptionInstrMiniMarginField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -3842,7 +3842,7 @@ CThostFtdcOptionInstrMarginAdjustField Converter::OptionInstrMarginAdjustFieldTo
 OptionInstrMarginAdjustField Converter::CThostFtdcOptionInstrMarginAdjustFieldToRust(CThostFtdcOptionInstrMarginAdjustField* x) {
     if (x == nullptr)
         return OptionInstrMarginAdjustField{.is_null = true};
-    OptionInstrMarginAdjustField y;
+    OptionInstrMarginAdjustField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -3882,7 +3882,7 @@ CThostFtdcOptionInstrCommRateField Converter::OptionInstrCommRateFieldToCpp(Opti
 OptionInstrCommRateField Converter::CThostFtdcOptionInstrCommRateFieldToRust(CThostFtdcOptionInstrCommRateField* x) {
     if (x == nullptr)
         return OptionInstrCommRateField{.is_null = true};
-    OptionInstrCommRateField y;
+    OptionInstrCommRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -3920,7 +3920,7 @@ CThostFtdcOptionInstrTradeCostField Converter::OptionInstrTradeCostFieldToCpp(Op
 OptionInstrTradeCostField Converter::CThostFtdcOptionInstrTradeCostFieldToRust(CThostFtdcOptionInstrTradeCostField* x) {
     if (x == nullptr)
         return OptionInstrTradeCostField{.is_null = true};
-    OptionInstrTradeCostField y;
+    OptionInstrTradeCostField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.HedgeFlag = x->HedgeFlag;
@@ -3952,7 +3952,7 @@ CThostFtdcQryOptionInstrTradeCostField Converter::QryOptionInstrTradeCostFieldTo
 QryOptionInstrTradeCostField Converter::CThostFtdcQryOptionInstrTradeCostFieldToRust(CThostFtdcQryOptionInstrTradeCostField* x) {
     if (x == nullptr)
         return QryOptionInstrTradeCostField{.is_null = true};
-    QryOptionInstrTradeCostField y;
+    QryOptionInstrTradeCostField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.HedgeFlag = x->HedgeFlag;
@@ -3978,7 +3978,7 @@ CThostFtdcQryOptionInstrCommRateField Converter::QryOptionInstrCommRateFieldToCp
 QryOptionInstrCommRateField Converter::CThostFtdcQryOptionInstrCommRateFieldToRust(CThostFtdcQryOptionInstrCommRateField* x) {
     if (x == nullptr)
         return QryOptionInstrCommRateField{.is_null = true};
-    QryOptionInstrCommRateField y;
+    QryOptionInstrCommRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -3999,7 +3999,7 @@ CThostFtdcIndexPriceField Converter::IndexPriceFieldToCpp(IndexPriceField x) {
 IndexPriceField Converter::CThostFtdcIndexPriceFieldToRust(CThostFtdcIndexPriceField* x) {
     if (x == nullptr)
         return IndexPriceField{.is_null = true};
-    IndexPriceField y;
+    IndexPriceField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ClosePrice = x->ClosePrice;
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -4036,7 +4036,7 @@ CThostFtdcInputExecOrderField Converter::InputExecOrderFieldToCpp(InputExecOrder
 InputExecOrderField Converter::CThostFtdcInputExecOrderFieldToRust(CThostFtdcInputExecOrderField* x) {
     if (x == nullptr)
         return InputExecOrderField{.is_null = true};
-    InputExecOrderField y;
+    InputExecOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExecOrderRef = Converter::Gb2312ToRustString(x->ExecOrderRef);
@@ -4085,7 +4085,7 @@ CThostFtdcInputExecOrderActionField Converter::InputExecOrderActionFieldToCpp(In
 InputExecOrderActionField Converter::CThostFtdcInputExecOrderActionFieldToRust(CThostFtdcInputExecOrderActionField* x) {
     if (x == nullptr)
         return InputExecOrderActionField{.is_null = true};
-    InputExecOrderActionField y;
+    InputExecOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExecOrderActionRef = x->ExecOrderActionRef;
@@ -4157,7 +4157,7 @@ CThostFtdcExecOrderField Converter::ExecOrderFieldToCpp(ExecOrderField x) {
 ExecOrderField Converter::CThostFtdcExecOrderFieldToRust(CThostFtdcExecOrderField* x) {
     if (x == nullptr)
         return ExecOrderField{.is_null = true};
-    ExecOrderField y;
+    ExecOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExecOrderRef = Converter::Gb2312ToRustString(x->ExecOrderRef);
@@ -4242,7 +4242,7 @@ CThostFtdcExecOrderActionField Converter::ExecOrderActionFieldToCpp(ExecOrderAct
 ExecOrderActionField Converter::CThostFtdcExecOrderActionFieldToRust(CThostFtdcExecOrderActionField* x) {
     if (x == nullptr)
         return ExecOrderActionField{.is_null = true};
-    ExecOrderActionField y;
+    ExecOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExecOrderActionRef = x->ExecOrderActionRef;
@@ -4290,7 +4290,7 @@ CThostFtdcQryExecOrderField Converter::QryExecOrderFieldToCpp(QryExecOrderField 
 QryExecOrderField Converter::CThostFtdcQryExecOrderFieldToRust(CThostFtdcQryExecOrderField* x) {
     if (x == nullptr)
         return QryExecOrderField{.is_null = true};
-    QryExecOrderField y;
+    QryExecOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -4340,7 +4340,7 @@ CThostFtdcExchangeExecOrderField Converter::ExchangeExecOrderFieldToCpp(Exchange
 ExchangeExecOrderField Converter::CThostFtdcExchangeExecOrderFieldToRust(CThostFtdcExchangeExecOrderField* x) {
     if (x == nullptr)
         return ExchangeExecOrderField{.is_null = true};
-    ExchangeExecOrderField y;
+    ExchangeExecOrderField y{};
     y.Volume = x->Volume;
     y.RequestID = x->RequestID;
     y.BusinessUnit = Converter::Gb2312ToRustString(x->BusinessUnit);
@@ -4388,7 +4388,7 @@ CThostFtdcQryExchangeExecOrderField Converter::QryExchangeExecOrderFieldToCpp(Qr
 QryExchangeExecOrderField Converter::CThostFtdcQryExchangeExecOrderFieldToRust(CThostFtdcQryExchangeExecOrderField* x) {
     if (x == nullptr)
         return QryExchangeExecOrderField{.is_null = true};
-    QryExchangeExecOrderField y;
+    QryExchangeExecOrderField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -4409,7 +4409,7 @@ CThostFtdcQryExecOrderActionField Converter::QryExecOrderActionFieldToCpp(QryExe
 QryExecOrderActionField Converter::CThostFtdcQryExecOrderActionFieldToRust(CThostFtdcQryExecOrderActionField* x) {
     if (x == nullptr)
         return QryExecOrderActionField{.is_null = true};
-    QryExecOrderActionField y;
+    QryExecOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -4445,7 +4445,7 @@ CThostFtdcExchangeExecOrderActionField Converter::ExchangeExecOrderActionFieldTo
 ExchangeExecOrderActionField Converter::CThostFtdcExchangeExecOrderActionFieldToRust(CThostFtdcExchangeExecOrderActionField* x) {
     if (x == nullptr)
         return ExchangeExecOrderActionField{.is_null = true};
-    ExchangeExecOrderActionField y;
+    ExchangeExecOrderActionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ExecOrderSysID = Converter::Gb2312ToRustString(x->ExecOrderSysID);
     y.ActionFlag = x->ActionFlag;
@@ -4482,7 +4482,7 @@ CThostFtdcQryExchangeExecOrderActionField Converter::QryExchangeExecOrderActionF
 QryExchangeExecOrderActionField Converter::CThostFtdcQryExchangeExecOrderActionFieldToRust(CThostFtdcQryExchangeExecOrderActionField* x) {
     if (x == nullptr)
         return QryExchangeExecOrderActionField{.is_null = true};
-    QryExchangeExecOrderActionField y;
+    QryExchangeExecOrderActionField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -4522,7 +4522,7 @@ CThostFtdcErrExecOrderField Converter::ErrExecOrderFieldToCpp(ErrExecOrderField 
 ErrExecOrderField Converter::CThostFtdcErrExecOrderFieldToRust(CThostFtdcErrExecOrderField* x) {
     if (x == nullptr)
         return ErrExecOrderField{.is_null = true};
-    ErrExecOrderField y;
+    ErrExecOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExecOrderRef = Converter::Gb2312ToRustString(x->ExecOrderRef);
@@ -4560,7 +4560,7 @@ CThostFtdcQryErrExecOrderField Converter::QryErrExecOrderFieldToCpp(QryErrExecOr
 QryErrExecOrderField Converter::CThostFtdcQryErrExecOrderFieldToRust(CThostFtdcQryErrExecOrderField* x) {
     if (x == nullptr)
         return QryErrExecOrderField{.is_null = true};
-    QryErrExecOrderField y;
+    QryErrExecOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -4592,7 +4592,7 @@ CThostFtdcErrExecOrderActionField Converter::ErrExecOrderActionFieldToCpp(ErrExe
 ErrExecOrderActionField Converter::CThostFtdcErrExecOrderActionFieldToRust(CThostFtdcErrExecOrderActionField* x) {
     if (x == nullptr)
         return ErrExecOrderActionField{.is_null = true};
-    ErrExecOrderActionField y;
+    ErrExecOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExecOrderActionRef = x->ExecOrderActionRef;
@@ -4624,7 +4624,7 @@ CThostFtdcQryErrExecOrderActionField Converter::QryErrExecOrderActionFieldToCpp(
 QryErrExecOrderActionField Converter::CThostFtdcQryErrExecOrderActionFieldToRust(CThostFtdcQryErrExecOrderActionField* x) {
     if (x == nullptr)
         return QryErrExecOrderActionField{.is_null = true};
-    QryErrExecOrderActionField y;
+    QryErrExecOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -4645,7 +4645,7 @@ CThostFtdcOptionInstrTradingRightField Converter::OptionInstrTradingRightFieldTo
 OptionInstrTradingRightField Converter::CThostFtdcOptionInstrTradingRightFieldToRust(CThostFtdcOptionInstrTradingRightField* x) {
     if (x == nullptr)
         return OptionInstrTradingRightField{.is_null = true};
-    OptionInstrTradingRightField y;
+    OptionInstrTradingRightField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -4668,7 +4668,7 @@ CThostFtdcQryOptionInstrTradingRightField Converter::QryOptionInstrTradingRightF
 QryOptionInstrTradingRightField Converter::CThostFtdcQryOptionInstrTradingRightFieldToRust(CThostFtdcQryOptionInstrTradingRightField* x) {
     if (x == nullptr)
         return QryOptionInstrTradingRightField{.is_null = true};
-    QryOptionInstrTradingRightField y;
+    QryOptionInstrTradingRightField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.Direction = x->Direction;
@@ -4694,7 +4694,7 @@ CThostFtdcInputForQuoteField Converter::InputForQuoteFieldToCpp(InputForQuoteFie
 InputForQuoteField Converter::CThostFtdcInputForQuoteFieldToRust(CThostFtdcInputForQuoteField* x) {
     if (x == nullptr)
         return InputForQuoteField{.is_null = true};
-    InputForQuoteField y;
+    InputForQuoteField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ForQuoteRef = Converter::Gb2312ToRustString(x->ForQuoteRef);
@@ -4739,7 +4739,7 @@ CThostFtdcForQuoteField Converter::ForQuoteFieldToCpp(ForQuoteField x) {
 ForQuoteField Converter::CThostFtdcForQuoteFieldToRust(CThostFtdcForQuoteField* x) {
     if (x == nullptr)
         return ForQuoteField{.is_null = true};
-    ForQuoteField y;
+    ForQuoteField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ForQuoteRef = Converter::Gb2312ToRustString(x->ForQuoteRef);
@@ -4782,7 +4782,7 @@ CThostFtdcQryForQuoteField Converter::QryForQuoteFieldToCpp(QryForQuoteField x) 
 QryForQuoteField Converter::CThostFtdcQryForQuoteFieldToRust(CThostFtdcQryForQuoteField* x) {
     if (x == nullptr)
         return QryForQuoteField{.is_null = true};
-    QryForQuoteField y;
+    QryForQuoteField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -4814,7 +4814,7 @@ CThostFtdcExchangeForQuoteField Converter::ExchangeForQuoteFieldToCpp(ExchangeFo
 ExchangeForQuoteField Converter::CThostFtdcExchangeForQuoteFieldToRust(CThostFtdcExchangeForQuoteField* x) {
     if (x == nullptr)
         return ExchangeForQuoteField{.is_null = true};
-    ExchangeForQuoteField y;
+    ExchangeForQuoteField y{};
     y.ForQuoteLocalID = Converter::Gb2312ToRustString(x->ForQuoteLocalID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -4844,7 +4844,7 @@ CThostFtdcQryExchangeForQuoteField Converter::QryExchangeForQuoteFieldToCpp(QryE
 QryExchangeForQuoteField Converter::CThostFtdcQryExchangeForQuoteFieldToRust(CThostFtdcQryExchangeForQuoteField* x) {
     if (x == nullptr)
         return QryExchangeForQuoteField{.is_null = true};
-    QryExchangeForQuoteField y;
+    QryExchangeForQuoteField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -4889,7 +4889,7 @@ CThostFtdcInputQuoteField Converter::InputQuoteFieldToCpp(InputQuoteField x) {
 InputQuoteField Converter::CThostFtdcInputQuoteFieldToRust(CThostFtdcInputQuoteField* x) {
     if (x == nullptr)
         return InputQuoteField{.is_null = true};
-    InputQuoteField y;
+    InputQuoteField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.QuoteRef = Converter::Gb2312ToRustString(x->QuoteRef);
@@ -4947,7 +4947,7 @@ CThostFtdcInputQuoteActionField Converter::InputQuoteActionFieldToCpp(InputQuote
 InputQuoteActionField Converter::CThostFtdcInputQuoteActionFieldToRust(CThostFtdcInputQuoteActionField* x) {
     if (x == nullptr)
         return InputQuoteActionField{.is_null = true};
-    InputQuoteActionField y;
+    InputQuoteActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.QuoteActionRef = x->QuoteActionRef;
@@ -5032,7 +5032,7 @@ CThostFtdcQuoteField Converter::QuoteFieldToCpp(QuoteField x) {
 QuoteField Converter::CThostFtdcQuoteFieldToRust(CThostFtdcQuoteField* x) {
     if (x == nullptr)
         return QuoteField{.is_null = true};
-    QuoteField y;
+    QuoteField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.QuoteRef = Converter::Gb2312ToRustString(x->QuoteRef);
@@ -5128,7 +5128,7 @@ CThostFtdcQuoteActionField Converter::QuoteActionFieldToCpp(QuoteActionField x) 
 QuoteActionField Converter::CThostFtdcQuoteActionFieldToRust(CThostFtdcQuoteActionField* x) {
     if (x == nullptr)
         return QuoteActionField{.is_null = true};
-    QuoteActionField y;
+    QuoteActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.QuoteActionRef = x->QuoteActionRef;
@@ -5178,7 +5178,7 @@ CThostFtdcQryQuoteField Converter::QryQuoteFieldToCpp(QryQuoteField x) {
 QryQuoteField Converter::CThostFtdcQryQuoteFieldToRust(CThostFtdcQryQuoteField* x) {
     if (x == nullptr)
         return QryQuoteField{.is_null = true};
-    QryQuoteField y;
+    QryQuoteField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5234,7 +5234,7 @@ CThostFtdcExchangeQuoteField Converter::ExchangeQuoteFieldToCpp(ExchangeQuoteFie
 ExchangeQuoteField Converter::CThostFtdcExchangeQuoteFieldToRust(CThostFtdcExchangeQuoteField* x) {
     if (x == nullptr)
         return ExchangeQuoteField{.is_null = true};
-    ExchangeQuoteField y;
+    ExchangeQuoteField y{};
     y.AskPrice = x->AskPrice;
     y.BidPrice = x->BidPrice;
     y.AskVolume = x->AskVolume;
@@ -5287,7 +5287,7 @@ CThostFtdcQryExchangeQuoteField Converter::QryExchangeQuoteFieldToCpp(QryExchang
 QryExchangeQuoteField Converter::CThostFtdcQryExchangeQuoteFieldToRust(CThostFtdcQryExchangeQuoteField* x) {
     if (x == nullptr)
         return QryExchangeQuoteField{.is_null = true};
-    QryExchangeQuoteField y;
+    QryExchangeQuoteField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5308,7 +5308,7 @@ CThostFtdcQryQuoteActionField Converter::QryQuoteActionFieldToCpp(QryQuoteAction
 QryQuoteActionField Converter::CThostFtdcQryQuoteActionFieldToRust(CThostFtdcQryQuoteActionField* x) {
     if (x == nullptr)
         return QryQuoteActionField{.is_null = true};
-    QryQuoteActionField y;
+    QryQuoteActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5340,7 +5340,7 @@ CThostFtdcExchangeQuoteActionField Converter::ExchangeQuoteActionFieldToCpp(Exch
 ExchangeQuoteActionField Converter::CThostFtdcExchangeQuoteActionFieldToRust(CThostFtdcExchangeQuoteActionField* x) {
     if (x == nullptr)
         return ExchangeQuoteActionField{.is_null = true};
-    ExchangeQuoteActionField y;
+    ExchangeQuoteActionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.QuoteSysID = Converter::Gb2312ToRustString(x->QuoteSysID);
     y.ActionFlag = x->ActionFlag;
@@ -5373,7 +5373,7 @@ CThostFtdcQryExchangeQuoteActionField Converter::QryExchangeQuoteActionFieldToCp
 QryExchangeQuoteActionField Converter::CThostFtdcQryExchangeQuoteActionFieldToRust(CThostFtdcQryExchangeQuoteActionField* x) {
     if (x == nullptr)
         return QryExchangeQuoteActionField{.is_null = true};
-    QryExchangeQuoteActionField y;
+    QryExchangeQuoteActionField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5395,7 +5395,7 @@ CThostFtdcOptionInstrDeltaField Converter::OptionInstrDeltaFieldToCpp(OptionInst
 OptionInstrDeltaField Converter::CThostFtdcOptionInstrDeltaFieldToRust(CThostFtdcOptionInstrDeltaField* x) {
     if (x == nullptr)
         return OptionInstrDeltaField{.is_null = true};
-    OptionInstrDeltaField y;
+    OptionInstrDeltaField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -5419,7 +5419,7 @@ CThostFtdcForQuoteRspField Converter::ForQuoteRspFieldToCpp(ForQuoteRspField x) 
 ForQuoteRspField Converter::CThostFtdcForQuoteRspFieldToRust(CThostFtdcForQuoteRspField* x) {
     if (x == nullptr)
         return ForQuoteRspField{.is_null = true};
-    ForQuoteRspField y;
+    ForQuoteRspField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ForQuoteSysID = Converter::Gb2312ToRustString(x->ForQuoteSysID);
     y.ForQuoteTime = Converter::Gb2312ToRustString(x->ForQuoteTime);
@@ -5444,7 +5444,7 @@ CThostFtdcStrikeOffsetField Converter::StrikeOffsetFieldToCpp(StrikeOffsetField 
 StrikeOffsetField Converter::CThostFtdcStrikeOffsetFieldToRust(CThostFtdcStrikeOffsetField* x) {
     if (x == nullptr)
         return StrikeOffsetField{.is_null = true};
-    StrikeOffsetField y;
+    StrikeOffsetField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -5466,7 +5466,7 @@ CThostFtdcQryStrikeOffsetField Converter::QryStrikeOffsetFieldToCpp(QryStrikeOff
 QryStrikeOffsetField Converter::CThostFtdcQryStrikeOffsetFieldToRust(CThostFtdcQryStrikeOffsetField* x) {
     if (x == nullptr)
         return QryStrikeOffsetField{.is_null = true};
-    QryStrikeOffsetField y;
+    QryStrikeOffsetField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -5493,7 +5493,7 @@ CThostFtdcInputBatchOrderActionField Converter::InputBatchOrderActionFieldToCpp(
 InputBatchOrderActionField Converter::CThostFtdcInputBatchOrderActionFieldToRust(CThostFtdcInputBatchOrderActionField* x) {
     if (x == nullptr)
         return InputBatchOrderActionField{.is_null = true};
-    InputBatchOrderActionField y;
+    InputBatchOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderActionRef = x->OrderActionRef;
@@ -5538,7 +5538,7 @@ CThostFtdcBatchOrderActionField Converter::BatchOrderActionFieldToCpp(BatchOrder
 BatchOrderActionField Converter::CThostFtdcBatchOrderActionFieldToRust(CThostFtdcBatchOrderActionField* x) {
     if (x == nullptr)
         return BatchOrderActionField{.is_null = true};
-    BatchOrderActionField y;
+    BatchOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderActionRef = x->OrderActionRef;
@@ -5585,7 +5585,7 @@ CThostFtdcExchangeBatchOrderActionField Converter::ExchangeBatchOrderActionField
 ExchangeBatchOrderActionField Converter::CThostFtdcExchangeBatchOrderActionFieldToRust(CThostFtdcExchangeBatchOrderActionField* x) {
     if (x == nullptr)
         return ExchangeBatchOrderActionField{.is_null = true};
-    ExchangeBatchOrderActionField y;
+    ExchangeBatchOrderActionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ActionDate = Converter::Gb2312ToRustString(x->ActionDate);
     y.ActionTime = Converter::Gb2312ToRustString(x->ActionTime);
@@ -5614,7 +5614,7 @@ CThostFtdcQryBatchOrderActionField Converter::QryBatchOrderActionFieldToCpp(QryB
 QryBatchOrderActionField Converter::CThostFtdcQryBatchOrderActionFieldToRust(CThostFtdcQryBatchOrderActionField* x) {
     if (x == nullptr)
         return QryBatchOrderActionField{.is_null = true};
-    QryBatchOrderActionField y;
+    QryBatchOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5634,7 +5634,7 @@ CThostFtdcCombInstrumentGuardField Converter::CombInstrumentGuardFieldToCpp(Comb
 CombInstrumentGuardField Converter::CThostFtdcCombInstrumentGuardFieldToRust(CThostFtdcCombInstrumentGuardField* x) {
     if (x == nullptr)
         return CombInstrumentGuardField{.is_null = true};
-    CombInstrumentGuardField y;
+    CombInstrumentGuardField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.GuarantRatio = x->GuarantRatio;
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5654,7 +5654,7 @@ CThostFtdcQryCombInstrumentGuardField Converter::QryCombInstrumentGuardFieldToCp
 QryCombInstrumentGuardField Converter::CThostFtdcQryCombInstrumentGuardFieldToRust(CThostFtdcQryCombInstrumentGuardField* x) {
     if (x == nullptr)
         return QryCombInstrumentGuardField{.is_null = true};
-    QryCombInstrumentGuardField y;
+    QryCombInstrumentGuardField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -5685,7 +5685,7 @@ CThostFtdcInputCombActionField Converter::InputCombActionFieldToCpp(InputCombAct
 InputCombActionField Converter::CThostFtdcInputCombActionFieldToRust(CThostFtdcInputCombActionField* x) {
     if (x == nullptr)
         return InputCombActionField{.is_null = true};
-    InputCombActionField y;
+    InputCombActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CombActionRef = Converter::Gb2312ToRustString(x->CombActionRef);
@@ -5743,7 +5743,7 @@ CThostFtdcCombActionField Converter::CombActionFieldToCpp(CombActionField x) {
 CombActionField Converter::CThostFtdcCombActionFieldToRust(CThostFtdcCombActionField* x) {
     if (x == nullptr)
         return CombActionField{.is_null = true};
-    CombActionField y;
+    CombActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CombActionRef = Converter::Gb2312ToRustString(x->CombActionRef);
@@ -5791,7 +5791,7 @@ CThostFtdcQryCombActionField Converter::QryCombActionFieldToCpp(QryCombActionFie
 QryCombActionField Converter::CThostFtdcQryCombActionFieldToRust(CThostFtdcQryCombActionField* x) {
     if (x == nullptr)
         return QryCombActionField{.is_null = true};
-    QryCombActionField y;
+    QryCombActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5829,7 +5829,7 @@ CThostFtdcExchangeCombActionField Converter::ExchangeCombActionFieldToCpp(Exchan
 ExchangeCombActionField Converter::CThostFtdcExchangeCombActionFieldToRust(CThostFtdcExchangeCombActionField* x) {
     if (x == nullptr)
         return ExchangeCombActionField{.is_null = true};
-    ExchangeCombActionField y;
+    ExchangeCombActionField y{};
     y.Direction = x->Direction;
     y.Volume = x->Volume;
     y.CombDirection = x->CombDirection;
@@ -5867,7 +5867,7 @@ CThostFtdcQryExchangeCombActionField Converter::QryExchangeCombActionFieldToCpp(
 QryExchangeCombActionField Converter::CThostFtdcQryExchangeCombActionFieldToRust(CThostFtdcQryExchangeCombActionField* x) {
     if (x == nullptr)
         return QryExchangeCombActionField{.is_null = true};
-    QryExchangeCombActionField y;
+    QryExchangeCombActionField y{};
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.ClientID = Converter::Gb2312ToRustString(x->ClientID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5889,7 +5889,7 @@ CThostFtdcProductExchRateField Converter::ProductExchRateFieldToCpp(ProductExchR
 ProductExchRateField Converter::CThostFtdcProductExchRateFieldToRust(CThostFtdcProductExchRateField* x) {
     if (x == nullptr)
         return ProductExchRateField{.is_null = true};
-    ProductExchRateField y;
+    ProductExchRateField y{};
     y.QuoteCurrencyID = Converter::Gb2312ToRustString(x->QuoteCurrencyID);
     y.ExchangeRate = x->ExchangeRate;
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -5908,7 +5908,7 @@ CThostFtdcQryProductExchRateField Converter::QryProductExchRateFieldToCpp(QryPro
 QryProductExchRateField Converter::CThostFtdcQryProductExchRateFieldToRust(CThostFtdcQryProductExchRateField* x) {
     if (x == nullptr)
         return QryProductExchRateField{.is_null = true};
-    QryProductExchRateField y;
+    QryProductExchRateField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     return y;
@@ -5926,7 +5926,7 @@ CThostFtdcQryForQuoteParamField Converter::QryForQuoteParamFieldToCpp(QryForQuot
 QryForQuoteParamField Converter::CThostFtdcQryForQuoteParamFieldToRust(CThostFtdcQryForQuoteParamField* x) {
     if (x == nullptr)
         return QryForQuoteParamField{.is_null = true};
-    QryForQuoteParamField y;
+    QryForQuoteParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -5947,7 +5947,7 @@ CThostFtdcForQuoteParamField Converter::ForQuoteParamFieldToCpp(ForQuoteParamFie
 ForQuoteParamField Converter::CThostFtdcForQuoteParamFieldToRust(CThostFtdcForQuoteParamField* x) {
     if (x == nullptr)
         return ForQuoteParamField{.is_null = true};
-    ForQuoteParamField y;
+    ForQuoteParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.LastPrice = x->LastPrice;
@@ -5977,7 +5977,7 @@ CThostFtdcMMOptionInstrCommRateField Converter::MMOptionInstrCommRateFieldToCpp(
 MMOptionInstrCommRateField Converter::CThostFtdcMMOptionInstrCommRateFieldToRust(CThostFtdcMMOptionInstrCommRateField* x) {
     if (x == nullptr)
         return MMOptionInstrCommRateField{.is_null = true};
-    MMOptionInstrCommRateField y;
+    MMOptionInstrCommRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -6005,7 +6005,7 @@ CThostFtdcQryMMOptionInstrCommRateField Converter::QryMMOptionInstrCommRateField
 QryMMOptionInstrCommRateField Converter::CThostFtdcQryMMOptionInstrCommRateFieldToRust(CThostFtdcQryMMOptionInstrCommRateField* x) {
     if (x == nullptr)
         return QryMMOptionInstrCommRateField{.is_null = true};
-    QryMMOptionInstrCommRateField y;
+    QryMMOptionInstrCommRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -6031,7 +6031,7 @@ CThostFtdcMMInstrumentCommissionRateField Converter::MMInstrumentCommissionRateF
 MMInstrumentCommissionRateField Converter::CThostFtdcMMInstrumentCommissionRateFieldToRust(CThostFtdcMMInstrumentCommissionRateField* x) {
     if (x == nullptr)
         return MMInstrumentCommissionRateField{.is_null = true};
-    MMInstrumentCommissionRateField y;
+    MMInstrumentCommissionRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -6057,7 +6057,7 @@ CThostFtdcQryMMInstrumentCommissionRateField Converter::QryMMInstrumentCommissio
 QryMMInstrumentCommissionRateField Converter::CThostFtdcQryMMInstrumentCommissionRateFieldToRust(CThostFtdcQryMMInstrumentCommissionRateField* x) {
     if (x == nullptr)
         return QryMMInstrumentCommissionRateField{.is_null = true};
-    QryMMInstrumentCommissionRateField y;
+    QryMMInstrumentCommissionRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -6084,7 +6084,7 @@ CThostFtdcInstrumentOrderCommRateField Converter::InstrumentOrderCommRateFieldTo
 InstrumentOrderCommRateField Converter::CThostFtdcInstrumentOrderCommRateFieldToRust(CThostFtdcInstrumentOrderCommRateField* x) {
     if (x == nullptr)
         return InstrumentOrderCommRateField{.is_null = true};
-    InstrumentOrderCommRateField y;
+    InstrumentOrderCommRateField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -6111,7 +6111,7 @@ CThostFtdcQryInstrumentOrderCommRateField Converter::QryInstrumentOrderCommRateF
 QryInstrumentOrderCommRateField Converter::CThostFtdcQryInstrumentOrderCommRateFieldToRust(CThostFtdcQryInstrumentOrderCommRateField* x) {
     if (x == nullptr)
         return QryInstrumentOrderCommRateField{.is_null = true};
-    QryInstrumentOrderCommRateField y;
+    QryInstrumentOrderCommRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -6131,7 +6131,7 @@ CThostFtdcTradeParamField Converter::TradeParamFieldToCpp(TradeParamField x) {
 TradeParamField Converter::CThostFtdcTradeParamFieldToRust(CThostFtdcTradeParamField* x) {
     if (x == nullptr)
         return TradeParamField{.is_null = true};
-    TradeParamField y;
+    TradeParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.TradeParamID = x->TradeParamID;
     for (int i = 0; i < 256; i++)
@@ -6158,7 +6158,7 @@ CThostFtdcInstrumentMarginRateULField Converter::InstrumentMarginRateULFieldToCp
 InstrumentMarginRateULField Converter::CThostFtdcInstrumentMarginRateULFieldToRust(CThostFtdcInstrumentMarginRateULField* x) {
     if (x == nullptr)
         return InstrumentMarginRateULField{.is_null = true};
-    InstrumentMarginRateULField y;
+    InstrumentMarginRateULField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -6187,7 +6187,7 @@ CThostFtdcFutureLimitPosiParamField Converter::FutureLimitPosiParamFieldToCpp(Fu
 FutureLimitPosiParamField Converter::CThostFtdcFutureLimitPosiParamFieldToRust(CThostFtdcFutureLimitPosiParamField* x) {
     if (x == nullptr)
         return FutureLimitPosiParamField{.is_null = true};
-    FutureLimitPosiParamField y;
+    FutureLimitPosiParamField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -6208,7 +6208,7 @@ CThostFtdcLoginForbiddenIPField Converter::LoginForbiddenIPFieldToCpp(LoginForbi
 LoginForbiddenIPField Converter::CThostFtdcLoginForbiddenIPFieldToRust(CThostFtdcLoginForbiddenIPField* x) {
     if (x == nullptr)
         return LoginForbiddenIPField{.is_null = true};
-    LoginForbiddenIPField y;
+    LoginForbiddenIPField y{};
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
     return y;
 }
@@ -6224,7 +6224,7 @@ CThostFtdcIPListField Converter::IPListFieldToCpp(IPListField x) {
 IPListField Converter::CThostFtdcIPListFieldToRust(CThostFtdcIPListField* x) {
     if (x == nullptr)
         return IPListField{.is_null = true};
-    IPListField y;
+    IPListField y{};
     y.IsWhite = x->IsWhite;
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
     return y;
@@ -6256,7 +6256,7 @@ CThostFtdcInputOptionSelfCloseField Converter::InputOptionSelfCloseFieldToCpp(In
 InputOptionSelfCloseField Converter::CThostFtdcInputOptionSelfCloseFieldToRust(CThostFtdcInputOptionSelfCloseField* x) {
     if (x == nullptr)
         return InputOptionSelfCloseField{.is_null = true};
-    InputOptionSelfCloseField y;
+    InputOptionSelfCloseField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OptionSelfCloseRef = Converter::Gb2312ToRustString(x->OptionSelfCloseRef);
@@ -6301,7 +6301,7 @@ CThostFtdcInputOptionSelfCloseActionField Converter::InputOptionSelfCloseActionF
 InputOptionSelfCloseActionField Converter::CThostFtdcInputOptionSelfCloseActionFieldToRust(CThostFtdcInputOptionSelfCloseActionField* x) {
     if (x == nullptr)
         return InputOptionSelfCloseActionField{.is_null = true};
-    InputOptionSelfCloseActionField y;
+    InputOptionSelfCloseActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OptionSelfCloseActionRef = x->OptionSelfCloseActionRef;
@@ -6369,7 +6369,7 @@ CThostFtdcOptionSelfCloseField Converter::OptionSelfCloseFieldToCpp(OptionSelfCl
 OptionSelfCloseField Converter::CThostFtdcOptionSelfCloseFieldToRust(CThostFtdcOptionSelfCloseField* x) {
     if (x == nullptr)
         return OptionSelfCloseField{.is_null = true};
-    OptionSelfCloseField y;
+    OptionSelfCloseField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OptionSelfCloseRef = Converter::Gb2312ToRustString(x->OptionSelfCloseRef);
@@ -6449,7 +6449,7 @@ CThostFtdcOptionSelfCloseActionField Converter::OptionSelfCloseActionFieldToCpp(
 OptionSelfCloseActionField Converter::CThostFtdcOptionSelfCloseActionFieldToRust(CThostFtdcOptionSelfCloseActionField* x) {
     if (x == nullptr)
         return OptionSelfCloseActionField{.is_null = true};
-    OptionSelfCloseActionField y;
+    OptionSelfCloseActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OptionSelfCloseActionRef = x->OptionSelfCloseActionRef;
@@ -6496,7 +6496,7 @@ CThostFtdcQryOptionSelfCloseField Converter::QryOptionSelfCloseFieldToCpp(QryOpt
 QryOptionSelfCloseField Converter::CThostFtdcQryOptionSelfCloseFieldToRust(CThostFtdcQryOptionSelfCloseField* x) {
     if (x == nullptr)
         return QryOptionSelfCloseField{.is_null = true};
-    QryOptionSelfCloseField y;
+    QryOptionSelfCloseField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -6542,7 +6542,7 @@ CThostFtdcExchangeOptionSelfCloseField Converter::ExchangeOptionSelfCloseFieldTo
 ExchangeOptionSelfCloseField Converter::CThostFtdcExchangeOptionSelfCloseFieldToRust(CThostFtdcExchangeOptionSelfCloseField* x) {
     if (x == nullptr)
         return ExchangeOptionSelfCloseField{.is_null = true};
-    ExchangeOptionSelfCloseField y;
+    ExchangeOptionSelfCloseField y{};
     y.Volume = x->Volume;
     y.RequestID = x->RequestID;
     y.BusinessUnit = Converter::Gb2312ToRustString(x->BusinessUnit);
@@ -6584,7 +6584,7 @@ CThostFtdcQryOptionSelfCloseActionField Converter::QryOptionSelfCloseActionField
 QryOptionSelfCloseActionField Converter::CThostFtdcQryOptionSelfCloseActionFieldToRust(CThostFtdcQryOptionSelfCloseActionField* x) {
     if (x == nullptr)
         return QryOptionSelfCloseActionField{.is_null = true};
-    QryOptionSelfCloseActionField y;
+    QryOptionSelfCloseActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -6619,7 +6619,7 @@ CThostFtdcExchangeOptionSelfCloseActionField Converter::ExchangeOptionSelfCloseA
 ExchangeOptionSelfCloseActionField Converter::CThostFtdcExchangeOptionSelfCloseActionFieldToRust(CThostFtdcExchangeOptionSelfCloseActionField* x) {
     if (x == nullptr)
         return ExchangeOptionSelfCloseActionField{.is_null = true};
-    ExchangeOptionSelfCloseActionField y;
+    ExchangeOptionSelfCloseActionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.OptionSelfCloseSysID = Converter::Gb2312ToRustString(x->OptionSelfCloseSysID);
     y.ActionFlag = x->ActionFlag;
@@ -6662,7 +6662,7 @@ CThostFtdcSyncDelaySwapField Converter::SyncDelaySwapFieldToCpp(SyncDelaySwapFie
 SyncDelaySwapField Converter::CThostFtdcSyncDelaySwapFieldToRust(CThostFtdcSyncDelaySwapField* x) {
     if (x == nullptr)
         return SyncDelaySwapField{.is_null = true};
-    SyncDelaySwapField y;
+    SyncDelaySwapField y{};
     for (int i = 0; i < 15; i++)
         y.DelaySwapSeqNo.push_back(x->DelaySwapSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -6689,7 +6689,7 @@ CThostFtdcQrySyncDelaySwapField Converter::QrySyncDelaySwapFieldToCpp(QrySyncDel
 QrySyncDelaySwapField Converter::CThostFtdcQrySyncDelaySwapFieldToRust(CThostFtdcQrySyncDelaySwapField* x) {
     if (x == nullptr)
         return QrySyncDelaySwapField{.is_null = true};
-    QrySyncDelaySwapField y;
+    QrySyncDelaySwapField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     for (int i = 0; i < 15; i++)
         y.DelaySwapSeqNo.push_back(x->DelaySwapSeqNo[i]);
@@ -6714,7 +6714,7 @@ CThostFtdcInvestUnitField Converter::InvestUnitFieldToCpp(InvestUnitField x) {
 InvestUnitField Converter::CThostFtdcInvestUnitFieldToRust(CThostFtdcInvestUnitField* x) {
     if (x == nullptr)
         return InvestUnitField{.is_null = true};
-    InvestUnitField y;
+    InvestUnitField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InvestUnitID = Converter::Gb2312ToRustString(x->InvestUnitID);
@@ -6739,7 +6739,7 @@ CThostFtdcQryInvestUnitField Converter::QryInvestUnitFieldToCpp(QryInvestUnitFie
 QryInvestUnitField Converter::CThostFtdcQryInvestUnitFieldToRust(CThostFtdcQryInvestUnitField* x) {
     if (x == nullptr)
         return QryInvestUnitField{.is_null = true};
-    QryInvestUnitField y;
+    QryInvestUnitField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InvestUnitID = Converter::Gb2312ToRustString(x->InvestUnitID);
@@ -6760,7 +6760,7 @@ CThostFtdcSecAgentCheckModeField Converter::SecAgentCheckModeFieldToCpp(SecAgent
 SecAgentCheckModeField Converter::CThostFtdcSecAgentCheckModeFieldToRust(CThostFtdcSecAgentCheckModeField* x) {
     if (x == nullptr)
         return SecAgentCheckModeField{.is_null = true};
-    SecAgentCheckModeField y;
+    SecAgentCheckModeField y{};
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
@@ -6782,7 +6782,7 @@ CThostFtdcSecAgentTradeInfoField Converter::SecAgentTradeInfoFieldToCpp(SecAgent
 SecAgentTradeInfoField Converter::CThostFtdcSecAgentTradeInfoFieldToRust(CThostFtdcSecAgentTradeInfoField* x) {
     if (x == nullptr)
         return SecAgentTradeInfoField{.is_null = true};
-    SecAgentTradeInfoField y;
+    SecAgentTradeInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.BrokerSecAgentID = Converter::Gb2312ToRustString(x->BrokerSecAgentID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -6822,7 +6822,7 @@ CThostFtdcMarketDataField Converter::MarketDataFieldToCpp(MarketDataField x) {
 MarketDataField Converter::CThostFtdcMarketDataFieldToRust(CThostFtdcMarketDataField* x) {
     if (x == nullptr)
         return MarketDataField{.is_null = true};
-    MarketDataField y;
+    MarketDataField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.LastPrice = x->LastPrice;
@@ -6863,7 +6863,7 @@ CThostFtdcMarketDataBaseField Converter::MarketDataBaseFieldToCpp(MarketDataBase
 MarketDataBaseField Converter::CThostFtdcMarketDataBaseFieldToRust(CThostFtdcMarketDataBaseField* x) {
     if (x == nullptr)
         return MarketDataBaseField{.is_null = true};
-    MarketDataBaseField y;
+    MarketDataBaseField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.PreSettlementPrice = x->PreSettlementPrice;
     y.PreClosePrice = x->PreClosePrice;
@@ -6889,7 +6889,7 @@ CThostFtdcMarketDataStaticField Converter::MarketDataStaticFieldToCpp(MarketData
 MarketDataStaticField Converter::CThostFtdcMarketDataStaticFieldToRust(CThostFtdcMarketDataStaticField* x) {
     if (x == nullptr)
         return MarketDataStaticField{.is_null = true};
-    MarketDataStaticField y;
+    MarketDataStaticField y{};
     y.OpenPrice = x->OpenPrice;
     y.HighestPrice = x->HighestPrice;
     y.LowestPrice = x->LowestPrice;
@@ -6914,7 +6914,7 @@ CThostFtdcMarketDataLastMatchField Converter::MarketDataLastMatchFieldToCpp(Mark
 MarketDataLastMatchField Converter::CThostFtdcMarketDataLastMatchFieldToRust(CThostFtdcMarketDataLastMatchField* x) {
     if (x == nullptr)
         return MarketDataLastMatchField{.is_null = true};
-    MarketDataLastMatchField y;
+    MarketDataLastMatchField y{};
     y.LastPrice = x->LastPrice;
     y.Volume = x->Volume;
     y.Turnover = x->Turnover;
@@ -6935,7 +6935,7 @@ CThostFtdcMarketDataBestPriceField Converter::MarketDataBestPriceFieldToCpp(Mark
 MarketDataBestPriceField Converter::CThostFtdcMarketDataBestPriceFieldToRust(CThostFtdcMarketDataBestPriceField* x) {
     if (x == nullptr)
         return MarketDataBestPriceField{.is_null = true};
-    MarketDataBestPriceField y;
+    MarketDataBestPriceField y{};
     y.BidPrice1 = x->BidPrice1;
     y.BidVolume1 = x->BidVolume1;
     y.AskPrice1 = x->AskPrice1;
@@ -6956,7 +6956,7 @@ CThostFtdcMarketDataBid23Field Converter::MarketDataBid23FieldToCpp(MarketDataBi
 MarketDataBid23Field Converter::CThostFtdcMarketDataBid23FieldToRust(CThostFtdcMarketDataBid23Field* x) {
     if (x == nullptr)
         return MarketDataBid23Field{.is_null = true};
-    MarketDataBid23Field y;
+    MarketDataBid23Field y{};
     y.BidPrice2 = x->BidPrice2;
     y.BidVolume2 = x->BidVolume2;
     y.BidPrice3 = x->BidPrice3;
@@ -6977,7 +6977,7 @@ CThostFtdcMarketDataAsk23Field Converter::MarketDataAsk23FieldToCpp(MarketDataAs
 MarketDataAsk23Field Converter::CThostFtdcMarketDataAsk23FieldToRust(CThostFtdcMarketDataAsk23Field* x) {
     if (x == nullptr)
         return MarketDataAsk23Field{.is_null = true};
-    MarketDataAsk23Field y;
+    MarketDataAsk23Field y{};
     y.AskPrice2 = x->AskPrice2;
     y.AskVolume2 = x->AskVolume2;
     y.AskPrice3 = x->AskPrice3;
@@ -6998,7 +6998,7 @@ CThostFtdcMarketDataBid45Field Converter::MarketDataBid45FieldToCpp(MarketDataBi
 MarketDataBid45Field Converter::CThostFtdcMarketDataBid45FieldToRust(CThostFtdcMarketDataBid45Field* x) {
     if (x == nullptr)
         return MarketDataBid45Field{.is_null = true};
-    MarketDataBid45Field y;
+    MarketDataBid45Field y{};
     y.BidPrice4 = x->BidPrice4;
     y.BidVolume4 = x->BidVolume4;
     y.BidPrice5 = x->BidPrice5;
@@ -7019,7 +7019,7 @@ CThostFtdcMarketDataAsk45Field Converter::MarketDataAsk45FieldToCpp(MarketDataAs
 MarketDataAsk45Field Converter::CThostFtdcMarketDataAsk45FieldToRust(CThostFtdcMarketDataAsk45Field* x) {
     if (x == nullptr)
         return MarketDataAsk45Field{.is_null = true};
-    MarketDataAsk45Field y;
+    MarketDataAsk45Field y{};
     y.AskPrice4 = x->AskPrice4;
     y.AskVolume4 = x->AskVolume4;
     y.AskPrice5 = x->AskPrice5;
@@ -7040,7 +7040,7 @@ CThostFtdcMarketDataUpdateTimeField Converter::MarketDataUpdateTimeFieldToCpp(Ma
 MarketDataUpdateTimeField Converter::CThostFtdcMarketDataUpdateTimeFieldToRust(CThostFtdcMarketDataUpdateTimeField* x) {
     if (x == nullptr)
         return MarketDataUpdateTimeField{.is_null = true};
-    MarketDataUpdateTimeField y;
+    MarketDataUpdateTimeField y{};
     y.UpdateTime = Converter::Gb2312ToRustString(x->UpdateTime);
     y.UpdateMillisec = x->UpdateMillisec;
     y.ActionDay = Converter::Gb2312ToRustString(x->ActionDay);
@@ -7059,7 +7059,7 @@ CThostFtdcMarketDataBandingPriceField Converter::MarketDataBandingPriceFieldToCp
 MarketDataBandingPriceField Converter::CThostFtdcMarketDataBandingPriceFieldToRust(CThostFtdcMarketDataBandingPriceField* x) {
     if (x == nullptr)
         return MarketDataBandingPriceField{.is_null = true};
-    MarketDataBandingPriceField y;
+    MarketDataBandingPriceField y{};
     y.BandingUpperPrice = x->BandingUpperPrice;
     y.BandingLowerPrice = x->BandingLowerPrice;
     return y;
@@ -7075,7 +7075,7 @@ CThostFtdcMarketDataExchangeField Converter::MarketDataExchangeFieldToCpp(Market
 MarketDataExchangeField Converter::CThostFtdcMarketDataExchangeFieldToRust(CThostFtdcMarketDataExchangeField* x) {
     if (x == nullptr)
         return MarketDataExchangeField{.is_null = true};
-    MarketDataExchangeField y;
+    MarketDataExchangeField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     return y;
 }
@@ -7090,7 +7090,7 @@ CThostFtdcSpecificInstrumentField Converter::SpecificInstrumentFieldToCpp(Specif
 SpecificInstrumentField Converter::CThostFtdcSpecificInstrumentFieldToRust(CThostFtdcSpecificInstrumentField* x) {
     if (x == nullptr)
         return SpecificInstrumentField{.is_null = true};
-    SpecificInstrumentField y;
+    SpecificInstrumentField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     return y;
 }
@@ -7112,7 +7112,7 @@ CThostFtdcInstrumentStatusField Converter::InstrumentStatusFieldToCpp(Instrument
 InstrumentStatusField Converter::CThostFtdcInstrumentStatusFieldToRust(CThostFtdcInstrumentStatusField* x) {
     if (x == nullptr)
         return InstrumentStatusField{.is_null = true};
-    InstrumentStatusField y;
+    InstrumentStatusField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SettlementGroupID = Converter::Gb2312ToRustString(x->SettlementGroupID);
     y.InstrumentStatus = x->InstrumentStatus;
@@ -7135,7 +7135,7 @@ CThostFtdcQryInstrumentStatusField Converter::QryInstrumentStatusFieldToCpp(QryI
 QryInstrumentStatusField Converter::CThostFtdcQryInstrumentStatusFieldToRust(CThostFtdcQryInstrumentStatusField* x) {
     if (x == nullptr)
         return QryInstrumentStatusField{.is_null = true};
-    QryInstrumentStatusField y;
+    QryInstrumentStatusField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ExchangeInstID = Converter::Gb2312ToRustString(x->ExchangeInstID);
     return y;
@@ -7154,7 +7154,7 @@ CThostFtdcInvestorAccountField Converter::InvestorAccountFieldToCpp(InvestorAcco
 InvestorAccountField Converter::CThostFtdcInvestorAccountFieldToRust(CThostFtdcInvestorAccountField* x) {
     if (x == nullptr)
         return InvestorAccountField{.is_null = true};
-    InvestorAccountField y;
+    InvestorAccountField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
@@ -7176,7 +7176,7 @@ CThostFtdcPositionProfitAlgorithmField Converter::PositionProfitAlgorithmFieldTo
 PositionProfitAlgorithmField Converter::CThostFtdcPositionProfitAlgorithmFieldToRust(CThostFtdcPositionProfitAlgorithmField* x) {
     if (x == nullptr)
         return PositionProfitAlgorithmField{.is_null = true};
-    PositionProfitAlgorithmField y;
+    PositionProfitAlgorithmField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.Algorithm = x->Algorithm;
@@ -7198,7 +7198,7 @@ CThostFtdcDiscountField Converter::DiscountFieldToCpp(DiscountField x) {
 DiscountField Converter::CThostFtdcDiscountFieldToRust(CThostFtdcDiscountField* x) {
     if (x == nullptr)
         return DiscountField{.is_null = true};
-    DiscountField y;
+    DiscountField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorRange = x->InvestorRange;
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -7217,7 +7217,7 @@ CThostFtdcQryTransferBankField Converter::QryTransferBankFieldToCpp(QryTransferB
 QryTransferBankField Converter::CThostFtdcQryTransferBankFieldToRust(CThostFtdcQryTransferBankField* x) {
     if (x == nullptr)
         return QryTransferBankField{.is_null = true};
-    QryTransferBankField y;
+    QryTransferBankField y{};
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBrchID = Converter::Gb2312ToRustString(x->BankBrchID);
     return y;
@@ -7236,7 +7236,7 @@ CThostFtdcTransferBankField Converter::TransferBankFieldToCpp(TransferBankField 
 TransferBankField Converter::CThostFtdcTransferBankFieldToRust(CThostFtdcTransferBankField* x) {
     if (x == nullptr)
         return TransferBankField{.is_null = true};
-    TransferBankField y;
+    TransferBankField y{};
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBrchID = Converter::Gb2312ToRustString(x->BankBrchID);
     y.BankName = Converter::Gb2312ToRustString(x->BankName);
@@ -7258,7 +7258,7 @@ CThostFtdcQryInvestorPositionDetailField Converter::QryInvestorPositionDetailFie
 QryInvestorPositionDetailField Converter::CThostFtdcQryInvestorPositionDetailFieldToRust(CThostFtdcQryInvestorPositionDetailField* x) {
     if (x == nullptr)
         return QryInvestorPositionDetailField{.is_null = true};
-    QryInvestorPositionDetailField y;
+    QryInvestorPositionDetailField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -7305,7 +7305,7 @@ CThostFtdcInvestorPositionDetailField Converter::InvestorPositionDetailFieldToCp
 InvestorPositionDetailField Converter::CThostFtdcInvestorPositionDetailFieldToRust(CThostFtdcInvestorPositionDetailField* x) {
     if (x == nullptr)
         return InvestorPositionDetailField{.is_null = true};
-    InvestorPositionDetailField y;
+    InvestorPositionDetailField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.HedgeFlag = x->HedgeFlag;
@@ -7351,7 +7351,7 @@ CThostFtdcTradingAccountPasswordField Converter::TradingAccountPasswordFieldToCp
 TradingAccountPasswordField Converter::CThostFtdcTradingAccountPasswordFieldToRust(CThostFtdcTradingAccountPasswordField* x) {
     if (x == nullptr)
         return TradingAccountPasswordField{.is_null = true};
-    TradingAccountPasswordField y;
+    TradingAccountPasswordField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.Password = Converter::Gb2312ToRustString(x->Password);
@@ -7388,7 +7388,7 @@ CThostFtdcMDTraderOfferField Converter::MDTraderOfferFieldToCpp(MDTraderOfferFie
 MDTraderOfferField Converter::CThostFtdcMDTraderOfferFieldToRust(CThostFtdcMDTraderOfferField* x) {
     if (x == nullptr)
         return MDTraderOfferField{.is_null = true};
-    MDTraderOfferField y;
+    MDTraderOfferField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -7425,7 +7425,7 @@ CThostFtdcQryMDTraderOfferField Converter::QryMDTraderOfferFieldToCpp(QryMDTrade
 QryMDTraderOfferField Converter::CThostFtdcQryMDTraderOfferFieldToRust(CThostFtdcQryMDTraderOfferField* x) {
     if (x == nullptr)
         return QryMDTraderOfferField{.is_null = true};
-    QryMDTraderOfferField y;
+    QryMDTraderOfferField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
@@ -7442,7 +7442,7 @@ CThostFtdcQryNoticeField Converter::QryNoticeFieldToCpp(QryNoticeField x) {
 QryNoticeField Converter::CThostFtdcQryNoticeFieldToRust(CThostFtdcQryNoticeField* x) {
     if (x == nullptr)
         return QryNoticeField{.is_null = true};
-    QryNoticeField y;
+    QryNoticeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -7459,7 +7459,7 @@ CThostFtdcNoticeField Converter::NoticeFieldToCpp(NoticeField x) {
 NoticeField Converter::CThostFtdcNoticeFieldToRust(CThostFtdcNoticeField* x) {
     if (x == nullptr)
         return NoticeField{.is_null = true};
-    NoticeField y;
+    NoticeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     for (int i = 0; i < 501; i++)
         y.Content.push_back(x->Content[i]);
@@ -7481,7 +7481,7 @@ CThostFtdcUserRightField Converter::UserRightFieldToCpp(UserRightField x) {
 UserRightField Converter::CThostFtdcUserRightFieldToRust(CThostFtdcUserRightField* x) {
     if (x == nullptr)
         return UserRightField{.is_null = true};
-    UserRightField y;
+    UserRightField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserRightType = x->UserRightType;
@@ -7502,7 +7502,7 @@ CThostFtdcQrySettlementInfoConfirmField Converter::QrySettlementInfoConfirmField
 QrySettlementInfoConfirmField Converter::CThostFtdcQrySettlementInfoConfirmFieldToRust(CThostFtdcQrySettlementInfoConfirmField* x) {
     if (x == nullptr)
         return QrySettlementInfoConfirmField{.is_null = true};
-    QrySettlementInfoConfirmField y;
+    QrySettlementInfoConfirmField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
@@ -7520,7 +7520,7 @@ CThostFtdcLoadSettlementInfoField Converter::LoadSettlementInfoFieldToCpp(LoadSe
 LoadSettlementInfoField Converter::CThostFtdcLoadSettlementInfoFieldToRust(CThostFtdcLoadSettlementInfoField* x) {
     if (x == nullptr)
         return LoadSettlementInfoField{.is_null = true};
-    LoadSettlementInfoField y;
+    LoadSettlementInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -7544,7 +7544,7 @@ CThostFtdcBrokerWithdrawAlgorithmField Converter::BrokerWithdrawAlgorithmFieldTo
 BrokerWithdrawAlgorithmField Converter::CThostFtdcBrokerWithdrawAlgorithmFieldToRust(CThostFtdcBrokerWithdrawAlgorithmField* x) {
     if (x == nullptr)
         return BrokerWithdrawAlgorithmField{.is_null = true};
-    BrokerWithdrawAlgorithmField y;
+    BrokerWithdrawAlgorithmField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.WithdrawAlgorithm = x->WithdrawAlgorithm;
     y.UsingRatio = x->UsingRatio;
@@ -7571,7 +7571,7 @@ CThostFtdcTradingAccountPasswordUpdateV1Field Converter::TradingAccountPasswordU
 TradingAccountPasswordUpdateV1Field Converter::CThostFtdcTradingAccountPasswordUpdateV1FieldToRust(CThostFtdcTradingAccountPasswordUpdateV1Field* x) {
     if (x == nullptr)
         return TradingAccountPasswordUpdateV1Field{.is_null = true};
-    TradingAccountPasswordUpdateV1Field y;
+    TradingAccountPasswordUpdateV1Field y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OldPassword = Converter::Gb2312ToRustString(x->OldPassword);
@@ -7593,7 +7593,7 @@ CThostFtdcTradingAccountPasswordUpdateField Converter::TradingAccountPasswordUpd
 TradingAccountPasswordUpdateField Converter::CThostFtdcTradingAccountPasswordUpdateFieldToRust(CThostFtdcTradingAccountPasswordUpdateField* x) {
     if (x == nullptr)
         return TradingAccountPasswordUpdateField{.is_null = true};
-    TradingAccountPasswordUpdateField y;
+    TradingAccountPasswordUpdateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.OldPassword = Converter::Gb2312ToRustString(x->OldPassword);
@@ -7614,7 +7614,7 @@ CThostFtdcQryCombinationLegField Converter::QryCombinationLegFieldToCpp(QryCombi
 QryCombinationLegField Converter::CThostFtdcQryCombinationLegFieldToRust(CThostFtdcQryCombinationLegField* x) {
     if (x == nullptr)
         return QryCombinationLegField{.is_null = true};
-    QryCombinationLegField y;
+    QryCombinationLegField y{};
     y.LegID = x->LegID;
     y.CombInstrumentID = Converter::Gb2312ToRustString(x->CombInstrumentID);
     y.LegInstrumentID = Converter::Gb2312ToRustString(x->LegInstrumentID);
@@ -7631,7 +7631,7 @@ CThostFtdcQrySyncStatusField Converter::QrySyncStatusFieldToCpp(QrySyncStatusFie
 QrySyncStatusField Converter::CThostFtdcQrySyncStatusFieldToRust(CThostFtdcQrySyncStatusField* x) {
     if (x == nullptr)
         return QrySyncStatusField{.is_null = true};
-    QrySyncStatusField y;
+    QrySyncStatusField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     return y;
 }
@@ -7651,7 +7651,7 @@ CThostFtdcCombinationLegField Converter::CombinationLegFieldToCpp(CombinationLeg
 CombinationLegField Converter::CThostFtdcCombinationLegFieldToRust(CThostFtdcCombinationLegField* x) {
     if (x == nullptr)
         return CombinationLegField{.is_null = true};
-    CombinationLegField y;
+    CombinationLegField y{};
     y.LegID = x->LegID;
     y.Direction = x->Direction;
     y.LegMultiple = x->LegMultiple;
@@ -7672,7 +7672,7 @@ CThostFtdcSyncStatusField Converter::SyncStatusFieldToCpp(SyncStatusField x) {
 SyncStatusField Converter::CThostFtdcSyncStatusFieldToRust(CThostFtdcSyncStatusField* x) {
     if (x == nullptr)
         return SyncStatusField{.is_null = true};
-    SyncStatusField y;
+    SyncStatusField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.DataSyncStatus = x->DataSyncStatus;
     return y;
@@ -7689,7 +7689,7 @@ CThostFtdcQryLinkManField Converter::QryLinkManFieldToCpp(QryLinkManField x) {
 QryLinkManField Converter::CThostFtdcQryLinkManFieldToRust(CThostFtdcQryLinkManField* x) {
     if (x == nullptr)
         return QryLinkManField{.is_null = true};
-    QryLinkManField y;
+    QryLinkManField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -7716,7 +7716,7 @@ CThostFtdcLinkManField Converter::LinkManFieldToCpp(LinkManField x) {
 LinkManField Converter::CThostFtdcLinkManFieldToRust(CThostFtdcLinkManField* x) {
     if (x == nullptr)
         return LinkManField{.is_null = true};
-    LinkManField y;
+    LinkManField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.PersonType = x->PersonType;
@@ -7744,7 +7744,7 @@ CThostFtdcQryBrokerUserEventField Converter::QryBrokerUserEventFieldToCpp(QryBro
 QryBrokerUserEventField Converter::CThostFtdcQryBrokerUserEventFieldToRust(CThostFtdcQryBrokerUserEventField* x) {
     if (x == nullptr)
         return QryBrokerUserEventField{.is_null = true};
-    QryBrokerUserEventField y;
+    QryBrokerUserEventField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserEventType = x->UserEventType;
@@ -7771,7 +7771,7 @@ CThostFtdcBrokerUserEventField Converter::BrokerUserEventFieldToCpp(BrokerUserEv
 BrokerUserEventField Converter::CThostFtdcBrokerUserEventFieldToRust(CThostFtdcBrokerUserEventField* x) {
     if (x == nullptr)
         return BrokerUserEventField{.is_null = true};
-    BrokerUserEventField y;
+    BrokerUserEventField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.UserEventType = x->UserEventType;
@@ -7798,7 +7798,7 @@ CThostFtdcQryContractBankField Converter::QryContractBankFieldToCpp(QryContractB
 QryContractBankField Converter::CThostFtdcQryContractBankFieldToRust(CThostFtdcQryContractBankField* x) {
     if (x == nullptr)
         return QryContractBankField{.is_null = true};
-    QryContractBankField y;
+    QryContractBankField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBrchID = Converter::Gb2312ToRustString(x->BankBrchID);
@@ -7818,7 +7818,7 @@ CThostFtdcContractBankField Converter::ContractBankFieldToCpp(ContractBankField 
 ContractBankField Converter::CThostFtdcContractBankFieldToRust(CThostFtdcContractBankField* x) {
     if (x == nullptr)
         return ContractBankField{.is_null = true};
-    ContractBankField y;
+    ContractBankField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBrchID = Converter::Gb2312ToRustString(x->BankBrchID);
@@ -7856,7 +7856,7 @@ CThostFtdcInvestorPositionCombineDetailField Converter::InvestorPositionCombineD
 InvestorPositionCombineDetailField Converter::CThostFtdcInvestorPositionCombineDetailFieldToRust(CThostFtdcInvestorPositionCombineDetailField* x) {
     if (x == nullptr)
         return InvestorPositionCombineDetailField{.is_null = true};
-    InvestorPositionCombineDetailField y;
+    InvestorPositionCombineDetailField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.OpenDate = Converter::Gb2312ToRustString(x->OpenDate);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -7925,7 +7925,7 @@ CThostFtdcParkedOrderField Converter::ParkedOrderFieldToCpp(ParkedOrderField x) 
 ParkedOrderField Converter::CThostFtdcParkedOrderFieldToRust(CThostFtdcParkedOrderField* x) {
     if (x == nullptr)
         return ParkedOrderField{.is_null = true};
-    ParkedOrderField y;
+    ParkedOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderRef = Converter::Gb2312ToRustString(x->OrderRef);
@@ -7995,7 +7995,7 @@ CThostFtdcParkedOrderActionField Converter::ParkedOrderActionFieldToCpp(ParkedOr
 ParkedOrderActionField Converter::CThostFtdcParkedOrderActionFieldToRust(CThostFtdcParkedOrderActionField* x) {
     if (x == nullptr)
         return ParkedOrderActionField{.is_null = true};
-    ParkedOrderActionField y;
+    ParkedOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderActionRef = x->OrderActionRef;
@@ -8035,7 +8035,7 @@ CThostFtdcQryParkedOrderField Converter::QryParkedOrderFieldToCpp(QryParkedOrder
 QryParkedOrderField Converter::CThostFtdcQryParkedOrderFieldToRust(CThostFtdcQryParkedOrderField* x) {
     if (x == nullptr)
         return QryParkedOrderField{.is_null = true};
-    QryParkedOrderField y;
+    QryParkedOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -8058,7 +8058,7 @@ CThostFtdcQryParkedOrderActionField Converter::QryParkedOrderActionFieldToCpp(Qr
 QryParkedOrderActionField Converter::CThostFtdcQryParkedOrderActionFieldToRust(CThostFtdcQryParkedOrderActionField* x) {
     if (x == nullptr)
         return QryParkedOrderActionField{.is_null = true};
-    QryParkedOrderActionField y;
+    QryParkedOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -8080,7 +8080,7 @@ CThostFtdcRemoveParkedOrderField Converter::RemoveParkedOrderFieldToCpp(RemovePa
 RemoveParkedOrderField Converter::CThostFtdcRemoveParkedOrderFieldToRust(CThostFtdcRemoveParkedOrderField* x) {
     if (x == nullptr)
         return RemoveParkedOrderField{.is_null = true};
-    RemoveParkedOrderField y;
+    RemoveParkedOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ParkedOrderID = Converter::Gb2312ToRustString(x->ParkedOrderID);
@@ -8101,7 +8101,7 @@ CThostFtdcRemoveParkedOrderActionField Converter::RemoveParkedOrderActionFieldTo
 RemoveParkedOrderActionField Converter::CThostFtdcRemoveParkedOrderActionFieldToRust(CThostFtdcRemoveParkedOrderActionField* x) {
     if (x == nullptr)
         return RemoveParkedOrderActionField{.is_null = true};
-    RemoveParkedOrderActionField y;
+    RemoveParkedOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ParkedOrderActionID = Converter::Gb2312ToRustString(x->ParkedOrderActionID);
@@ -8124,7 +8124,7 @@ CThostFtdcInvestorWithdrawAlgorithmField Converter::InvestorWithdrawAlgorithmFie
 InvestorWithdrawAlgorithmField Converter::CThostFtdcInvestorWithdrawAlgorithmFieldToRust(CThostFtdcInvestorWithdrawAlgorithmField* x) {
     if (x == nullptr)
         return InvestorWithdrawAlgorithmField{.is_null = true};
-    InvestorWithdrawAlgorithmField y;
+    InvestorWithdrawAlgorithmField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorRange = x->InvestorRange;
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -8148,7 +8148,7 @@ CThostFtdcQryInvestorPositionCombineDetailField Converter::QryInvestorPositionCo
 QryInvestorPositionCombineDetailField Converter::CThostFtdcQryInvestorPositionCombineDetailFieldToRust(CThostFtdcQryInvestorPositionCombineDetailField* x) {
     if (x == nullptr)
         return QryInvestorPositionCombineDetailField{.is_null = true};
-    QryInvestorPositionCombineDetailField y;
+    QryInvestorPositionCombineDetailField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -8167,7 +8167,7 @@ CThostFtdcMarketDataAveragePriceField Converter::MarketDataAveragePriceFieldToCp
 MarketDataAveragePriceField Converter::CThostFtdcMarketDataAveragePriceFieldToRust(CThostFtdcMarketDataAveragePriceField* x) {
     if (x == nullptr)
         return MarketDataAveragePriceField{.is_null = true};
-    MarketDataAveragePriceField y;
+    MarketDataAveragePriceField y{};
     y.AveragePrice = x->AveragePrice;
     return y;
 }
@@ -8184,7 +8184,7 @@ CThostFtdcVerifyInvestorPasswordField Converter::VerifyInvestorPasswordFieldToCp
 VerifyInvestorPasswordField Converter::CThostFtdcVerifyInvestorPasswordFieldToRust(CThostFtdcVerifyInvestorPasswordField* x) {
     if (x == nullptr)
         return VerifyInvestorPasswordField{.is_null = true};
-    VerifyInvestorPasswordField y;
+    VerifyInvestorPasswordField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.Password = Converter::Gb2312ToRustString(x->Password);
@@ -8205,7 +8205,7 @@ CThostFtdcUserIPField Converter::UserIPFieldToCpp(UserIPField x) {
 UserIPField Converter::CThostFtdcUserIPFieldToRust(CThostFtdcUserIPField* x) {
     if (x == nullptr)
         return UserIPField{.is_null = true};
-    UserIPField y;
+    UserIPField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.MacAddress = Converter::Gb2312ToRustString(x->MacAddress);
@@ -8231,7 +8231,7 @@ CThostFtdcTradingNoticeInfoField Converter::TradingNoticeInfoFieldToCpp(TradingN
 TradingNoticeInfoField Converter::CThostFtdcTradingNoticeInfoFieldToRust(CThostFtdcTradingNoticeInfoField* x) {
     if (x == nullptr)
         return TradingNoticeInfoField{.is_null = true};
-    TradingNoticeInfoField y;
+    TradingNoticeInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.SendTime = Converter::Gb2312ToRustString(x->SendTime);
@@ -8261,7 +8261,7 @@ CThostFtdcTradingNoticeField Converter::TradingNoticeFieldToCpp(TradingNoticeFie
 TradingNoticeField Converter::CThostFtdcTradingNoticeFieldToRust(CThostFtdcTradingNoticeField* x) {
     if (x == nullptr)
         return TradingNoticeField{.is_null = true};
-    TradingNoticeField y;
+    TradingNoticeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorRange = x->InvestorRange;
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -8287,7 +8287,7 @@ CThostFtdcQryTradingNoticeField Converter::QryTradingNoticeFieldToCpp(QryTrading
 QryTradingNoticeField Converter::CThostFtdcQryTradingNoticeFieldToRust(CThostFtdcQryTradingNoticeField* x) {
     if (x == nullptr)
         return QryTradingNoticeField{.is_null = true};
-    QryTradingNoticeField y;
+    QryTradingNoticeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InvestUnitID = Converter::Gb2312ToRustString(x->InvestUnitID);
@@ -8305,7 +8305,7 @@ CThostFtdcQryErrOrderField Converter::QryErrOrderFieldToCpp(QryErrOrderField x) 
 QryErrOrderField Converter::CThostFtdcQryErrOrderFieldToRust(CThostFtdcQryErrOrderField* x) {
     if (x == nullptr)
         return QryErrOrderField{.is_null = true};
-    QryErrOrderField y;
+    QryErrOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -8354,7 +8354,7 @@ CThostFtdcErrOrderField Converter::ErrOrderFieldToCpp(ErrOrderField x) {
 ErrOrderField Converter::CThostFtdcErrOrderFieldToRust(CThostFtdcErrOrderField* x) {
     if (x == nullptr)
         return ErrOrderField{.is_null = true};
-    ErrOrderField y;
+    ErrOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderRef = Converter::Gb2312ToRustString(x->OrderRef);
@@ -8466,7 +8466,7 @@ CThostFtdcErrorConditionalOrderField Converter::ErrorConditionalOrderFieldToCpp(
 ErrorConditionalOrderField Converter::CThostFtdcErrorConditionalOrderFieldToRust(CThostFtdcErrorConditionalOrderField* x) {
     if (x == nullptr)
         return ErrorConditionalOrderField{.is_null = true};
-    ErrorConditionalOrderField y;
+    ErrorConditionalOrderField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderRef = Converter::Gb2312ToRustString(x->OrderRef);
@@ -8546,7 +8546,7 @@ CThostFtdcQryErrOrderActionField Converter::QryErrOrderActionFieldToCpp(QryErrOr
 QryErrOrderActionField Converter::CThostFtdcQryErrOrderActionFieldToRust(CThostFtdcQryErrOrderActionField* x) {
     if (x == nullptr)
         return QryErrOrderActionField{.is_null = true};
-    QryErrOrderActionField y;
+    QryErrOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -8594,7 +8594,7 @@ CThostFtdcErrOrderActionField Converter::ErrOrderActionFieldToCpp(ErrOrderAction
 ErrOrderActionField Converter::CThostFtdcErrOrderActionFieldToRust(CThostFtdcErrOrderActionField* x) {
     if (x == nullptr)
         return ErrOrderActionField{.is_null = true};
-    ErrOrderActionField y;
+    ErrOrderActionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.OrderActionRef = x->OrderActionRef;
@@ -8641,7 +8641,7 @@ CThostFtdcQryExchangeSequenceField Converter::QryExchangeSequenceFieldToCpp(QryE
 QryExchangeSequenceField Converter::CThostFtdcQryExchangeSequenceFieldToRust(CThostFtdcQryExchangeSequenceField* x) {
     if (x == nullptr)
         return QryExchangeSequenceField{.is_null = true};
-    QryExchangeSequenceField y;
+    QryExchangeSequenceField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     return y;
 }
@@ -8658,7 +8658,7 @@ CThostFtdcExchangeSequenceField Converter::ExchangeSequenceFieldToCpp(ExchangeSe
 ExchangeSequenceField Converter::CThostFtdcExchangeSequenceFieldToRust(CThostFtdcExchangeSequenceField* x) {
     if (x == nullptr)
         return ExchangeSequenceField{.is_null = true};
-    ExchangeSequenceField y;
+    ExchangeSequenceField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SequenceNo = x->SequenceNo;
     y.MarketStatus = x->MarketStatus;
@@ -8684,7 +8684,7 @@ CThostFtdcQryMaxOrderVolumeWithPriceField Converter::QryMaxOrderVolumeWithPriceF
 QryMaxOrderVolumeWithPriceField Converter::CThostFtdcQryMaxOrderVolumeWithPriceFieldToRust(CThostFtdcQryMaxOrderVolumeWithPriceField* x) {
     if (x == nullptr)
         return QryMaxOrderVolumeWithPriceField{.is_null = true};
-    QryMaxOrderVolumeWithPriceField y;
+    QryMaxOrderVolumeWithPriceField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.Direction = x->Direction;
@@ -8711,7 +8711,7 @@ CThostFtdcQryBrokerTradingParamsField Converter::QryBrokerTradingParamsFieldToCp
 QryBrokerTradingParamsField Converter::CThostFtdcQryBrokerTradingParamsFieldToRust(CThostFtdcQryBrokerTradingParamsField* x) {
     if (x == nullptr)
         return QryBrokerTradingParamsField{.is_null = true};
-    QryBrokerTradingParamsField y;
+    QryBrokerTradingParamsField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CurrencyID = Converter::Gb2312ToRustString(x->CurrencyID);
@@ -8736,7 +8736,7 @@ CThostFtdcBrokerTradingParamsField Converter::BrokerTradingParamsFieldToCpp(Brok
 BrokerTradingParamsField Converter::CThostFtdcBrokerTradingParamsFieldToRust(CThostFtdcBrokerTradingParamsField* x) {
     if (x == nullptr)
         return BrokerTradingParamsField{.is_null = true};
-    BrokerTradingParamsField y;
+    BrokerTradingParamsField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.MarginPriceType = x->MarginPriceType;
@@ -8760,7 +8760,7 @@ CThostFtdcQryBrokerTradingAlgosField Converter::QryBrokerTradingAlgosFieldToCpp(
 QryBrokerTradingAlgosField Converter::CThostFtdcQryBrokerTradingAlgosFieldToRust(CThostFtdcQryBrokerTradingAlgosField* x) {
     if (x == nullptr)
         return QryBrokerTradingAlgosField{.is_null = true};
-    QryBrokerTradingAlgosField y;
+    QryBrokerTradingAlgosField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -8782,7 +8782,7 @@ CThostFtdcBrokerTradingAlgosField Converter::BrokerTradingAlgosFieldToCpp(Broker
 BrokerTradingAlgosField Converter::CThostFtdcBrokerTradingAlgosFieldToRust(CThostFtdcBrokerTradingAlgosField* x) {
     if (x == nullptr)
         return BrokerTradingAlgosField{.is_null = true};
-    BrokerTradingAlgosField y;
+    BrokerTradingAlgosField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.HandlePositionAlgoID = x->HandlePositionAlgoID;
@@ -8803,7 +8803,7 @@ CThostFtdcQueryBrokerDepositField Converter::QueryBrokerDepositFieldToCpp(QueryB
 QueryBrokerDepositField Converter::CThostFtdcQueryBrokerDepositFieldToRust(CThostFtdcQueryBrokerDepositField* x) {
     if (x == nullptr)
         return QueryBrokerDepositField{.is_null = true};
-    QueryBrokerDepositField y;
+    QueryBrokerDepositField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     return y;
@@ -8831,7 +8831,7 @@ CThostFtdcBrokerDepositField Converter::BrokerDepositFieldToCpp(BrokerDepositFie
 BrokerDepositField Converter::CThostFtdcBrokerDepositFieldToRust(CThostFtdcBrokerDepositField* x) {
     if (x == nullptr)
         return BrokerDepositField{.is_null = true};
-    BrokerDepositField y;
+    BrokerDepositField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
@@ -8858,7 +8858,7 @@ CThostFtdcQryCFMMCBrokerKeyField Converter::QryCFMMCBrokerKeyFieldToCpp(QryCFMMC
 QryCFMMCBrokerKeyField Converter::CThostFtdcQryCFMMCBrokerKeyFieldToRust(CThostFtdcQryCFMMCBrokerKeyField* x) {
     if (x == nullptr)
         return QryCFMMCBrokerKeyField{.is_null = true};
-    QryCFMMCBrokerKeyField y;
+    QryCFMMCBrokerKeyField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -8879,7 +8879,7 @@ CThostFtdcCFMMCBrokerKeyField Converter::CFMMCBrokerKeyFieldToCpp(CFMMCBrokerKey
 CFMMCBrokerKeyField Converter::CThostFtdcCFMMCBrokerKeyFieldToRust(CThostFtdcCFMMCBrokerKeyField* x) {
     if (x == nullptr)
         return CFMMCBrokerKeyField{.is_null = true};
-    CFMMCBrokerKeyField y;
+    CFMMCBrokerKeyField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.CreateDate = Converter::Gb2312ToRustString(x->CreateDate);
@@ -8905,7 +8905,7 @@ CThostFtdcCFMMCTradingAccountKeyField Converter::CFMMCTradingAccountKeyFieldToCp
 CFMMCTradingAccountKeyField Converter::CThostFtdcCFMMCTradingAccountKeyFieldToRust(CThostFtdcCFMMCTradingAccountKeyField* x) {
     if (x == nullptr)
         return CFMMCTradingAccountKeyField{.is_null = true};
-    CFMMCTradingAccountKeyField y;
+    CFMMCTradingAccountKeyField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
@@ -8926,7 +8926,7 @@ CThostFtdcQryCFMMCTradingAccountKeyField Converter::QryCFMMCTradingAccountKeyFie
 QryCFMMCTradingAccountKeyField Converter::CThostFtdcQryCFMMCTradingAccountKeyFieldToRust(CThostFtdcQryCFMMCTradingAccountKeyField* x) {
     if (x == nullptr)
         return QryCFMMCTradingAccountKeyField{.is_null = true};
-    QryCFMMCTradingAccountKeyField y;
+    QryCFMMCTradingAccountKeyField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -8949,7 +8949,7 @@ CThostFtdcBrokerUserOTPParamField Converter::BrokerUserOTPParamFieldToCpp(Broker
 BrokerUserOTPParamField Converter::CThostFtdcBrokerUserOTPParamFieldToRust(CThostFtdcBrokerUserOTPParamField* x) {
     if (x == nullptr)
         return BrokerUserOTPParamField{.is_null = true};
-    BrokerUserOTPParamField y;
+    BrokerUserOTPParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.OTPVendorsID = Converter::Gb2312ToRustString(x->OTPVendorsID);
@@ -8977,7 +8977,7 @@ CThostFtdcManualSyncBrokerUserOTPField Converter::ManualSyncBrokerUserOTPFieldTo
 ManualSyncBrokerUserOTPField Converter::CThostFtdcManualSyncBrokerUserOTPFieldToRust(CThostFtdcManualSyncBrokerUserOTPField* x) {
     if (x == nullptr)
         return ManualSyncBrokerUserOTPField{.is_null = true};
-    ManualSyncBrokerUserOTPField y;
+    ManualSyncBrokerUserOTPField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.OTPType = x->OTPType;
@@ -9000,7 +9000,7 @@ CThostFtdcCommRateModelField Converter::CommRateModelFieldToCpp(CommRateModelFie
 CommRateModelField Converter::CThostFtdcCommRateModelFieldToRust(CThostFtdcCommRateModelField* x) {
     if (x == nullptr)
         return CommRateModelField{.is_null = true};
-    CommRateModelField y;
+    CommRateModelField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.CommModelID = Converter::Gb2312ToRustString(x->CommModelID);
     y.CommModelName = Converter::Gb2312ToRustString(x->CommModelName);
@@ -9018,7 +9018,7 @@ CThostFtdcQryCommRateModelField Converter::QryCommRateModelFieldToCpp(QryCommRat
 QryCommRateModelField Converter::CThostFtdcQryCommRateModelFieldToRust(CThostFtdcQryCommRateModelField* x) {
     if (x == nullptr)
         return QryCommRateModelField{.is_null = true};
-    QryCommRateModelField y;
+    QryCommRateModelField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.CommModelID = Converter::Gb2312ToRustString(x->CommModelID);
     return y;
@@ -9036,7 +9036,7 @@ CThostFtdcMarginModelField Converter::MarginModelFieldToCpp(MarginModelField x) 
 MarginModelField Converter::CThostFtdcMarginModelFieldToRust(CThostFtdcMarginModelField* x) {
     if (x == nullptr)
         return MarginModelField{.is_null = true};
-    MarginModelField y;
+    MarginModelField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.MarginModelID = Converter::Gb2312ToRustString(x->MarginModelID);
     y.MarginModelName = Converter::Gb2312ToRustString(x->MarginModelName);
@@ -9054,7 +9054,7 @@ CThostFtdcQryMarginModelField Converter::QryMarginModelFieldToCpp(QryMarginModel
 QryMarginModelField Converter::CThostFtdcQryMarginModelFieldToRust(CThostFtdcQryMarginModelField* x) {
     if (x == nullptr)
         return QryMarginModelField{.is_null = true};
-    QryMarginModelField y;
+    QryMarginModelField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.MarginModelID = Converter::Gb2312ToRustString(x->MarginModelID);
     return y;
@@ -9078,7 +9078,7 @@ CThostFtdcEWarrantOffsetField Converter::EWarrantOffsetFieldToCpp(EWarrantOffset
 EWarrantOffsetField Converter::CThostFtdcEWarrantOffsetFieldToRust(CThostFtdcEWarrantOffsetField* x) {
     if (x == nullptr)
         return EWarrantOffsetField{.is_null = true};
-    EWarrantOffsetField y;
+    EWarrantOffsetField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -9105,7 +9105,7 @@ CThostFtdcQryEWarrantOffsetField Converter::QryEWarrantOffsetFieldToCpp(QryEWarr
 QryEWarrantOffsetField Converter::CThostFtdcQryEWarrantOffsetFieldToRust(CThostFtdcQryEWarrantOffsetField* x) {
     if (x == nullptr)
         return QryEWarrantOffsetField{.is_null = true};
-    QryEWarrantOffsetField y;
+    QryEWarrantOffsetField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -9129,7 +9129,7 @@ CThostFtdcQryInvestorProductGroupMarginField Converter::QryInvestorProductGroupM
 QryInvestorProductGroupMarginField Converter::CThostFtdcQryInvestorProductGroupMarginFieldToRust(CThostFtdcQryInvestorProductGroupMarginField* x) {
     if (x == nullptr)
         return QryInvestorProductGroupMarginField{.is_null = true};
-    QryInvestorProductGroupMarginField y;
+    QryInvestorProductGroupMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.HedgeFlag = x->HedgeFlag;
@@ -9177,7 +9177,7 @@ CThostFtdcInvestorProductGroupMarginField Converter::InvestorProductGroupMarginF
 InvestorProductGroupMarginField Converter::CThostFtdcInvestorProductGroupMarginFieldToRust(CThostFtdcInvestorProductGroupMarginField* x) {
     if (x == nullptr)
         return InvestorProductGroupMarginField{.is_null = true};
-    InvestorProductGroupMarginField y;
+    InvestorProductGroupMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
@@ -9222,7 +9222,7 @@ CThostFtdcQueryCFMMCTradingAccountTokenField Converter::QueryCFMMCTradingAccount
 QueryCFMMCTradingAccountTokenField Converter::CThostFtdcQueryCFMMCTradingAccountTokenFieldToRust(CThostFtdcQueryCFMMCTradingAccountTokenField* x) {
     if (x == nullptr)
         return QueryCFMMCTradingAccountTokenField{.is_null = true};
-    QueryCFMMCTradingAccountTokenField y;
+    QueryCFMMCTradingAccountTokenField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InvestUnitID = Converter::Gb2312ToRustString(x->InvestUnitID);
@@ -9243,7 +9243,7 @@ CThostFtdcCFMMCTradingAccountTokenField Converter::CFMMCTradingAccountTokenField
 CFMMCTradingAccountTokenField Converter::CThostFtdcCFMMCTradingAccountTokenFieldToRust(CThostFtdcCFMMCTradingAccountTokenField* x) {
     if (x == nullptr)
         return CFMMCTradingAccountTokenField{.is_null = true};
-    CFMMCTradingAccountTokenField y;
+    CFMMCTradingAccountTokenField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ParticipantID = Converter::Gb2312ToRustString(x->ParticipantID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
@@ -9264,7 +9264,7 @@ CThostFtdcQryProductGroupField Converter::QryProductGroupFieldToCpp(QryProductGr
 QryProductGroupField Converter::CThostFtdcQryProductGroupFieldToRust(CThostFtdcQryProductGroupField* x) {
     if (x == nullptr)
         return QryProductGroupField{.is_null = true};
-    QryProductGroupField y;
+    QryProductGroupField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     return y;
@@ -9282,7 +9282,7 @@ CThostFtdcProductGroupField Converter::ProductGroupFieldToCpp(ProductGroupField 
 ProductGroupField Converter::CThostFtdcProductGroupFieldToRust(CThostFtdcProductGroupField* x) {
     if (x == nullptr)
         return ProductGroupField{.is_null = true};
-    ProductGroupField y;
+    ProductGroupField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     y.ProductGroupID = Converter::Gb2312ToRustString(x->ProductGroupID);
@@ -9310,7 +9310,7 @@ CThostFtdcBulletinField Converter::BulletinFieldToCpp(BulletinField x) {
 BulletinField Converter::CThostFtdcBulletinFieldToRust(CThostFtdcBulletinField* x) {
     if (x == nullptr)
         return BulletinField{.is_null = true};
-    BulletinField y;
+    BulletinField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BulletinID = x->BulletinID;
@@ -9345,7 +9345,7 @@ CThostFtdcQryBulletinField Converter::QryBulletinFieldToCpp(QryBulletinField x) 
 QryBulletinField Converter::CThostFtdcQryBulletinFieldToRust(CThostFtdcQryBulletinField* x) {
     if (x == nullptr)
         return QryBulletinField{.is_null = true};
-    QryBulletinField y;
+    QryBulletinField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BulletinID = x->BulletinID;
     y.SequenceNo = x->SequenceNo;
@@ -9370,7 +9370,7 @@ CThostFtdcMulticastInstrumentField Converter::MulticastInstrumentFieldToCpp(Mult
 MulticastInstrumentField Converter::CThostFtdcMulticastInstrumentFieldToRust(CThostFtdcMulticastInstrumentField* x) {
     if (x == nullptr)
         return MulticastInstrumentField{.is_null = true};
-    MulticastInstrumentField y;
+    MulticastInstrumentField y{};
     y.TopicID = x->TopicID;
     y.InstrumentNo = x->InstrumentNo;
     y.CodePrice = x->CodePrice;
@@ -9391,7 +9391,7 @@ CThostFtdcQryMulticastInstrumentField Converter::QryMulticastInstrumentFieldToCp
 QryMulticastInstrumentField Converter::CThostFtdcQryMulticastInstrumentFieldToRust(CThostFtdcQryMulticastInstrumentField* x) {
     if (x == nullptr)
         return QryMulticastInstrumentField{.is_null = true};
-    QryMulticastInstrumentField y;
+    QryMulticastInstrumentField y{};
     y.TopicID = x->TopicID;
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     return y;
@@ -9409,7 +9409,7 @@ CThostFtdcAppIDAuthAssignField Converter::AppIDAuthAssignFieldToCpp(AppIDAuthAss
 AppIDAuthAssignField Converter::CThostFtdcAppIDAuthAssignFieldToRust(CThostFtdcAppIDAuthAssignField* x) {
     if (x == nullptr)
         return AppIDAuthAssignField{.is_null = true};
-    AppIDAuthAssignField y;
+    AppIDAuthAssignField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AppID = Converter::Gb2312ToRustString(x->AppID);
     y.DRIdentityID = x->DRIdentityID;
@@ -9470,7 +9470,7 @@ CThostFtdcReqOpenAccountField Converter::ReqOpenAccountFieldToCpp(ReqOpenAccount
 ReqOpenAccountField Converter::CThostFtdcReqOpenAccountFieldToRust(CThostFtdcReqOpenAccountField* x) {
     if (x == nullptr)
         return ReqOpenAccountField{.is_null = true};
-    ReqOpenAccountField y;
+    ReqOpenAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -9576,7 +9576,7 @@ CThostFtdcReqCancelAccountField Converter::ReqCancelAccountFieldToCpp(ReqCancelA
 ReqCancelAccountField Converter::CThostFtdcReqCancelAccountFieldToRust(CThostFtdcReqCancelAccountField* x) {
     if (x == nullptr)
         return ReqCancelAccountField{.is_null = true};
-    ReqCancelAccountField y;
+    ReqCancelAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -9678,7 +9678,7 @@ CThostFtdcReqChangeAccountField Converter::ReqChangeAccountFieldToCpp(ReqChangeA
 ReqChangeAccountField Converter::CThostFtdcReqChangeAccountFieldToRust(CThostFtdcReqChangeAccountField* x) {
     if (x == nullptr)
         return ReqChangeAccountField{.is_null = true};
-    ReqChangeAccountField y;
+    ReqChangeAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -9778,7 +9778,7 @@ CThostFtdcReqTransferField Converter::ReqTransferFieldToCpp(ReqTransferField x) 
 ReqTransferField Converter::CThostFtdcReqTransferFieldToRust(CThostFtdcReqTransferField* x) {
     if (x == nullptr)
         return ReqTransferField{.is_null = true};
-    ReqTransferField y;
+    ReqTransferField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -9885,7 +9885,7 @@ CThostFtdcRspTransferField Converter::RspTransferFieldToCpp(RspTransferField x) 
 RspTransferField Converter::CThostFtdcRspTransferFieldToRust(CThostFtdcRspTransferField* x) {
     if (x == nullptr)
         return RspTransferField{.is_null = true};
-    RspTransferField y;
+    RspTransferField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -9999,7 +9999,7 @@ CThostFtdcReqRepealField Converter::ReqRepealFieldToCpp(ReqRepealField x) {
 ReqRepealField Converter::CThostFtdcReqRepealFieldToRust(CThostFtdcReqRepealField* x) {
     if (x == nullptr)
         return ReqRepealField{.is_null = true};
-    ReqRepealField y;
+    ReqRepealField y{};
     y.RepealTimeInterval = x->RepealTimeInterval;
     y.RepealedTimes = x->RepealedTimes;
     y.BankRepealFlag = x->BankRepealFlag;
@@ -10120,7 +10120,7 @@ CThostFtdcRspRepealField Converter::RspRepealFieldToCpp(RspRepealField x) {
 RspRepealField Converter::CThostFtdcRspRepealFieldToRust(CThostFtdcRspRepealField* x) {
     if (x == nullptr)
         return RspRepealField{.is_null = true};
-    RspRepealField y;
+    RspRepealField y{};
     y.RepealTimeInterval = x->RepealTimeInterval;
     y.RepealedTimes = x->RepealedTimes;
     y.BankRepealFlag = x->BankRepealFlag;
@@ -10227,7 +10227,7 @@ CThostFtdcReqQueryAccountField Converter::ReqQueryAccountFieldToCpp(ReqQueryAcco
 ReqQueryAccountField Converter::CThostFtdcReqQueryAccountFieldToRust(CThostFtdcReqQueryAccountField* x) {
     if (x == nullptr)
         return ReqQueryAccountField{.is_null = true};
-    ReqQueryAccountField y;
+    ReqQueryAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10319,7 +10319,7 @@ CThostFtdcRspQueryAccountField Converter::RspQueryAccountFieldToCpp(RspQueryAcco
 RspQueryAccountField Converter::CThostFtdcRspQueryAccountFieldToRust(CThostFtdcRspQueryAccountField* x) {
     if (x == nullptr)
         return RspQueryAccountField{.is_null = true};
-    RspQueryAccountField y;
+    RspQueryAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10395,7 +10395,7 @@ CThostFtdcFutureSignIOField Converter::FutureSignIOFieldToCpp(FutureSignIOField 
 FutureSignIOField Converter::CThostFtdcFutureSignIOFieldToRust(CThostFtdcFutureSignIOField* x) {
     if (x == nullptr)
         return FutureSignIOField{.is_null = true};
-    FutureSignIOField y;
+    FutureSignIOField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10456,7 +10456,7 @@ CThostFtdcRspFutureSignInField Converter::RspFutureSignInFieldToCpp(RspFutureSig
 RspFutureSignInField Converter::CThostFtdcRspFutureSignInFieldToRust(CThostFtdcRspFutureSignInField* x) {
     if (x == nullptr)
         return RspFutureSignInField{.is_null = true};
-    RspFutureSignInField y;
+    RspFutureSignInField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10519,7 +10519,7 @@ CThostFtdcReqFutureSignOutField Converter::ReqFutureSignOutFieldToCpp(ReqFutureS
 ReqFutureSignOutField Converter::CThostFtdcReqFutureSignOutFieldToRust(CThostFtdcReqFutureSignOutField* x) {
     if (x == nullptr)
         return ReqFutureSignOutField{.is_null = true};
-    ReqFutureSignOutField y;
+    ReqFutureSignOutField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10578,7 +10578,7 @@ CThostFtdcRspFutureSignOutField Converter::RspFutureSignOutFieldToCpp(RspFutureS
 RspFutureSignOutField Converter::CThostFtdcRspFutureSignOutFieldToRust(CThostFtdcRspFutureSignOutField* x) {
     if (x == nullptr)
         return RspFutureSignOutField{.is_null = true};
-    RspFutureSignOutField y;
+    RspFutureSignOutField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10643,7 +10643,7 @@ CThostFtdcReqQueryTradeResultBySerialField Converter::ReqQueryTradeResultBySeria
 ReqQueryTradeResultBySerialField Converter::CThostFtdcReqQueryTradeResultBySerialFieldToRust(CThostFtdcReqQueryTradeResultBySerialField* x) {
     if (x == nullptr)
         return ReqQueryTradeResultBySerialField{.is_null = true};
-    ReqQueryTradeResultBySerialField y;
+    ReqQueryTradeResultBySerialField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10711,7 +10711,7 @@ CThostFtdcRspQueryTradeResultBySerialField Converter::RspQueryTradeResultBySeria
 RspQueryTradeResultBySerialField Converter::CThostFtdcRspQueryTradeResultBySerialFieldToRust(CThostFtdcRspQueryTradeResultBySerialField* x) {
     if (x == nullptr)
         return RspQueryTradeResultBySerialField{.is_null = true};
-    RspQueryTradeResultBySerialField y;
+    RspQueryTradeResultBySerialField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10766,7 +10766,7 @@ CThostFtdcReqDayEndFileReadyField Converter::ReqDayEndFileReadyFieldToCpp(ReqDay
 ReqDayEndFileReadyField Converter::CThostFtdcReqDayEndFileReadyFieldToRust(CThostFtdcReqDayEndFileReadyField* x) {
     if (x == nullptr)
         return ReqDayEndFileReadyField{.is_null = true};
-    ReqDayEndFileReadyField y;
+    ReqDayEndFileReadyField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10796,7 +10796,7 @@ CThostFtdcReturnResultField Converter::ReturnResultFieldToCpp(ReturnResultField 
 ReturnResultField Converter::CThostFtdcReturnResultFieldToRust(CThostFtdcReturnResultField* x) {
     if (x == nullptr)
         return ReturnResultField{.is_null = true};
-    ReturnResultField y;
+    ReturnResultField y{};
     y.ReturnCode = Converter::Gb2312ToRustString(x->ReturnCode);
     y.DescrInfoForReturnCode = Converter::Gb2312ToRustString(x->DescrInfoForReturnCode);
     return y;
@@ -10830,7 +10830,7 @@ CThostFtdcVerifyFuturePasswordField Converter::VerifyFuturePasswordFieldToCpp(Ve
 VerifyFuturePasswordField Converter::CThostFtdcVerifyFuturePasswordFieldToRust(CThostFtdcVerifyFuturePasswordField* x) {
     if (x == nullptr)
         return VerifyFuturePasswordField{.is_null = true};
-    VerifyFuturePasswordField y;
+    VerifyFuturePasswordField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -10867,7 +10867,7 @@ CThostFtdcVerifyCustInfoField Converter::VerifyCustInfoFieldToCpp(VerifyCustInfo
 VerifyCustInfoField Converter::CThostFtdcVerifyCustInfoFieldToRust(CThostFtdcVerifyCustInfoField* x) {
     if (x == nullptr)
         return VerifyCustInfoField{.is_null = true};
-    VerifyCustInfoField y;
+    VerifyCustInfoField y{};
     y.CustomerName = Converter::Gb2312ToRustString(x->CustomerName);
     y.IdCardType = x->IdCardType;
     y.IdentifiedCardNo = Converter::Gb2312ToRustString(x->IdentifiedCardNo);
@@ -10893,7 +10893,7 @@ CThostFtdcVerifyFuturePasswordAndCustInfoField Converter::VerifyFuturePasswordAn
 VerifyFuturePasswordAndCustInfoField Converter::CThostFtdcVerifyFuturePasswordAndCustInfoFieldToRust(CThostFtdcVerifyFuturePasswordAndCustInfoField* x) {
     if (x == nullptr)
         return VerifyFuturePasswordAndCustInfoField{.is_null = true};
-    VerifyFuturePasswordAndCustInfoField y;
+    VerifyFuturePasswordAndCustInfoField y{};
     y.CustomerName = Converter::Gb2312ToRustString(x->CustomerName);
     y.IdCardType = x->IdCardType;
     y.IdentifiedCardNo = Converter::Gb2312ToRustString(x->IdentifiedCardNo);
@@ -10921,7 +10921,7 @@ CThostFtdcDepositResultInformField Converter::DepositResultInformFieldToCpp(Depo
 DepositResultInformField Converter::CThostFtdcDepositResultInformFieldToRust(CThostFtdcDepositResultInformField* x) {
     if (x == nullptr)
         return DepositResultInformField{.is_null = true};
-    DepositResultInformField y;
+    DepositResultInformField y{};
     for (int i = 0; i < 15; i++)
         y.DepositSeqNo.push_back(x->DepositSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -10962,7 +10962,7 @@ CThostFtdcReqSyncKeyField Converter::ReqSyncKeyFieldToCpp(ReqSyncKeyField x) {
 ReqSyncKeyField Converter::CThostFtdcReqSyncKeyFieldToRust(CThostFtdcReqSyncKeyField* x) {
     if (x == nullptr)
         return ReqSyncKeyField{.is_null = true};
-    ReqSyncKeyField y;
+    ReqSyncKeyField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11019,7 +11019,7 @@ CThostFtdcRspSyncKeyField Converter::RspSyncKeyFieldToCpp(RspSyncKeyField x) {
 RspSyncKeyField Converter::CThostFtdcRspSyncKeyFieldToRust(CThostFtdcRspSyncKeyField* x) {
     if (x == nullptr)
         return RspSyncKeyField{.is_null = true};
-    RspSyncKeyField y;
+    RspSyncKeyField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11097,7 +11097,7 @@ CThostFtdcNotifyQueryAccountField Converter::NotifyQueryAccountFieldToCpp(Notify
 NotifyQueryAccountField Converter::CThostFtdcNotifyQueryAccountFieldToRust(CThostFtdcNotifyQueryAccountField* x) {
     if (x == nullptr)
         return NotifyQueryAccountField{.is_null = true};
-    NotifyQueryAccountField y;
+    NotifyQueryAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11182,7 +11182,7 @@ CThostFtdcTransferSerialField Converter::TransferSerialFieldToCpp(TransferSerial
 TransferSerialField Converter::CThostFtdcTransferSerialFieldToRust(CThostFtdcTransferSerialField* x) {
     if (x == nullptr)
         return TransferSerialField{.is_null = true};
-    TransferSerialField y;
+    TransferSerialField y{};
     y.PlateSerial = x->PlateSerial;
     y.TradeDate = Converter::Gb2312ToRustString(x->TradeDate);
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
@@ -11227,7 +11227,7 @@ CThostFtdcQryTransferSerialField Converter::QryTransferSerialFieldToCpp(QryTrans
 QryTransferSerialField Converter::CThostFtdcQryTransferSerialFieldToRust(CThostFtdcQryTransferSerialField* x) {
     if (x == nullptr)
         return QryTransferSerialField{.is_null = true};
-    QryTransferSerialField y;
+    QryTransferSerialField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
@@ -11269,7 +11269,7 @@ CThostFtdcNotifyFutureSignInField Converter::NotifyFutureSignInFieldToCpp(Notify
 NotifyFutureSignInField Converter::CThostFtdcNotifyFutureSignInFieldToRust(CThostFtdcNotifyFutureSignInField* x) {
     if (x == nullptr)
         return NotifyFutureSignInField{.is_null = true};
-    NotifyFutureSignInField y;
+    NotifyFutureSignInField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11334,7 +11334,7 @@ CThostFtdcNotifyFutureSignOutField Converter::NotifyFutureSignOutFieldToCpp(Noti
 NotifyFutureSignOutField Converter::CThostFtdcNotifyFutureSignOutFieldToRust(CThostFtdcNotifyFutureSignOutField* x) {
     if (x == nullptr)
         return NotifyFutureSignOutField{.is_null = true};
-    NotifyFutureSignOutField y;
+    NotifyFutureSignOutField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11394,7 +11394,7 @@ CThostFtdcNotifySyncKeyField Converter::NotifySyncKeyFieldToCpp(NotifySyncKeyFie
 NotifySyncKeyField Converter::CThostFtdcNotifySyncKeyFieldToRust(CThostFtdcNotifySyncKeyField* x) {
     if (x == nullptr)
         return NotifySyncKeyField{.is_null = true};
-    NotifySyncKeyField y;
+    NotifySyncKeyField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11436,7 +11436,7 @@ CThostFtdcQryAccountregisterField Converter::QryAccountregisterFieldToCpp(QryAcc
 QryAccountregisterField Converter::CThostFtdcQryAccountregisterFieldToRust(CThostFtdcQryAccountregisterField* x) {
     if (x == nullptr)
         return QryAccountregisterField{.is_null = true};
-    QryAccountregisterField y;
+    QryAccountregisterField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
@@ -11472,7 +11472,7 @@ CThostFtdcAccountregisterField Converter::AccountregisterFieldToCpp(Accountregis
 AccountregisterField Converter::CThostFtdcAccountregisterFieldToRust(CThostFtdcAccountregisterField* x) {
     if (x == nullptr)
         return AccountregisterField{.is_null = true};
-    AccountregisterField y;
+    AccountregisterField y{};
     y.TradeDay = Converter::Gb2312ToRustString(x->TradeDay);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11550,7 +11550,7 @@ CThostFtdcOpenAccountField Converter::OpenAccountFieldToCpp(OpenAccountField x) 
 OpenAccountField Converter::CThostFtdcOpenAccountFieldToRust(CThostFtdcOpenAccountField* x) {
     if (x == nullptr)
         return OpenAccountField{.is_null = true};
-    OpenAccountField y;
+    OpenAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11660,7 +11660,7 @@ CThostFtdcCancelAccountField Converter::CancelAccountFieldToCpp(CancelAccountFie
 CancelAccountField Converter::CThostFtdcCancelAccountFieldToRust(CThostFtdcCancelAccountField* x) {
     if (x == nullptr)
         return CancelAccountField{.is_null = true};
-    CancelAccountField y;
+    CancelAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11766,7 +11766,7 @@ CThostFtdcChangeAccountField Converter::ChangeAccountFieldToCpp(ChangeAccountFie
 ChangeAccountField Converter::CThostFtdcChangeAccountFieldToRust(CThostFtdcChangeAccountField* x) {
     if (x == nullptr)
         return ChangeAccountField{.is_null = true};
-    ChangeAccountField y;
+    ChangeAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -11829,7 +11829,7 @@ CThostFtdcSecAgentACIDMapField Converter::SecAgentACIDMapFieldToCpp(SecAgentACID
 SecAgentACIDMapField Converter::CThostFtdcSecAgentACIDMapFieldToRust(CThostFtdcSecAgentACIDMapField* x) {
     if (x == nullptr)
         return SecAgentACIDMapField{.is_null = true};
-    SecAgentACIDMapField y;
+    SecAgentACIDMapField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
@@ -11851,7 +11851,7 @@ CThostFtdcQrySecAgentACIDMapField Converter::QrySecAgentACIDMapFieldToCpp(QrySec
 QrySecAgentACIDMapField Converter::CThostFtdcQrySecAgentACIDMapFieldToRust(CThostFtdcQrySecAgentACIDMapField* x) {
     if (x == nullptr)
         return QrySecAgentACIDMapField{.is_null = true};
-    QrySecAgentACIDMapField y;
+    QrySecAgentACIDMapField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
@@ -11871,7 +11871,7 @@ CThostFtdcUserRightsAssignField Converter::UserRightsAssignFieldToCpp(UserRights
 UserRightsAssignField Converter::CThostFtdcUserRightsAssignFieldToRust(CThostFtdcUserRightsAssignField* x) {
     if (x == nullptr)
         return UserRightsAssignField{.is_null = true};
-    UserRightsAssignField y;
+    UserRightsAssignField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.DRIdentityID = x->DRIdentityID;
@@ -11890,7 +11890,7 @@ CThostFtdcBrokerUserRightAssignField Converter::BrokerUserRightAssignFieldToCpp(
 BrokerUserRightAssignField Converter::CThostFtdcBrokerUserRightAssignFieldToRust(CThostFtdcBrokerUserRightAssignField* x) {
     if (x == nullptr)
         return BrokerUserRightAssignField{.is_null = true};
-    BrokerUserRightAssignField y;
+    BrokerUserRightAssignField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.DRIdentityID = x->DRIdentityID;
     y.Tradeable = x->Tradeable;
@@ -11910,7 +11910,7 @@ CThostFtdcDRTransferField Converter::DRTransferFieldToCpp(DRTransferField x) {
 DRTransferField Converter::CThostFtdcDRTransferFieldToRust(CThostFtdcDRTransferField* x) {
     if (x == nullptr)
         return DRTransferField{.is_null = true};
-    DRTransferField y;
+    DRTransferField y{};
     y.OrigDRIdentityID = x->OrigDRIdentityID;
     y.DestDRIdentityID = x->DestDRIdentityID;
     y.OrigBrokerID = Converter::Gb2312ToRustString(x->OrigBrokerID);
@@ -11930,7 +11930,7 @@ CThostFtdcFensUserInfoField Converter::FensUserInfoFieldToCpp(FensUserInfoField 
 FensUserInfoField Converter::CThostFtdcFensUserInfoFieldToRust(CThostFtdcFensUserInfoField* x) {
     if (x == nullptr)
         return FensUserInfoField{.is_null = true};
-    FensUserInfoField y;
+    FensUserInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.LoginMode = x->LoginMode;
@@ -11947,7 +11947,7 @@ CThostFtdcCurrTransferIdentityField Converter::CurrTransferIdentityFieldToCpp(Cu
 CurrTransferIdentityField Converter::CThostFtdcCurrTransferIdentityFieldToRust(CThostFtdcCurrTransferIdentityField* x) {
     if (x == nullptr)
         return CurrTransferIdentityField{.is_null = true};
-    CurrTransferIdentityField y;
+    CurrTransferIdentityField y{};
     y.IdentityID = x->IdentityID;
     return y;
 }
@@ -11964,7 +11964,7 @@ CThostFtdcLoginForbiddenUserField Converter::LoginForbiddenUserFieldToCpp(LoginF
 LoginForbiddenUserField Converter::CThostFtdcLoginForbiddenUserFieldToRust(CThostFtdcLoginForbiddenUserField* x) {
     if (x == nullptr)
         return LoginForbiddenUserField{.is_null = true};
-    LoginForbiddenUserField y;
+    LoginForbiddenUserField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
@@ -11982,7 +11982,7 @@ CThostFtdcQryLoginForbiddenUserField Converter::QryLoginForbiddenUserFieldToCpp(
 QryLoginForbiddenUserField Converter::CThostFtdcQryLoginForbiddenUserFieldToRust(CThostFtdcQryLoginForbiddenUserField* x) {
     if (x == nullptr)
         return QryLoginForbiddenUserField{.is_null = true};
-    QryLoginForbiddenUserField y;
+    QryLoginForbiddenUserField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -12001,7 +12001,7 @@ CThostFtdcTradingAccountReserveField Converter::TradingAccountReserveFieldToCpp(
 TradingAccountReserveField Converter::CThostFtdcTradingAccountReserveFieldToRust(CThostFtdcTradingAccountReserveField* x) {
     if (x == nullptr)
         return TradingAccountReserveField{.is_null = true};
-    TradingAccountReserveField y;
+    TradingAccountReserveField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.Reserve = x->Reserve;
@@ -12019,7 +12019,7 @@ CThostFtdcQryLoginForbiddenIPField Converter::QryLoginForbiddenIPFieldToCpp(QryL
 QryLoginForbiddenIPField Converter::CThostFtdcQryLoginForbiddenIPFieldToRust(CThostFtdcQryLoginForbiddenIPField* x) {
     if (x == nullptr)
         return QryLoginForbiddenIPField{.is_null = true};
-    QryLoginForbiddenIPField y;
+    QryLoginForbiddenIPField y{};
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
     return y;
 }
@@ -12034,7 +12034,7 @@ CThostFtdcQryIPListField Converter::QryIPListFieldToCpp(QryIPListField x) {
 QryIPListField Converter::CThostFtdcQryIPListFieldToRust(CThostFtdcQryIPListField* x) {
     if (x == nullptr)
         return QryIPListField{.is_null = true};
-    QryIPListField y;
+    QryIPListField y{};
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
     return y;
 }
@@ -12050,7 +12050,7 @@ CThostFtdcQryUserRightsAssignField Converter::QryUserRightsAssignFieldToCpp(QryU
 QryUserRightsAssignField Converter::CThostFtdcQryUserRightsAssignFieldToRust(CThostFtdcQryUserRightsAssignField* x) {
     if (x == nullptr)
         return QryUserRightsAssignField{.is_null = true};
-    QryUserRightsAssignField y;
+    QryUserRightsAssignField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -12106,7 +12106,7 @@ CThostFtdcReserveOpenAccountConfirmField Converter::ReserveOpenAccountConfirmFie
 ReserveOpenAccountConfirmField Converter::CThostFtdcReserveOpenAccountConfirmFieldToRust(CThostFtdcReserveOpenAccountConfirmField* x) {
     if (x == nullptr)
         return ReserveOpenAccountConfirmField{.is_null = true};
-    ReserveOpenAccountConfirmField y;
+    ReserveOpenAccountConfirmField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -12201,7 +12201,7 @@ CThostFtdcReserveOpenAccountField Converter::ReserveOpenAccountFieldToCpp(Reserv
 ReserveOpenAccountField Converter::CThostFtdcReserveOpenAccountFieldToRust(CThostFtdcReserveOpenAccountField* x) {
     if (x == nullptr)
         return ReserveOpenAccountField{.is_null = true};
-    ReserveOpenAccountField y;
+    ReserveOpenAccountField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -12267,7 +12267,7 @@ CThostFtdcAccountPropertyField Converter::AccountPropertyFieldToCpp(AccountPrope
 AccountPropertyField Converter::CThostFtdcAccountPropertyFieldToRust(CThostFtdcAccountPropertyField* x) {
     if (x == nullptr)
         return AccountPropertyField{.is_null = true};
-    AccountPropertyField y;
+    AccountPropertyField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
@@ -12296,7 +12296,7 @@ CThostFtdcQryCurrDRIdentityField Converter::QryCurrDRIdentityFieldToCpp(QryCurrD
 QryCurrDRIdentityField Converter::CThostFtdcQryCurrDRIdentityFieldToRust(CThostFtdcQryCurrDRIdentityField* x) {
     if (x == nullptr)
         return QryCurrDRIdentityField{.is_null = true};
-    QryCurrDRIdentityField y;
+    QryCurrDRIdentityField y{};
     y.DRIdentityID = x->DRIdentityID;
     return y;
 }
@@ -12311,7 +12311,7 @@ CThostFtdcCurrDRIdentityField Converter::CurrDRIdentityFieldToCpp(CurrDRIdentity
 CurrDRIdentityField Converter::CThostFtdcCurrDRIdentityFieldToRust(CThostFtdcCurrDRIdentityField* x) {
     if (x == nullptr)
         return CurrDRIdentityField{.is_null = true};
-    CurrDRIdentityField y;
+    CurrDRIdentityField y{};
     y.DRIdentityID = x->DRIdentityID;
     return y;
 }
@@ -12327,7 +12327,7 @@ CThostFtdcQrySecAgentCheckModeField Converter::QrySecAgentCheckModeFieldToCpp(Qr
 QrySecAgentCheckModeField Converter::CThostFtdcQrySecAgentCheckModeFieldToRust(CThostFtdcQrySecAgentCheckModeField* x) {
     if (x == nullptr)
         return QrySecAgentCheckModeField{.is_null = true};
-    QrySecAgentCheckModeField y;
+    QrySecAgentCheckModeField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     return y;
@@ -12344,7 +12344,7 @@ CThostFtdcQrySecAgentTradeInfoField Converter::QrySecAgentTradeInfoFieldToCpp(Qr
 QrySecAgentTradeInfoField Converter::CThostFtdcQrySecAgentTradeInfoFieldToRust(CThostFtdcQrySecAgentTradeInfoField* x) {
     if (x == nullptr)
         return QrySecAgentTradeInfoField{.is_null = true};
-    QrySecAgentTradeInfoField y;
+    QrySecAgentTradeInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.BrokerSecAgentID = Converter::Gb2312ToRustString(x->BrokerSecAgentID);
     return y;
@@ -12362,7 +12362,7 @@ CThostFtdcReqUserAuthMethodField Converter::ReqUserAuthMethodFieldToCpp(ReqUserA
 ReqUserAuthMethodField Converter::CThostFtdcReqUserAuthMethodFieldToRust(CThostFtdcReqUserAuthMethodField* x) {
     if (x == nullptr)
         return ReqUserAuthMethodField{.is_null = true};
-    ReqUserAuthMethodField y;
+    ReqUserAuthMethodField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12379,7 +12379,7 @@ CThostFtdcRspUserAuthMethodField Converter::RspUserAuthMethodFieldToCpp(RspUserA
 RspUserAuthMethodField Converter::CThostFtdcRspUserAuthMethodFieldToRust(CThostFtdcRspUserAuthMethodField* x) {
     if (x == nullptr)
         return RspUserAuthMethodField{.is_null = true};
-    RspUserAuthMethodField y;
+    RspUserAuthMethodField y{};
     y.UsableAuthMethod = x->UsableAuthMethod;
     return y;
 }
@@ -12396,7 +12396,7 @@ CThostFtdcReqGenUserCaptchaField Converter::ReqGenUserCaptchaFieldToCpp(ReqGenUs
 ReqGenUserCaptchaField Converter::CThostFtdcReqGenUserCaptchaFieldToRust(CThostFtdcReqGenUserCaptchaField* x) {
     if (x == nullptr)
         return ReqGenUserCaptchaField{.is_null = true};
-    ReqGenUserCaptchaField y;
+    ReqGenUserCaptchaField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12416,7 +12416,7 @@ CThostFtdcRspGenUserCaptchaField Converter::RspGenUserCaptchaFieldToCpp(RspGenUs
 RspGenUserCaptchaField Converter::CThostFtdcRspGenUserCaptchaFieldToRust(CThostFtdcRspGenUserCaptchaField* x) {
     if (x == nullptr)
         return RspGenUserCaptchaField{.is_null = true};
-    RspGenUserCaptchaField y;
+    RspGenUserCaptchaField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.CaptchaInfoLen = x->CaptchaInfoLen;
@@ -12436,7 +12436,7 @@ CThostFtdcReqGenUserTextField Converter::ReqGenUserTextFieldToCpp(ReqGenUserText
 ReqGenUserTextField Converter::CThostFtdcReqGenUserTextFieldToRust(CThostFtdcReqGenUserTextField* x) {
     if (x == nullptr)
         return ReqGenUserTextField{.is_null = true};
-    ReqGenUserTextField y;
+    ReqGenUserTextField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12453,7 +12453,7 @@ CThostFtdcRspGenUserTextField Converter::RspGenUserTextFieldToCpp(RspGenUserText
 RspGenUserTextField Converter::CThostFtdcRspGenUserTextFieldToRust(CThostFtdcRspGenUserTextField* x) {
     if (x == nullptr)
         return RspGenUserTextField{.is_null = true};
-    RspGenUserTextField y;
+    RspGenUserTextField y{};
     y.UserTextSeq = x->UserTextSeq;
     return y;
 }
@@ -12479,7 +12479,7 @@ CThostFtdcReqUserLoginWithCaptchaField Converter::ReqUserLoginWithCaptchaFieldTo
 ReqUserLoginWithCaptchaField Converter::CThostFtdcReqUserLoginWithCaptchaFieldToRust(CThostFtdcReqUserLoginWithCaptchaField* x) {
     if (x == nullptr)
         return ReqUserLoginWithCaptchaField{.is_null = true};
-    ReqUserLoginWithCaptchaField y;
+    ReqUserLoginWithCaptchaField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12517,7 +12517,7 @@ CThostFtdcReqUserLoginWithTextField Converter::ReqUserLoginWithTextFieldToCpp(Re
 ReqUserLoginWithTextField Converter::CThostFtdcReqUserLoginWithTextFieldToRust(CThostFtdcReqUserLoginWithTextField* x) {
     if (x == nullptr)
         return ReqUserLoginWithTextField{.is_null = true};
-    ReqUserLoginWithTextField y;
+    ReqUserLoginWithTextField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12555,7 +12555,7 @@ CThostFtdcReqUserLoginWithOTPField Converter::ReqUserLoginWithOTPFieldToCpp(ReqU
 ReqUserLoginWithOTPField Converter::CThostFtdcReqUserLoginWithOTPFieldToRust(CThostFtdcReqUserLoginWithOTPField* x) {
     if (x == nullptr)
         return ReqUserLoginWithOTPField{.is_null = true};
-    ReqUserLoginWithOTPField y;
+    ReqUserLoginWithOTPField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12581,7 +12581,7 @@ CThostFtdcReqApiHandshakeField Converter::ReqApiHandshakeFieldToCpp(ReqApiHandsh
 ReqApiHandshakeField Converter::CThostFtdcReqApiHandshakeFieldToRust(CThostFtdcReqApiHandshakeField* x) {
     if (x == nullptr)
         return ReqApiHandshakeField{.is_null = true};
-    ReqApiHandshakeField y;
+    ReqApiHandshakeField y{};
     y.CryptoKeyVersion = Converter::Gb2312ToRustString(x->CryptoKeyVersion);
     return y;
 }
@@ -12598,7 +12598,7 @@ CThostFtdcRspApiHandshakeField Converter::RspApiHandshakeFieldToCpp(RspApiHandsh
 RspApiHandshakeField Converter::CThostFtdcRspApiHandshakeFieldToRust(CThostFtdcRspApiHandshakeField* x) {
     if (x == nullptr)
         return RspApiHandshakeField{.is_null = true};
-    RspApiHandshakeField y;
+    RspApiHandshakeField y{};
     y.FrontHandshakeDataLen = x->FrontHandshakeDataLen;
     for (int i = 0; i < 301; i++)
         y.FrontHandshakeData.push_back(x->FrontHandshakeData[i]);
@@ -12617,7 +12617,7 @@ CThostFtdcReqVerifyApiKeyField Converter::ReqVerifyApiKeyFieldToCpp(ReqVerifyApi
 ReqVerifyApiKeyField Converter::CThostFtdcReqVerifyApiKeyFieldToRust(CThostFtdcReqVerifyApiKeyField* x) {
     if (x == nullptr)
         return ReqVerifyApiKeyField{.is_null = true};
-    ReqVerifyApiKeyField y;
+    ReqVerifyApiKeyField y{};
     y.ApiHandshakeDataLen = x->ApiHandshakeDataLen;
     for (int i = 0; i < 301; i++)
         y.ApiHandshakeData.push_back(x->ApiHandshakeData[i]);
@@ -12637,7 +12637,7 @@ CThostFtdcDepartmentUserField Converter::DepartmentUserFieldToCpp(DepartmentUser
 DepartmentUserField Converter::CThostFtdcDepartmentUserFieldToRust(CThostFtdcDepartmentUserField* x) {
     if (x == nullptr)
         return DepartmentUserField{.is_null = true};
-    DepartmentUserField y;
+    DepartmentUserField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.InvestorRange = x->InvestorRange;
@@ -12656,7 +12656,7 @@ CThostFtdcQueryFreqField Converter::QueryFreqFieldToCpp(QueryFreqField x) {
 QueryFreqField Converter::CThostFtdcQueryFreqFieldToRust(CThostFtdcQueryFreqField* x) {
     if (x == nullptr)
         return QueryFreqField{.is_null = true};
-    QueryFreqField y;
+    QueryFreqField y{};
     y.QueryFreq = x->QueryFreq;
     y.FTDPkgFreq = x->FTDPkgFreq;
     return y;
@@ -12672,7 +12672,7 @@ CThostFtdcAuthForbiddenIPField Converter::AuthForbiddenIPFieldToCpp(AuthForbidde
 AuthForbiddenIPField Converter::CThostFtdcAuthForbiddenIPFieldToRust(CThostFtdcAuthForbiddenIPField* x) {
     if (x == nullptr)
         return AuthForbiddenIPField{.is_null = true};
-    AuthForbiddenIPField y;
+    AuthForbiddenIPField y{};
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
     return y;
 }
@@ -12687,7 +12687,7 @@ CThostFtdcQryAuthForbiddenIPField Converter::QryAuthForbiddenIPFieldToCpp(QryAut
 QryAuthForbiddenIPField Converter::CThostFtdcQryAuthForbiddenIPFieldToRust(CThostFtdcQryAuthForbiddenIPField* x) {
     if (x == nullptr)
         return QryAuthForbiddenIPField{.is_null = true};
-    QryAuthForbiddenIPField y;
+    QryAuthForbiddenIPField y{};
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
     return y;
 }
@@ -12707,7 +12707,7 @@ CThostFtdcSyncDelaySwapFrozenField Converter::SyncDelaySwapFrozenFieldToCpp(Sync
 SyncDelaySwapFrozenField Converter::CThostFtdcSyncDelaySwapFrozenFieldToRust(CThostFtdcSyncDelaySwapFrozenField* x) {
     if (x == nullptr)
         return SyncDelaySwapFrozenField{.is_null = true};
-    SyncDelaySwapFrozenField y;
+    SyncDelaySwapFrozenField y{};
     for (int i = 0; i < 15; i++)
         y.DelaySwapSeqNo.push_back(x->DelaySwapSeqNo[i]);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -12736,7 +12736,7 @@ CThostFtdcUserSystemInfoField Converter::UserSystemInfoFieldToCpp(UserSystemInfo
 UserSystemInfoField Converter::CThostFtdcUserSystemInfoFieldToRust(CThostFtdcUserSystemInfoField* x) {
     if (x == nullptr)
         return UserSystemInfoField{.is_null = true};
-    UserSystemInfoField y;
+    UserSystemInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.ClientSystemInfoLen = x->ClientSystemInfoLen;
@@ -12762,7 +12762,7 @@ CThostFtdcAuthUserIDField Converter::AuthUserIDFieldToCpp(AuthUserIDField x) {
 AuthUserIDField Converter::CThostFtdcAuthUserIDFieldToRust(CThostFtdcAuthUserIDField* x) {
     if (x == nullptr)
         return AuthUserIDField{.is_null = true};
-    AuthUserIDField y;
+    AuthUserIDField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AppID = Converter::Gb2312ToRustString(x->AppID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12782,7 +12782,7 @@ CThostFtdcAuthIPField Converter::AuthIPFieldToCpp(AuthIPField x) {
 AuthIPField Converter::CThostFtdcAuthIPFieldToRust(CThostFtdcAuthIPField* x) {
     if (x == nullptr)
         return AuthIPField{.is_null = true};
-    AuthIPField y;
+    AuthIPField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AppID = Converter::Gb2312ToRustString(x->AppID);
     y.IPAddress = Converter::Gb2312ToRustString(x->IPAddress);
@@ -12804,7 +12804,7 @@ CThostFtdcQryClassifiedInstrumentField Converter::QryClassifiedInstrumentFieldTo
 QryClassifiedInstrumentField Converter::CThostFtdcQryClassifiedInstrumentFieldToRust(CThostFtdcQryClassifiedInstrumentField* x) {
     if (x == nullptr)
         return QryClassifiedInstrumentField{.is_null = true};
-    QryClassifiedInstrumentField y;
+    QryClassifiedInstrumentField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ExchangeInstID = Converter::Gb2312ToRustString(x->ExchangeInstID);
@@ -12825,7 +12825,7 @@ CThostFtdcQryCombPromotionParamField Converter::QryCombPromotionParamFieldToCpp(
 QryCombPromotionParamField Converter::CThostFtdcQryCombPromotionParamFieldToRust(CThostFtdcQryCombPromotionParamField* x) {
     if (x == nullptr)
         return QryCombPromotionParamField{.is_null = true};
-    QryCombPromotionParamField y;
+    QryCombPromotionParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     return y;
@@ -12844,7 +12844,7 @@ CThostFtdcCombPromotionParamField Converter::CombPromotionParamFieldToCpp(CombPr
 CombPromotionParamField Converter::CThostFtdcCombPromotionParamFieldToRust(CThostFtdcCombPromotionParamField* x) {
     if (x == nullptr)
         return CombPromotionParamField{.is_null = true};
-    CombPromotionParamField y;
+    CombPromotionParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.CombHedgeFlag = Converter::Gb2312ToRustString(x->CombHedgeFlag);
@@ -12877,7 +12877,7 @@ CThostFtdcReqUserLoginSMField Converter::ReqUserLoginSMFieldToCpp(ReqUserLoginSM
 ReqUserLoginSMField Converter::CThostFtdcReqUserLoginSMFieldToRust(CThostFtdcReqUserLoginSMField* x) {
     if (x == nullptr)
         return ReqUserLoginSMField{.is_null = true};
-    ReqUserLoginSMField y;
+    ReqUserLoginSMField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
@@ -12910,7 +12910,7 @@ CThostFtdcQryRiskSettleInvstPositionField Converter::QryRiskSettleInvstPositionF
 QryRiskSettleInvstPositionField Converter::CThostFtdcQryRiskSettleInvstPositionFieldToRust(CThostFtdcQryRiskSettleInvstPositionField* x) {
     if (x == nullptr)
         return QryRiskSettleInvstPositionField{.is_null = true};
-    QryRiskSettleInvstPositionField y;
+    QryRiskSettleInvstPositionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -12927,7 +12927,7 @@ CThostFtdcQryRiskSettleProductStatusField Converter::QryRiskSettleProductStatusF
 QryRiskSettleProductStatusField Converter::CThostFtdcQryRiskSettleProductStatusFieldToRust(CThostFtdcQryRiskSettleProductStatusField* x) {
     if (x == nullptr)
         return QryRiskSettleProductStatusField{.is_null = true};
-    QryRiskSettleProductStatusField y;
+    QryRiskSettleProductStatusField y{};
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     return y;
 }
@@ -12990,7 +12990,7 @@ CThostFtdcRiskSettleInvstPositionField Converter::RiskSettleInvstPositionFieldTo
 RiskSettleInvstPositionField Converter::CThostFtdcRiskSettleInvstPositionFieldToRust(CThostFtdcRiskSettleInvstPositionField* x) {
     if (x == nullptr)
         return RiskSettleInvstPositionField{.is_null = true};
-    RiskSettleInvstPositionField y;
+    RiskSettleInvstPositionField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -13055,7 +13055,7 @@ CThostFtdcRiskSettleProductStatusField Converter::RiskSettleProductStatusFieldTo
 RiskSettleProductStatusField Converter::CThostFtdcRiskSettleProductStatusFieldToRust(CThostFtdcRiskSettleProductStatusField* x) {
     if (x == nullptr)
         return RiskSettleProductStatusField{.is_null = true};
-    RiskSettleProductStatusField y;
+    RiskSettleProductStatusField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     y.ProductStatus = x->ProductStatus;
@@ -13075,7 +13075,7 @@ CThostFtdcSyncDeltaInfoField Converter::SyncDeltaInfoFieldToCpp(SyncDeltaInfoFie
 SyncDeltaInfoField Converter::CThostFtdcSyncDeltaInfoFieldToRust(CThostFtdcSyncDeltaInfoField* x) {
     if (x == nullptr)
         return SyncDeltaInfoField{.is_null = true};
-    SyncDeltaInfoField y;
+    SyncDeltaInfoField y{};
     y.SyncDeltaSequenceNo = x->SyncDeltaSequenceNo;
     y.SyncDeltaStatus = x->SyncDeltaStatus;
     for (int i = 0; i < 257; i++)
@@ -13097,7 +13097,7 @@ CThostFtdcSyncDeltaProductStatusField Converter::SyncDeltaProductStatusFieldToCp
 SyncDeltaProductStatusField Converter::CThostFtdcSyncDeltaProductStatusFieldToRust(CThostFtdcSyncDeltaProductStatusField* x) {
     if (x == nullptr)
         return SyncDeltaProductStatusField{.is_null = true};
-    SyncDeltaProductStatusField y;
+    SyncDeltaProductStatusField y{};
     y.SyncDeltaSequenceNo = x->SyncDeltaSequenceNo;
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -13144,7 +13144,7 @@ CThostFtdcSyncDeltaInvstPosDtlField Converter::SyncDeltaInvstPosDtlFieldToCpp(Sy
 SyncDeltaInvstPosDtlField Converter::CThostFtdcSyncDeltaInvstPosDtlFieldToRust(CThostFtdcSyncDeltaInvstPosDtlField* x) {
     if (x == nullptr)
         return SyncDeltaInvstPosDtlField{.is_null = true};
-    SyncDeltaInvstPosDtlField y;
+    SyncDeltaInvstPosDtlField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -13208,7 +13208,7 @@ CThostFtdcSyncDeltaInvstPosCombDtlField Converter::SyncDeltaInvstPosCombDtlField
 SyncDeltaInvstPosCombDtlField Converter::CThostFtdcSyncDeltaInvstPosCombDtlFieldToRust(CThostFtdcSyncDeltaInvstPosCombDtlField* x) {
     if (x == nullptr)
         return SyncDeltaInvstPosCombDtlField{.is_null = true};
-    SyncDeltaInvstPosCombDtlField y;
+    SyncDeltaInvstPosCombDtlField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.OpenDate = Converter::Gb2312ToRustString(x->OpenDate);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -13292,7 +13292,7 @@ CThostFtdcSyncDeltaTradingAccountField Converter::SyncDeltaTradingAccountFieldTo
 SyncDeltaTradingAccountField Converter::CThostFtdcSyncDeltaTradingAccountFieldToRust(CThostFtdcSyncDeltaTradingAccountField* x) {
     if (x == nullptr)
         return SyncDeltaTradingAccountField{.is_null = true};
-    SyncDeltaTradingAccountField y;
+    SyncDeltaTradingAccountField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.PreMortgage = x->PreMortgage;
@@ -13370,7 +13370,7 @@ CThostFtdcSyncDeltaInitInvstMarginField Converter::SyncDeltaInitInvstMarginField
 SyncDeltaInitInvstMarginField Converter::CThostFtdcSyncDeltaInitInvstMarginFieldToRust(CThostFtdcSyncDeltaInitInvstMarginField* x) {
     if (x == nullptr)
         return SyncDeltaInitInvstMarginField{.is_null = true};
-    SyncDeltaInitInvstMarginField y;
+    SyncDeltaInitInvstMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.LastRiskTotalInvstMargin = x->LastRiskTotalInvstMargin;
@@ -13409,7 +13409,7 @@ CThostFtdcSyncDeltaDceCombInstrumentField Converter::SyncDeltaDceCombInstrumentF
 SyncDeltaDceCombInstrumentField Converter::CThostFtdcSyncDeltaDceCombInstrumentFieldToRust(CThostFtdcSyncDeltaDceCombInstrumentField* x) {
     if (x == nullptr)
         return SyncDeltaDceCombInstrumentField{.is_null = true};
-    SyncDeltaDceCombInstrumentField y;
+    SyncDeltaDceCombInstrumentField y{};
     y.CombInstrumentID = Converter::Gb2312ToRustString(x->CombInstrumentID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ExchangeInstID = Converter::Gb2312ToRustString(x->ExchangeInstID);
@@ -13445,7 +13445,7 @@ CThostFtdcSyncDeltaInvstMarginRateField Converter::SyncDeltaInvstMarginRateField
 SyncDeltaInvstMarginRateField Converter::CThostFtdcSyncDeltaInvstMarginRateFieldToRust(CThostFtdcSyncDeltaInvstMarginRateField* x) {
     if (x == nullptr)
         return SyncDeltaInvstMarginRateField{.is_null = true};
-    SyncDeltaInvstMarginRateField y;
+    SyncDeltaInvstMarginRateField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -13479,7 +13479,7 @@ CThostFtdcSyncDeltaExchMarginRateField Converter::SyncDeltaExchMarginRateFieldTo
 SyncDeltaExchMarginRateField Converter::CThostFtdcSyncDeltaExchMarginRateFieldToRust(CThostFtdcSyncDeltaExchMarginRateField* x) {
     if (x == nullptr)
         return SyncDeltaExchMarginRateField{.is_null = true};
-    SyncDeltaExchMarginRateField y;
+    SyncDeltaExchMarginRateField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.HedgeFlag = x->HedgeFlag;
@@ -13513,7 +13513,7 @@ CThostFtdcSyncDeltaOptExchMarginField Converter::SyncDeltaOptExchMarginFieldToCp
 SyncDeltaOptExchMarginField Converter::CThostFtdcSyncDeltaOptExchMarginFieldToRust(CThostFtdcSyncDeltaOptExchMarginField* x) {
     if (x == nullptr)
         return SyncDeltaOptExchMarginField{.is_null = true};
-    SyncDeltaOptExchMarginField y;
+    SyncDeltaOptExchMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.SShortMarginRatioByMoney = x->SShortMarginRatioByMoney;
@@ -13553,7 +13553,7 @@ CThostFtdcSyncDeltaOptInvstMarginField Converter::SyncDeltaOptInvstMarginFieldTo
 SyncDeltaOptInvstMarginField Converter::CThostFtdcSyncDeltaOptInvstMarginFieldToRust(CThostFtdcSyncDeltaOptInvstMarginField* x) {
     if (x == nullptr)
         return SyncDeltaOptInvstMarginField{.is_null = true};
-    SyncDeltaOptInvstMarginField y;
+    SyncDeltaOptInvstMarginField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -13592,7 +13592,7 @@ CThostFtdcSyncDeltaInvstMarginRateULField Converter::SyncDeltaInvstMarginRateULF
 SyncDeltaInvstMarginRateULField Converter::CThostFtdcSyncDeltaInvstMarginRateULFieldToRust(CThostFtdcSyncDeltaInvstMarginRateULField* x) {
     if (x == nullptr)
         return SyncDeltaInvstMarginRateULField{.is_null = true};
-    SyncDeltaInvstMarginRateULField y;
+    SyncDeltaInvstMarginRateULField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -13630,7 +13630,7 @@ CThostFtdcSyncDeltaOptInvstCommRateField Converter::SyncDeltaOptInvstCommRateFie
 SyncDeltaOptInvstCommRateField Converter::CThostFtdcSyncDeltaOptInvstCommRateFieldToRust(CThostFtdcSyncDeltaOptInvstCommRateField* x) {
     if (x == nullptr)
         return SyncDeltaOptInvstCommRateField{.is_null = true};
-    SyncDeltaOptInvstCommRateField y;
+    SyncDeltaOptInvstCommRateField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -13669,7 +13669,7 @@ CThostFtdcSyncDeltaInvstCommRateField Converter::SyncDeltaInvstCommRateFieldToCp
 SyncDeltaInvstCommRateField Converter::CThostFtdcSyncDeltaInvstCommRateFieldToRust(CThostFtdcSyncDeltaInvstCommRateField* x) {
     if (x == nullptr)
         return SyncDeltaInvstCommRateField{.is_null = true};
-    SyncDeltaInvstCommRateField y;
+    SyncDeltaInvstCommRateField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -13699,7 +13699,7 @@ CThostFtdcSyncDeltaProductExchRateField Converter::SyncDeltaProductExchRateField
 SyncDeltaProductExchRateField Converter::CThostFtdcSyncDeltaProductExchRateFieldToRust(CThostFtdcSyncDeltaProductExchRateField* x) {
     if (x == nullptr)
         return SyncDeltaProductExchRateField{.is_null = true};
-    SyncDeltaProductExchRateField y;
+    SyncDeltaProductExchRateField y{};
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     y.QuoteCurrencyID = Converter::Gb2312ToRustString(x->QuoteCurrencyID);
     y.ExchangeRate = x->ExchangeRate;
@@ -13765,7 +13765,7 @@ CThostFtdcSyncDeltaDepthMarketDataField Converter::SyncDeltaDepthMarketDataField
 SyncDeltaDepthMarketDataField Converter::CThostFtdcSyncDeltaDepthMarketDataFieldToRust(CThostFtdcSyncDeltaDepthMarketDataField* x) {
     if (x == nullptr)
         return SyncDeltaDepthMarketDataField{.is_null = true};
-    SyncDeltaDepthMarketDataField y;
+    SyncDeltaDepthMarketDataField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -13831,7 +13831,7 @@ CThostFtdcSyncDeltaIndexPriceField Converter::SyncDeltaIndexPriceFieldToCpp(Sync
 SyncDeltaIndexPriceField Converter::CThostFtdcSyncDeltaIndexPriceFieldToRust(CThostFtdcSyncDeltaIndexPriceField* x) {
     if (x == nullptr)
         return SyncDeltaIndexPriceField{.is_null = true};
-    SyncDeltaIndexPriceField y;
+    SyncDeltaIndexPriceField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ClosePrice = x->ClosePrice;
@@ -13859,7 +13859,7 @@ CThostFtdcSyncDeltaEWarrantOffsetField Converter::SyncDeltaEWarrantOffsetFieldTo
 SyncDeltaEWarrantOffsetField Converter::CThostFtdcSyncDeltaEWarrantOffsetFieldToRust(CThostFtdcSyncDeltaEWarrantOffsetField* x) {
     if (x == nullptr)
         return SyncDeltaEWarrantOffsetField{.is_null = true};
-    SyncDeltaEWarrantOffsetField y;
+    SyncDeltaEWarrantOffsetField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -13893,7 +13893,7 @@ CThostFtdcSPBMFutureParameterField Converter::SPBMFutureParameterFieldToCpp(SPBM
 SPBMFutureParameterField Converter::CThostFtdcSPBMFutureParameterFieldToRust(CThostFtdcSPBMFutureParameterField* x) {
     if (x == nullptr)
         return SPBMFutureParameterField{.is_null = true};
-    SPBMFutureParameterField y;
+    SPBMFutureParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -13926,7 +13926,7 @@ CThostFtdcSPBMOptionParameterField Converter::SPBMOptionParameterFieldToCpp(SPBM
 SPBMOptionParameterField Converter::CThostFtdcSPBMOptionParameterFieldToRust(CThostFtdcSPBMOptionParameterField* x) {
     if (x == nullptr)
         return SPBMOptionParameterField{.is_null = true};
-    SPBMOptionParameterField y;
+    SPBMOptionParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -13953,7 +13953,7 @@ CThostFtdcSPBMIntraParameterField Converter::SPBMIntraParameterFieldToCpp(SPBMIn
 SPBMIntraParameterField Converter::CThostFtdcSPBMIntraParameterFieldToRust(CThostFtdcSPBMIntraParameterField* x) {
     if (x == nullptr)
         return SPBMIntraParameterField{.is_null = true};
-    SPBMIntraParameterField y;
+    SPBMIntraParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -13977,7 +13977,7 @@ CThostFtdcSPBMInterParameterField Converter::SPBMInterParameterFieldToCpp(SPBMIn
 SPBMInterParameterField Converter::CThostFtdcSPBMInterParameterFieldToRust(CThostFtdcSPBMInterParameterField* x) {
     if (x == nullptr)
         return SPBMInterParameterField{.is_null = true};
-    SPBMInterParameterField y;
+    SPBMInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SpreadId = x->SpreadId;
@@ -13997,7 +13997,7 @@ CThostFtdcSyncSPBMParameterEndField Converter::SyncSPBMParameterEndFieldToCpp(Sy
 SyncSPBMParameterEndField Converter::CThostFtdcSyncSPBMParameterEndFieldToRust(CThostFtdcSyncSPBMParameterEndField* x) {
     if (x == nullptr)
         return SyncSPBMParameterEndField{.is_null = true};
-    SyncSPBMParameterEndField y;
+    SyncSPBMParameterEndField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     return y;
 }
@@ -14014,7 +14014,7 @@ CThostFtdcQrySPBMFutureParameterField Converter::QrySPBMFutureParameterFieldToCp
 QrySPBMFutureParameterField Converter::CThostFtdcQrySPBMFutureParameterFieldToRust(CThostFtdcQrySPBMFutureParameterField* x) {
     if (x == nullptr)
         return QrySPBMFutureParameterField{.is_null = true};
-    QrySPBMFutureParameterField y;
+    QrySPBMFutureParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -14033,7 +14033,7 @@ CThostFtdcQrySPBMOptionParameterField Converter::QrySPBMOptionParameterFieldToCp
 QrySPBMOptionParameterField Converter::CThostFtdcQrySPBMOptionParameterFieldToRust(CThostFtdcQrySPBMOptionParameterField* x) {
     if (x == nullptr)
         return QrySPBMOptionParameterField{.is_null = true};
-    QrySPBMOptionParameterField y;
+    QrySPBMOptionParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -14051,7 +14051,7 @@ CThostFtdcQrySPBMIntraParameterField Converter::QrySPBMIntraParameterFieldToCpp(
 QrySPBMIntraParameterField Converter::CThostFtdcQrySPBMIntraParameterFieldToRust(CThostFtdcQrySPBMIntraParameterField* x) {
     if (x == nullptr)
         return QrySPBMIntraParameterField{.is_null = true};
-    QrySPBMIntraParameterField y;
+    QrySPBMIntraParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
     return y;
@@ -14069,7 +14069,7 @@ CThostFtdcQrySPBMInterParameterField Converter::QrySPBMInterParameterFieldToCpp(
 QrySPBMInterParameterField Converter::CThostFtdcQrySPBMInterParameterFieldToRust(CThostFtdcQrySPBMInterParameterField* x) {
     if (x == nullptr)
         return QrySPBMInterParameterField{.is_null = true};
-    QrySPBMInterParameterField y;
+    QrySPBMInterParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.Leg1ProdFamilyCode = Converter::Gb2312ToRustString(x->Leg1ProdFamilyCode);
     y.Leg2ProdFamilyCode = Converter::Gb2312ToRustString(x->Leg2ProdFamilyCode);
@@ -14089,7 +14089,7 @@ CThostFtdcSPBMPortfDefinitionField Converter::SPBMPortfDefinitionFieldToCpp(SPBM
 SPBMPortfDefinitionField Converter::CThostFtdcSPBMPortfDefinitionFieldToRust(CThostFtdcSPBMPortfDefinitionField* x) {
     if (x == nullptr)
         return SPBMPortfDefinitionField{.is_null = true};
-    SPBMPortfDefinitionField y;
+    SPBMPortfDefinitionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.PortfolioDefID = x->PortfolioDefID;
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -14110,7 +14110,7 @@ CThostFtdcSPBMInvestorPortfDefField Converter::SPBMInvestorPortfDefFieldToCpp(SP
 SPBMInvestorPortfDefField Converter::CThostFtdcSPBMInvestorPortfDefFieldToRust(CThostFtdcSPBMInvestorPortfDefField* x) {
     if (x == nullptr)
         return SPBMInvestorPortfDefField{.is_null = true};
-    SPBMInvestorPortfDefField y;
+    SPBMInvestorPortfDefField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14133,7 +14133,7 @@ CThostFtdcInvestorPortfMarginRatioField Converter::InvestorPortfMarginRatioField
 InvestorPortfMarginRatioField Converter::CThostFtdcInvestorPortfMarginRatioFieldToRust(CThostFtdcInvestorPortfMarginRatioField* x) {
     if (x == nullptr)
         return InvestorPortfMarginRatioField{.is_null = true};
-    InvestorPortfMarginRatioField y;
+    InvestorPortfMarginRatioField y{};
     y.InvestorRange = x->InvestorRange;
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14155,7 +14155,7 @@ CThostFtdcQrySPBMPortfDefinitionField Converter::QrySPBMPortfDefinitionFieldToCp
 QrySPBMPortfDefinitionField Converter::CThostFtdcQrySPBMPortfDefinitionFieldToRust(CThostFtdcQrySPBMPortfDefinitionField* x) {
     if (x == nullptr)
         return QrySPBMPortfDefinitionField{.is_null = true};
-    QrySPBMPortfDefinitionField y;
+    QrySPBMPortfDefinitionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.PortfolioDefID = x->PortfolioDefID;
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -14174,7 +14174,7 @@ CThostFtdcQrySPBMInvestorPortfDefField Converter::QrySPBMInvestorPortfDefFieldTo
 QrySPBMInvestorPortfDefField Converter::CThostFtdcQrySPBMInvestorPortfDefFieldToRust(CThostFtdcQrySPBMInvestorPortfDefField* x) {
     if (x == nullptr)
         return QrySPBMInvestorPortfDefField{.is_null = true};
-    QrySPBMInvestorPortfDefField y;
+    QrySPBMInvestorPortfDefField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14194,7 +14194,7 @@ CThostFtdcQryInvestorPortfMarginRatioField Converter::QryInvestorPortfMarginRati
 QryInvestorPortfMarginRatioField Converter::CThostFtdcQryInvestorPortfMarginRatioFieldToRust(CThostFtdcQryInvestorPortfMarginRatioField* x) {
     if (x == nullptr)
         return QryInvestorPortfMarginRatioField{.is_null = true};
-    QryInvestorPortfMarginRatioField y;
+    QryInvestorPortfMarginRatioField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
@@ -14232,7 +14232,7 @@ CThostFtdcInvestorProdSPBMDetailField Converter::InvestorProdSPBMDetailFieldToCp
 InvestorProdSPBMDetailField Converter::CThostFtdcInvestorProdSPBMDetailFieldToRust(CThostFtdcInvestorProdSPBMDetailField* x) {
     if (x == nullptr)
         return InvestorProdSPBMDetailField{.is_null = true};
-    InvestorProdSPBMDetailField y;
+    InvestorProdSPBMDetailField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14270,7 +14270,7 @@ CThostFtdcQryInvestorProdSPBMDetailField Converter::QryInvestorProdSPBMDetailFie
 QryInvestorProdSPBMDetailField Converter::CThostFtdcQryInvestorProdSPBMDetailFieldToRust(CThostFtdcQryInvestorProdSPBMDetailField* x) {
     if (x == nullptr)
         return QryInvestorProdSPBMDetailField{.is_null = true};
-    QryInvestorProdSPBMDetailField y;
+    QryInvestorProdSPBMDetailField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14293,7 +14293,7 @@ CThostFtdcPortfTradeParamSettingField Converter::PortfTradeParamSettingFieldToCp
 PortfTradeParamSettingField Converter::CThostFtdcPortfTradeParamSettingFieldToRust(CThostFtdcPortfTradeParamSettingField* x) {
     if (x == nullptr)
         return PortfTradeParamSettingField{.is_null = true};
-    PortfTradeParamSettingField y;
+    PortfTradeParamSettingField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14315,7 +14315,7 @@ CThostFtdcInvestorTradingRightField Converter::InvestorTradingRightFieldToCpp(In
 InvestorTradingRightField Converter::CThostFtdcInvestorTradingRightFieldToRust(CThostFtdcInvestorTradingRightField* x) {
     if (x == nullptr)
         return InvestorTradingRightField{.is_null = true};
-    InvestorTradingRightField y;
+    InvestorTradingRightField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InvstTradingRight = x->InvstTradingRight;
@@ -14335,7 +14335,7 @@ CThostFtdcMortgageParamField Converter::MortgageParamFieldToCpp(MortgageParamFie
 MortgageParamField Converter::CThostFtdcMortgageParamFieldToRust(CThostFtdcMortgageParamField* x) {
     if (x == nullptr)
         return MortgageParamField{.is_null = true};
-    MortgageParamField y;
+    MortgageParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.MortgageBalance = x->MortgageBalance;
@@ -14356,7 +14356,7 @@ CThostFtdcWithDrawParamField Converter::WithDrawParamFieldToCpp(WithDrawParamFie
 WithDrawParamField Converter::CThostFtdcWithDrawParamFieldToRust(CThostFtdcWithDrawParamField* x) {
     if (x == nullptr)
         return WithDrawParamField{.is_null = true};
-    WithDrawParamField y;
+    WithDrawParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.WithDrawParamID = x->WithDrawParamID;
@@ -14377,7 +14377,7 @@ CThostFtdcThostUserFunctionField Converter::ThostUserFunctionFieldToCpp(ThostUse
 ThostUserFunctionField Converter::CThostFtdcThostUserFunctionFieldToRust(CThostFtdcThostUserFunctionField* x) {
     if (x == nullptr)
         return ThostUserFunctionField{.is_null = true};
-    ThostUserFunctionField y;
+    ThostUserFunctionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.ThostFunctionCode = x->ThostFunctionCode;
@@ -14395,7 +14395,7 @@ CThostFtdcQryThostUserFunctionField Converter::QryThostUserFunctionFieldToCpp(Qr
 QryThostUserFunctionField Converter::CThostFtdcQryThostUserFunctionFieldToRust(CThostFtdcQryThostUserFunctionField* x) {
     if (x == nullptr)
         return QryThostUserFunctionField{.is_null = true};
-    QryThostUserFunctionField y;
+    QryThostUserFunctionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     return y;
@@ -14416,7 +14416,7 @@ CThostFtdcSPBMAddOnInterParameterField Converter::SPBMAddOnInterParameterFieldTo
 SPBMAddOnInterParameterField Converter::CThostFtdcSPBMAddOnInterParameterFieldToRust(CThostFtdcSPBMAddOnInterParameterField* x) {
     if (x == nullptr)
         return SPBMAddOnInterParameterField{.is_null = true};
-    SPBMAddOnInterParameterField y;
+    SPBMAddOnInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SpreadId = x->SpreadId;
@@ -14438,7 +14438,7 @@ CThostFtdcQrySPBMAddOnInterParameterField Converter::QrySPBMAddOnInterParameterF
 QrySPBMAddOnInterParameterField Converter::CThostFtdcQrySPBMAddOnInterParameterFieldToRust(CThostFtdcQrySPBMAddOnInterParameterField* x) {
     if (x == nullptr)
         return QrySPBMAddOnInterParameterField{.is_null = true};
-    QrySPBMAddOnInterParameterField y;
+    QrySPBMAddOnInterParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.Leg1ProdFamilyCode = Converter::Gb2312ToRustString(x->Leg1ProdFamilyCode);
     y.Leg2ProdFamilyCode = Converter::Gb2312ToRustString(x->Leg2ProdFamilyCode);
@@ -14457,7 +14457,7 @@ CThostFtdcQryInvestorCommoditySPMMMarginField Converter::QryInvestorCommoditySPM
 QryInvestorCommoditySPMMMarginField Converter::CThostFtdcQryInvestorCommoditySPMMMarginFieldToRust(CThostFtdcQryInvestorCommoditySPMMMarginField* x) {
     if (x == nullptr)
         return QryInvestorCommoditySPMMMarginField{.is_null = true};
-    QryInvestorCommoditySPMMMarginField y;
+    QryInvestorCommoditySPMMMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CommodityID = Converter::Gb2312ToRustString(x->CommodityID);
@@ -14476,7 +14476,7 @@ CThostFtdcQryInvestorCommodityGroupSPMMMarginField Converter::QryInvestorCommodi
 QryInvestorCommodityGroupSPMMMarginField Converter::CThostFtdcQryInvestorCommodityGroupSPMMMarginFieldToRust(CThostFtdcQryInvestorCommodityGroupSPMMMarginField* x) {
     if (x == nullptr)
         return QryInvestorCommodityGroupSPMMMarginField{.is_null = true};
-    QryInvestorCommodityGroupSPMMMarginField y;
+    QryInvestorCommodityGroupSPMMMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CommodityGroupID = Converter::Gb2312ToRustString(x->CommodityGroupID);
@@ -14493,7 +14493,7 @@ CThostFtdcQrySPMMInstParamField Converter::QrySPMMInstParamFieldToCpp(QrySPMMIns
 QrySPMMInstParamField Converter::CThostFtdcQrySPMMInstParamFieldToRust(CThostFtdcQrySPMMInstParamField* x) {
     if (x == nullptr)
         return QrySPMMInstParamField{.is_null = true};
-    QrySPMMInstParamField y;
+    QrySPMMInstParamField y{};
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     return y;
 }
@@ -14508,7 +14508,7 @@ CThostFtdcQrySPMMProductParamField Converter::QrySPMMProductParamFieldToCpp(QryS
 QrySPMMProductParamField Converter::CThostFtdcQrySPMMProductParamFieldToRust(CThostFtdcQrySPMMProductParamField* x) {
     if (x == nullptr)
         return QrySPMMProductParamField{.is_null = true};
-    QrySPMMProductParamField y;
+    QrySPMMProductParamField y{};
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     return y;
 }
@@ -14545,7 +14545,7 @@ CThostFtdcInvestorCommoditySPMMMarginField Converter::InvestorCommoditySPMMMargi
 InvestorCommoditySPMMMarginField Converter::CThostFtdcInvestorCommoditySPMMMarginFieldToRust(CThostFtdcInvestorCommoditySPMMMarginField* x) {
     if (x == nullptr)
         return InvestorCommoditySPMMMarginField{.is_null = true};
-    InvestorCommoditySPMMMarginField y;
+    InvestorCommoditySPMMMarginField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14602,7 +14602,7 @@ CThostFtdcInvestorCommodityGroupSPMMMarginField Converter::InvestorCommodityGrou
 InvestorCommodityGroupSPMMMarginField Converter::CThostFtdcInvestorCommodityGroupSPMMMarginFieldToRust(CThostFtdcInvestorCommodityGroupSPMMMarginField* x) {
     if (x == nullptr)
         return InvestorCommodityGroupSPMMMarginField{.is_null = true};
-    InvestorCommodityGroupSPMMMarginField y;
+    InvestorCommodityGroupSPMMMarginField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14641,7 +14641,7 @@ CThostFtdcSPMMInstParamField Converter::SPMMInstParamFieldToCpp(SPMMInstParamFie
 SPMMInstParamField Converter::CThostFtdcSPMMInstParamFieldToRust(CThostFtdcSPMMInstParamField* x) {
     if (x == nullptr)
         return SPMMInstParamField{.is_null = true};
-    SPMMInstParamField y;
+    SPMMInstParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InstMarginCalID = x->InstMarginCalID;
@@ -14663,7 +14663,7 @@ CThostFtdcSPMMProductParamField Converter::SPMMProductParamFieldToCpp(SPMMProduc
 SPMMProductParamField Converter::CThostFtdcSPMMProductParamFieldToRust(CThostFtdcSPMMProductParamField* x) {
     if (x == nullptr)
         return SPMMProductParamField{.is_null = true};
-    SPMMProductParamField y;
+    SPMMProductParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     y.CommodityID = Converter::Gb2312ToRustString(x->CommodityID);
@@ -14681,7 +14681,7 @@ CThostFtdcQryTraderAssignField Converter::QryTraderAssignFieldToCpp(QryTraderAss
 QryTraderAssignField Converter::CThostFtdcQryTraderAssignFieldToRust(CThostFtdcQryTraderAssignField* x) {
     if (x == nullptr)
         return QryTraderAssignField{.is_null = true};
-    QryTraderAssignField y;
+    QryTraderAssignField y{};
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
     return y;
 }
@@ -14700,7 +14700,7 @@ CThostFtdcTraderAssignField Converter::TraderAssignFieldToCpp(TraderAssignField 
 TraderAssignField Converter::CThostFtdcTraderAssignFieldToRust(CThostFtdcTraderAssignField* x) {
     if (x == nullptr)
         return TraderAssignField{.is_null = true};
-    TraderAssignField y;
+    TraderAssignField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.TraderID = Converter::Gb2312ToRustString(x->TraderID);
@@ -14725,7 +14725,7 @@ CThostFtdcInvestorInfoCntSettingField Converter::InvestorInfoCntSettingFieldToCp
 InvestorInfoCntSettingField Converter::CThostFtdcInvestorInfoCntSettingFieldToRust(CThostFtdcInvestorInfoCntSettingField* x) {
     if (x == nullptr)
         return InvestorInfoCntSettingField{.is_null = true};
-    InvestorInfoCntSettingField y;
+    InvestorInfoCntSettingField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14750,7 +14750,7 @@ CThostFtdcRCAMSCombProductInfoField Converter::RCAMSCombProductInfoFieldToCpp(RC
 RCAMSCombProductInfoField Converter::CThostFtdcRCAMSCombProductInfoFieldToRust(CThostFtdcRCAMSCombProductInfoField* x) {
     if (x == nullptr)
         return RCAMSCombProductInfoField{.is_null = true};
-    RCAMSCombProductInfoField y;
+    RCAMSCombProductInfoField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -14772,7 +14772,7 @@ CThostFtdcRCAMSInstrParameterField Converter::RCAMSInstrParameterFieldToCpp(RCAM
 RCAMSInstrParameterField Converter::CThostFtdcRCAMSInstrParameterFieldToRust(CThostFtdcRCAMSInstrParameterField* x) {
     if (x == nullptr)
         return RCAMSInstrParameterField{.is_null = true};
-    RCAMSInstrParameterField y;
+    RCAMSInstrParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -14793,7 +14793,7 @@ CThostFtdcRCAMSIntraParameterField Converter::RCAMSIntraParameterFieldToCpp(RCAM
 RCAMSIntraParameterField Converter::CThostFtdcRCAMSIntraParameterFieldToRust(CThostFtdcRCAMSIntraParameterField* x) {
     if (x == nullptr)
         return RCAMSIntraParameterField{.is_null = true};
-    RCAMSIntraParameterField y;
+    RCAMSIntraParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
@@ -14817,7 +14817,7 @@ CThostFtdcRCAMSInterParameterField Converter::RCAMSInterParameterFieldToCpp(RCAM
 RCAMSInterParameterField Converter::CThostFtdcRCAMSInterParameterFieldToRust(CThostFtdcRCAMSInterParameterField* x) {
     if (x == nullptr)
         return RCAMSInterParameterField{.is_null = true};
-    RCAMSInterParameterField y;
+    RCAMSInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductGroupID = Converter::Gb2312ToRustString(x->ProductGroupID);
@@ -14842,7 +14842,7 @@ CThostFtdcRCAMSShortOptAdjustParamField Converter::RCAMSShortOptAdjustParamField
 RCAMSShortOptAdjustParamField Converter::CThostFtdcRCAMSShortOptAdjustParamFieldToRust(CThostFtdcRCAMSShortOptAdjustParamField* x) {
     if (x == nullptr)
         return RCAMSShortOptAdjustParamField{.is_null = true};
-    RCAMSShortOptAdjustParamField y;
+    RCAMSShortOptAdjustParamField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
@@ -14872,7 +14872,7 @@ CThostFtdcRCAMSInvestorCombPositionField Converter::RCAMSInvestorCombPositionFie
 RCAMSInvestorCombPositionField Converter::CThostFtdcRCAMSInvestorCombPositionFieldToRust(CThostFtdcRCAMSInvestorCombPositionField* x) {
     if (x == nullptr)
         return RCAMSInvestorCombPositionField{.is_null = true};
-    RCAMSInvestorCombPositionField y;
+    RCAMSInvestorCombPositionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14924,7 +14924,7 @@ CThostFtdcInvestorProdRCAMSMarginField Converter::InvestorProdRCAMSMarginFieldTo
 InvestorProdRCAMSMarginField Converter::CThostFtdcInvestorProdRCAMSMarginFieldToRust(CThostFtdcInvestorProdRCAMSMarginField* x) {
     if (x == nullptr)
         return InvestorProdRCAMSMarginField{.is_null = true};
-    InvestorProdRCAMSMarginField y;
+    InvestorProdRCAMSMarginField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -14967,7 +14967,7 @@ CThostFtdcQryRCAMSCombProductInfoField Converter::QryRCAMSCombProductInfoFieldTo
 QryRCAMSCombProductInfoField Converter::CThostFtdcQryRCAMSCombProductInfoFieldToRust(CThostFtdcQryRCAMSCombProductInfoField* x) {
     if (x == nullptr)
         return QryRCAMSCombProductInfoField{.is_null = true};
-    QryRCAMSCombProductInfoField y;
+    QryRCAMSCombProductInfoField y{};
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
     y.ProductGroupID = Converter::Gb2312ToRustString(x->ProductGroupID);
@@ -14984,7 +14984,7 @@ CThostFtdcQryRCAMSInstrParameterField Converter::QryRCAMSInstrParameterFieldToCp
 QryRCAMSInstrParameterField Converter::CThostFtdcQryRCAMSInstrParameterFieldToRust(CThostFtdcQryRCAMSInstrParameterField* x) {
     if (x == nullptr)
         return QryRCAMSInstrParameterField{.is_null = true};
-    QryRCAMSInstrParameterField y;
+    QryRCAMSInstrParameterField y{};
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     return y;
 }
@@ -14999,7 +14999,7 @@ CThostFtdcQryRCAMSIntraParameterField Converter::QryRCAMSIntraParameterFieldToCp
 QryRCAMSIntraParameterField Converter::CThostFtdcQryRCAMSIntraParameterFieldToRust(CThostFtdcQryRCAMSIntraParameterField* x) {
     if (x == nullptr)
         return QryRCAMSIntraParameterField{.is_null = true};
-    QryRCAMSIntraParameterField y;
+    QryRCAMSIntraParameterField y{};
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
     return y;
 }
@@ -15016,7 +15016,7 @@ CThostFtdcQryRCAMSInterParameterField Converter::QryRCAMSInterParameterFieldToCp
 QryRCAMSInterParameterField Converter::CThostFtdcQryRCAMSInterParameterFieldToRust(CThostFtdcQryRCAMSInterParameterField* x) {
     if (x == nullptr)
         return QryRCAMSInterParameterField{.is_null = true};
-    QryRCAMSInterParameterField y;
+    QryRCAMSInterParameterField y{};
     y.ProductGroupID = Converter::Gb2312ToRustString(x->ProductGroupID);
     y.CombProduct1 = Converter::Gb2312ToRustString(x->CombProduct1);
     y.CombProduct2 = Converter::Gb2312ToRustString(x->CombProduct2);
@@ -15033,7 +15033,7 @@ CThostFtdcQryRCAMSShortOptAdjustParamField Converter::QryRCAMSShortOptAdjustPara
 QryRCAMSShortOptAdjustParamField Converter::CThostFtdcQryRCAMSShortOptAdjustParamFieldToRust(CThostFtdcQryRCAMSShortOptAdjustParamField* x) {
     if (x == nullptr)
         return QryRCAMSShortOptAdjustParamField{.is_null = true};
-    QryRCAMSShortOptAdjustParamField y;
+    QryRCAMSShortOptAdjustParamField y{};
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
     return y;
 }
@@ -15051,7 +15051,7 @@ CThostFtdcQryRCAMSInvestorCombPositionField Converter::QryRCAMSInvestorCombPosit
 QryRCAMSInvestorCombPositionField Converter::CThostFtdcQryRCAMSInvestorCombPositionFieldToRust(CThostFtdcQryRCAMSInvestorCombPositionField* x) {
     if (x == nullptr)
         return QryRCAMSInvestorCombPositionField{.is_null = true};
-    QryRCAMSInvestorCombPositionField y;
+    QryRCAMSInvestorCombPositionField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -15072,7 +15072,7 @@ CThostFtdcQryInvestorProdRCAMSMarginField Converter::QryInvestorProdRCAMSMarginF
 QryInvestorProdRCAMSMarginField Converter::CThostFtdcQryInvestorProdRCAMSMarginFieldToRust(CThostFtdcQryInvestorProdRCAMSMarginField* x) {
     if (x == nullptr)
         return QryInvestorProdRCAMSMarginField{.is_null = true};
-    QryInvestorProdRCAMSMarginField y;
+    QryInvestorProdRCAMSMarginField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
@@ -15101,7 +15101,7 @@ CThostFtdcRULEInstrParameterField Converter::RULEInstrParameterFieldToCpp(RULEIn
 RULEInstrParameterField Converter::CThostFtdcRULEInstrParameterFieldToRust(CThostFtdcRULEInstrParameterField* x) {
     if (x == nullptr)
         return RULEInstrParameterField{.is_null = true};
-    RULEInstrParameterField y;
+    RULEInstrParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -15133,7 +15133,7 @@ CThostFtdcRULEIntraParameterField Converter::RULEIntraParameterFieldToCpp(RULEIn
 RULEIntraParameterField Converter::CThostFtdcRULEIntraParameterFieldToRust(CThostFtdcRULEIntraParameterField* x) {
     if (x == nullptr)
         return RULEIntraParameterField{.is_null = true};
-    RULEIntraParameterField y;
+    RULEIntraParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -15163,7 +15163,7 @@ CThostFtdcRULEInterParameterField Converter::RULEInterParameterFieldToCpp(RULEIn
 RULEInterParameterField Converter::CThostFtdcRULEInterParameterFieldToRust(CThostFtdcRULEInterParameterField* x) {
     if (x == nullptr)
         return RULEInterParameterField{.is_null = true};
-    RULEInterParameterField y;
+    RULEInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SpreadId = x->SpreadId;
@@ -15188,7 +15188,7 @@ CThostFtdcQryRULEInstrParameterField Converter::QryRULEInstrParameterFieldToCpp(
 QryRULEInstrParameterField Converter::CThostFtdcQryRULEInstrParameterFieldToRust(CThostFtdcQryRULEInstrParameterField* x) {
     if (x == nullptr)
         return QryRULEInstrParameterField{.is_null = true};
-    QryRULEInstrParameterField y;
+    QryRULEInstrParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     return y;
@@ -15205,7 +15205,7 @@ CThostFtdcQryRULEIntraParameterField Converter::QryRULEIntraParameterFieldToCpp(
 QryRULEIntraParameterField Converter::CThostFtdcQryRULEIntraParameterFieldToRust(CThostFtdcQryRULEIntraParameterField* x) {
     if (x == nullptr)
         return QryRULEIntraParameterField{.is_null = true};
-    QryRULEIntraParameterField y;
+    QryRULEIntraParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
     return y;
@@ -15224,7 +15224,7 @@ CThostFtdcQryRULEInterParameterField Converter::QryRULEInterParameterFieldToCpp(
 QryRULEInterParameterField Converter::CThostFtdcQryRULEInterParameterFieldToRust(CThostFtdcQryRULEInterParameterField* x) {
     if (x == nullptr)
         return QryRULEInterParameterField{.is_null = true};
-    QryRULEInterParameterField y;
+    QryRULEInterParameterField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.Leg1ProdFamilyCode = Converter::Gb2312ToRustString(x->Leg1ProdFamilyCode);
     y.Leg2ProdFamilyCode = Converter::Gb2312ToRustString(x->Leg2ProdFamilyCode);
@@ -15268,7 +15268,7 @@ CThostFtdcInvestorProdRULEMarginField Converter::InvestorProdRULEMarginFieldToCp
 InvestorProdRULEMarginField Converter::CThostFtdcInvestorProdRULEMarginFieldToRust(CThostFtdcInvestorProdRULEMarginField* x) {
     if (x == nullptr)
         return InvestorProdRULEMarginField{.is_null = true};
-    InvestorProdRULEMarginField y;
+    InvestorProdRULEMarginField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -15313,7 +15313,7 @@ CThostFtdcQryInvestorProdRULEMarginField Converter::QryInvestorProdRULEMarginFie
 QryInvestorProdRULEMarginField Converter::CThostFtdcQryInvestorProdRULEMarginFieldToRust(CThostFtdcQryInvestorProdRULEMarginField* x) {
     if (x == nullptr)
         return QryInvestorProdRULEMarginField{.is_null = true};
-    QryInvestorProdRULEMarginField y;
+    QryInvestorProdRULEMarginField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -15337,7 +15337,7 @@ CThostFtdcSyncDeltaSPBMPortfDefinitionField Converter::SyncDeltaSPBMPortfDefinit
 SyncDeltaSPBMPortfDefinitionField Converter::CThostFtdcSyncDeltaSPBMPortfDefinitionFieldToRust(CThostFtdcSyncDeltaSPBMPortfDefinitionField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMPortfDefinitionField{.is_null = true};
-    SyncDeltaSPBMPortfDefinitionField y;
+    SyncDeltaSPBMPortfDefinitionField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.PortfolioDefID = x->PortfolioDefID;
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -15362,7 +15362,7 @@ CThostFtdcSyncDeltaSPBMInvstPortfDefField Converter::SyncDeltaSPBMInvstPortfDefF
 SyncDeltaSPBMInvstPortfDefField Converter::CThostFtdcSyncDeltaSPBMInvstPortfDefFieldToRust(CThostFtdcSyncDeltaSPBMInvstPortfDefField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMInvstPortfDefField{.is_null = true};
-    SyncDeltaSPBMInvstPortfDefField y;
+    SyncDeltaSPBMInvstPortfDefField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -15394,7 +15394,7 @@ CThostFtdcSyncDeltaSPBMFutureParameterField Converter::SyncDeltaSPBMFutureParame
 SyncDeltaSPBMFutureParameterField Converter::CThostFtdcSyncDeltaSPBMFutureParameterFieldToRust(CThostFtdcSyncDeltaSPBMFutureParameterField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMFutureParameterField{.is_null = true};
-    SyncDeltaSPBMFutureParameterField y;
+    SyncDeltaSPBMFutureParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -15431,7 +15431,7 @@ CThostFtdcSyncDeltaSPBMOptionParameterField Converter::SyncDeltaSPBMOptionParame
 SyncDeltaSPBMOptionParameterField Converter::CThostFtdcSyncDeltaSPBMOptionParameterFieldToRust(CThostFtdcSyncDeltaSPBMOptionParameterField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMOptionParameterField{.is_null = true};
-    SyncDeltaSPBMOptionParameterField y;
+    SyncDeltaSPBMOptionParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -15462,7 +15462,7 @@ CThostFtdcSyncDeltaSPBMIntraParameterField Converter::SyncDeltaSPBMIntraParamete
 SyncDeltaSPBMIntraParameterField Converter::CThostFtdcSyncDeltaSPBMIntraParameterFieldToRust(CThostFtdcSyncDeltaSPBMIntraParameterField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMIntraParameterField{.is_null = true};
-    SyncDeltaSPBMIntraParameterField y;
+    SyncDeltaSPBMIntraParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -15490,7 +15490,7 @@ CThostFtdcSyncDeltaSPBMInterParameterField Converter::SyncDeltaSPBMInterParamete
 SyncDeltaSPBMInterParameterField Converter::CThostFtdcSyncDeltaSPBMInterParameterFieldToRust(CThostFtdcSyncDeltaSPBMInterParameterField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMInterParameterField{.is_null = true};
-    SyncDeltaSPBMInterParameterField y;
+    SyncDeltaSPBMInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SpreadId = x->SpreadId;
@@ -15519,7 +15519,7 @@ CThostFtdcSyncDeltaSPBMAddOnInterParamField Converter::SyncDeltaSPBMAddOnInterPa
 SyncDeltaSPBMAddOnInterParamField Converter::CThostFtdcSyncDeltaSPBMAddOnInterParamFieldToRust(CThostFtdcSyncDeltaSPBMAddOnInterParamField* x) {
     if (x == nullptr)
         return SyncDeltaSPBMAddOnInterParamField{.is_null = true};
-    SyncDeltaSPBMAddOnInterParamField y;
+    SyncDeltaSPBMAddOnInterParamField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SpreadId = x->SpreadId;
@@ -15547,7 +15547,7 @@ CThostFtdcSyncDeltaSPMMInstParamField Converter::SyncDeltaSPMMInstParamFieldToCp
 SyncDeltaSPMMInstParamField Converter::CThostFtdcSyncDeltaSPMMInstParamFieldToRust(CThostFtdcSyncDeltaSPMMInstParamField* x) {
     if (x == nullptr)
         return SyncDeltaSPMMInstParamField{.is_null = true};
-    SyncDeltaSPMMInstParamField y;
+    SyncDeltaSPMMInstParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.InstMarginCalID = x->InstMarginCalID;
@@ -15573,7 +15573,7 @@ CThostFtdcSyncDeltaSPMMProductParamField Converter::SyncDeltaSPMMProductParamFie
 SyncDeltaSPMMProductParamField Converter::CThostFtdcSyncDeltaSPMMProductParamFieldToRust(CThostFtdcSyncDeltaSPMMProductParamField* x) {
     if (x == nullptr)
         return SyncDeltaSPMMProductParamField{.is_null = true};
-    SyncDeltaSPMMProductParamField y;
+    SyncDeltaSPMMProductParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
     y.CommodityID = Converter::Gb2312ToRustString(x->CommodityID);
@@ -15598,7 +15598,7 @@ CThostFtdcSyncDeltaInvestorSPMMModelField Converter::SyncDeltaInvestorSPMMModelF
 SyncDeltaInvestorSPMMModelField Converter::CThostFtdcSyncDeltaInvestorSPMMModelFieldToRust(CThostFtdcSyncDeltaInvestorSPMMModelField* x) {
     if (x == nullptr)
         return SyncDeltaInvestorSPMMModelField{.is_null = true};
-    SyncDeltaInvestorSPMMModelField y;
+    SyncDeltaInvestorSPMMModelField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -15626,7 +15626,7 @@ CThostFtdcSyncDeltaSPMMModelParamField Converter::SyncDeltaSPMMModelParamFieldTo
 SyncDeltaSPMMModelParamField Converter::CThostFtdcSyncDeltaSPMMModelParamFieldToRust(CThostFtdcSyncDeltaSPMMModelParamField* x) {
     if (x == nullptr)
         return SyncDeltaSPMMModelParamField{.is_null = true};
-    SyncDeltaSPMMModelParamField y;
+    SyncDeltaSPMMModelParamField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SPMMModelID = Converter::Gb2312ToRustString(x->SPMMModelID);
     y.CommodityGroupID = Converter::Gb2312ToRustString(x->CommodityGroupID);
@@ -15655,7 +15655,7 @@ CThostFtdcSyncDeltaRCAMSCombProdInfoField Converter::SyncDeltaRCAMSCombProdInfoF
 SyncDeltaRCAMSCombProdInfoField Converter::CThostFtdcSyncDeltaRCAMSCombProdInfoFieldToRust(CThostFtdcSyncDeltaRCAMSCombProdInfoField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSCombProdInfoField{.is_null = true};
-    SyncDeltaRCAMSCombProdInfoField y;
+    SyncDeltaRCAMSCombProdInfoField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -15681,7 +15681,7 @@ CThostFtdcSyncDeltaRCAMSInstrParameterField Converter::SyncDeltaRCAMSInstrParame
 SyncDeltaRCAMSInstrParameterField Converter::CThostFtdcSyncDeltaRCAMSInstrParameterFieldToRust(CThostFtdcSyncDeltaRCAMSInstrParameterField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSInstrParameterField{.is_null = true};
-    SyncDeltaRCAMSInstrParameterField y;
+    SyncDeltaRCAMSInstrParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -15706,7 +15706,7 @@ CThostFtdcSyncDeltaRCAMSIntraParameterField Converter::SyncDeltaRCAMSIntraParame
 SyncDeltaRCAMSIntraParameterField Converter::CThostFtdcSyncDeltaRCAMSIntraParameterFieldToRust(CThostFtdcSyncDeltaRCAMSIntraParameterField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSIntraParameterField{.is_null = true};
-    SyncDeltaRCAMSIntraParameterField y;
+    SyncDeltaRCAMSIntraParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
@@ -15734,7 +15734,7 @@ CThostFtdcSyncDeltaRCAMSInterParameterField Converter::SyncDeltaRCAMSInterParame
 SyncDeltaRCAMSInterParameterField Converter::CThostFtdcSyncDeltaRCAMSInterParameterFieldToRust(CThostFtdcSyncDeltaRCAMSInterParameterField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSInterParameterField{.is_null = true};
-    SyncDeltaRCAMSInterParameterField y;
+    SyncDeltaRCAMSInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProductGroupID = Converter::Gb2312ToRustString(x->ProductGroupID);
@@ -15763,7 +15763,7 @@ CThostFtdcSyncDeltaRCAMSSOptAdjParamField Converter::SyncDeltaRCAMSSOptAdjParamF
 SyncDeltaRCAMSSOptAdjParamField Converter::CThostFtdcSyncDeltaRCAMSSOptAdjParamFieldToRust(CThostFtdcSyncDeltaRCAMSSOptAdjParamField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSSOptAdjParamField{.is_null = true};
-    SyncDeltaRCAMSSOptAdjParamField y;
+    SyncDeltaRCAMSSOptAdjParamField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.CombProductID = Converter::Gb2312ToRustString(x->CombProductID);
@@ -15797,7 +15797,7 @@ CThostFtdcSyncDeltaRCAMSCombRuleDtlField Converter::SyncDeltaRCAMSCombRuleDtlFie
 SyncDeltaRCAMSCombRuleDtlField Converter::CThostFtdcSyncDeltaRCAMSCombRuleDtlFieldToRust(CThostFtdcSyncDeltaRCAMSCombRuleDtlField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSCombRuleDtlField{.is_null = true};
-    SyncDeltaRCAMSCombRuleDtlField y;
+    SyncDeltaRCAMSCombRuleDtlField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     for (int i = 0; i < 41; i++)
@@ -15840,7 +15840,7 @@ CThostFtdcSyncDeltaRCAMSInvstCombPosField Converter::SyncDeltaRCAMSInvstCombPosF
 SyncDeltaRCAMSInvstCombPosField Converter::CThostFtdcSyncDeltaRCAMSInvstCombPosFieldToRust(CThostFtdcSyncDeltaRCAMSInvstCombPosField* x) {
     if (x == nullptr)
         return SyncDeltaRCAMSInvstCombPosField{.is_null = true};
-    SyncDeltaRCAMSInvstCombPosField y;
+    SyncDeltaRCAMSInvstCombPosField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -15881,7 +15881,7 @@ CThostFtdcSyncDeltaRULEInstrParameterField Converter::SyncDeltaRULEInstrParamete
 SyncDeltaRULEInstrParameterField Converter::CThostFtdcSyncDeltaRULEInstrParameterFieldToRust(CThostFtdcSyncDeltaRULEInstrParameterField* x) {
     if (x == nullptr)
         return SyncDeltaRULEInstrParameterField{.is_null = true};
-    SyncDeltaRULEInstrParameterField y;
+    SyncDeltaRULEInstrParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -15917,7 +15917,7 @@ CThostFtdcSyncDeltaRULEIntraParameterField Converter::SyncDeltaRULEIntraParamete
 SyncDeltaRULEIntraParameterField Converter::CThostFtdcSyncDeltaRULEIntraParameterFieldToRust(CThostFtdcSyncDeltaRULEIntraParameterField* x) {
     if (x == nullptr)
         return SyncDeltaRULEIntraParameterField{.is_null = true};
-    SyncDeltaRULEIntraParameterField y;
+    SyncDeltaRULEIntraParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.ProdFamilyCode = Converter::Gb2312ToRustString(x->ProdFamilyCode);
@@ -15951,7 +15951,7 @@ CThostFtdcSyncDeltaRULEInterParameterField Converter::SyncDeltaRULEInterParamete
 SyncDeltaRULEInterParameterField Converter::CThostFtdcSyncDeltaRULEInterParameterFieldToRust(CThostFtdcSyncDeltaRULEInterParameterField* x) {
     if (x == nullptr)
         return SyncDeltaRULEInterParameterField{.is_null = true};
-    SyncDeltaRULEInterParameterField y;
+    SyncDeltaRULEInterParameterField y{};
     y.TradingDay = Converter::Gb2312ToRustString(x->TradingDay);
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.SpreadId = x->SpreadId;
@@ -15989,7 +15989,7 @@ CThostFtdcIpAddrParamField Converter::IpAddrParamFieldToCpp(IpAddrParamField x) 
 IpAddrParamField Converter::CThostFtdcIpAddrParamFieldToRust(CThostFtdcIpAddrParamField* x) {
     if (x == nullptr)
         return IpAddrParamField{.is_null = true};
-    IpAddrParamField y;
+    IpAddrParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.Address = Converter::Gb2312ToRustString(x->Address);
     y.DRIdentityID = x->DRIdentityID;
@@ -16018,7 +16018,7 @@ CThostFtdcQryIpAddrParamField Converter::QryIpAddrParamFieldToCpp(QryIpAddrParam
 QryIpAddrParamField Converter::CThostFtdcQryIpAddrParamFieldToRust(CThostFtdcQryIpAddrParamField* x) {
     if (x == nullptr)
         return QryIpAddrParamField{.is_null = true};
-    QryIpAddrParamField y;
+    QryIpAddrParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -16046,7 +16046,7 @@ CThostFtdcTGIpAddrParamField Converter::TGIpAddrParamFieldToCpp(TGIpAddrParamFie
 TGIpAddrParamField Converter::CThostFtdcTGIpAddrParamFieldToRust(CThostFtdcTGIpAddrParamField* x) {
     if (x == nullptr)
         return TGIpAddrParamField{.is_null = true};
-    TGIpAddrParamField y;
+    TGIpAddrParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.Address = Converter::Gb2312ToRustString(x->Address);
@@ -16078,7 +16078,7 @@ CThostFtdcQryTGIpAddrParamField Converter::QryTGIpAddrParamFieldToCpp(QryTGIpAdd
 QryTGIpAddrParamField Converter::CThostFtdcQryTGIpAddrParamFieldToRust(CThostFtdcQryTGIpAddrParamField* x) {
     if (x == nullptr)
         return QryTGIpAddrParamField{.is_null = true};
-    QryTGIpAddrParamField y;
+    QryTGIpAddrParamField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.AppID = Converter::Gb2312ToRustString(x->AppID);
@@ -16096,7 +16096,7 @@ CThostFtdcTGSessionQryStatusField Converter::TGSessionQryStatusFieldToCpp(TGSess
 TGSessionQryStatusField Converter::CThostFtdcTGSessionQryStatusFieldToRust(CThostFtdcTGSessionQryStatusField* x) {
     if (x == nullptr)
         return TGSessionQryStatusField{.is_null = true};
-    TGSessionQryStatusField y;
+    TGSessionQryStatusField y{};
     y.LastQryFreq = x->LastQryFreq;
     y.QryStatus = x->QryStatus;
     return y;
@@ -16116,7 +16116,7 @@ CThostFtdcLocalAddrConfigField Converter::LocalAddrConfigFieldToCpp(LocalAddrCon
 LocalAddrConfigField Converter::CThostFtdcLocalAddrConfigFieldToRust(CThostFtdcLocalAddrConfigField* x) {
     if (x == nullptr)
         return LocalAddrConfigField{.is_null = true};
-    LocalAddrConfigField y;
+    LocalAddrConfigField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.PeerAddr = Converter::Gb2312ToRustString(x->PeerAddr);
     for (int i = 0; i < 129; i++)
@@ -16136,7 +16136,7 @@ CThostFtdcQryLocalAddrConfigField Converter::QryLocalAddrConfigFieldToCpp(QryLoc
 QryLocalAddrConfigField Converter::CThostFtdcQryLocalAddrConfigFieldToRust(CThostFtdcQryLocalAddrConfigField* x) {
     if (x == nullptr)
         return QryLocalAddrConfigField{.is_null = true};
-    QryLocalAddrConfigField y;
+    QryLocalAddrConfigField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -16189,7 +16189,7 @@ CThostFtdcReqQueryBankAccountBySecField Converter::ReqQueryBankAccountBySecField
 ReqQueryBankAccountBySecField Converter::CThostFtdcReqQueryBankAccountBySecFieldToRust(CThostFtdcReqQueryBankAccountBySecField* x) {
     if (x == nullptr)
         return ReqQueryBankAccountBySecField{.is_null = true};
-    ReqQueryBankAccountBySecField y;
+    ReqQueryBankAccountBySecField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -16285,7 +16285,7 @@ CThostFtdcRspQueryBankAccountBySecField Converter::RspQueryBankAccountBySecField
 RspQueryBankAccountBySecField Converter::CThostFtdcRspQueryBankAccountBySecFieldToRust(CThostFtdcRspQueryBankAccountBySecField* x) {
     if (x == nullptr)
         return RspQueryBankAccountBySecField{.is_null = true};
-    RspQueryBankAccountBySecField y;
+    RspQueryBankAccountBySecField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -16388,7 +16388,7 @@ CThostFtdcReqTransferBySecField Converter::ReqTransferBySecFieldToCpp(ReqTransfe
 ReqTransferBySecField Converter::CThostFtdcReqTransferBySecFieldToRust(CThostFtdcReqTransferBySecField* x) {
     if (x == nullptr)
         return ReqTransferBySecField{.is_null = true};
-    ReqTransferBySecField y;
+    ReqTransferBySecField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -16499,7 +16499,7 @@ CThostFtdcRspTransferBySecField Converter::RspTransferBySecFieldToCpp(RspTransfe
 RspTransferBySecField Converter::CThostFtdcRspTransferBySecFieldToRust(CThostFtdcRspTransferBySecField* x) {
     if (x == nullptr)
         return RspTransferBySecField{.is_null = true};
-    RspTransferBySecField y;
+    RspTransferBySecField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -16607,7 +16607,7 @@ CThostFtdcNotifyQueryFutureAccountBySecField Converter::NotifyQueryFutureAccount
 NotifyQueryFutureAccountBySecField Converter::CThostFtdcNotifyQueryFutureAccountBySecFieldToRust(CThostFtdcNotifyQueryFutureAccountBySecField* x) {
     if (x == nullptr)
         return NotifyQueryFutureAccountBySecField{.is_null = true};
-    NotifyQueryFutureAccountBySecField y;
+    NotifyQueryFutureAccountBySecField y{};
     y.TradeCode = Converter::Gb2312ToRustString(x->TradeCode);
     y.BankID = Converter::Gb2312ToRustString(x->BankID);
     y.BankBranchID = Converter::Gb2312ToRustString(x->BankBranchID);
@@ -16667,7 +16667,7 @@ CThostFtdcExitEmergencyField Converter::ExitEmergencyFieldToCpp(ExitEmergencyFie
 ExitEmergencyField Converter::CThostFtdcExitEmergencyFieldToRust(CThostFtdcExitEmergencyField* x) {
     if (x == nullptr)
         return ExitEmergencyField{.is_null = true};
-    ExitEmergencyField y;
+    ExitEmergencyField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -16684,7 +16684,7 @@ CThostFtdcInvestorPortfMarginModelField Converter::InvestorPortfMarginModelField
 InvestorPortfMarginModelField Converter::CThostFtdcInvestorPortfMarginModelFieldToRust(CThostFtdcInvestorPortfMarginModelField* x) {
     if (x == nullptr)
         return InvestorPortfMarginModelField{.is_null = true};
-    InvestorPortfMarginModelField y;
+    InvestorPortfMarginModelField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.MarginModelID = Converter::Gb2312ToRustString(x->MarginModelID);
@@ -16705,7 +16705,7 @@ CThostFtdcInvestorPortfSettingField Converter::InvestorPortfSettingFieldToCpp(In
 InvestorPortfSettingField Converter::CThostFtdcInvestorPortfSettingFieldToRust(CThostFtdcInvestorPortfSettingField* x) {
     if (x == nullptr)
         return InvestorPortfSettingField{.is_null = true};
-    InvestorPortfSettingField y;
+    InvestorPortfSettingField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -16726,7 +16726,7 @@ CThostFtdcQryInvestorPortfSettingField Converter::QryInvestorPortfSettingFieldTo
 QryInvestorPortfSettingField Converter::CThostFtdcQryInvestorPortfSettingFieldToRust(CThostFtdcQryInvestorPortfSettingField* x) {
     if (x == nullptr)
         return QryInvestorPortfSettingField{.is_null = true};
-    QryInvestorPortfSettingField y;
+    QryInvestorPortfSettingField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -16747,7 +16747,7 @@ CThostFtdcUserPasswordUpdateFromSecField Converter::UserPasswordUpdateFromSecFie
 UserPasswordUpdateFromSecField Converter::CThostFtdcUserPasswordUpdateFromSecFieldToRust(CThostFtdcUserPasswordUpdateFromSecField* x) {
     if (x == nullptr)
         return UserPasswordUpdateFromSecField{.is_null = true};
-    UserPasswordUpdateFromSecField y;
+    UserPasswordUpdateFromSecField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.OldPassword = Converter::Gb2312ToRustString(x->OldPassword);
@@ -16770,7 +16770,7 @@ CThostFtdcSettlementInfoConfirmFromSecField Converter::SettlementInfoConfirmFrom
 SettlementInfoConfirmFromSecField Converter::CThostFtdcSettlementInfoConfirmFromSecFieldToRust(CThostFtdcSettlementInfoConfirmFromSecField* x) {
     if (x == nullptr)
         return SettlementInfoConfirmFromSecField{.is_null = true};
-    SettlementInfoConfirmFromSecField y;
+    SettlementInfoConfirmFromSecField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ConfirmDate = Converter::Gb2312ToRustString(x->ConfirmDate);
@@ -16794,7 +16794,7 @@ CThostFtdcTradingAccountPasswordUpdateFromSecField Converter::TradingAccountPass
 TradingAccountPasswordUpdateFromSecField Converter::CThostFtdcTradingAccountPasswordUpdateFromSecFieldToRust(CThostFtdcTradingAccountPasswordUpdateFromSecField* x) {
     if (x == nullptr)
         return TradingAccountPasswordUpdateFromSecField{.is_null = true};
-    TradingAccountPasswordUpdateFromSecField y;
+    TradingAccountPasswordUpdateFromSecField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.AccountID = Converter::Gb2312ToRustString(x->AccountID);
     y.OldPassword = Converter::Gb2312ToRustString(x->OldPassword);
@@ -16817,7 +16817,7 @@ CThostFtdcRiskForbiddenRightField Converter::RiskForbiddenRightFieldToCpp(RiskFo
 RiskForbiddenRightField Converter::CThostFtdcRiskForbiddenRightFieldToRust(CThostFtdcRiskForbiddenRightField* x) {
     if (x == nullptr)
         return RiskForbiddenRightField{.is_null = true};
-    RiskForbiddenRightField y;
+    RiskForbiddenRightField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -16845,7 +16845,7 @@ CThostFtdcInvestorInfoCommRecField Converter::InvestorInfoCommRecFieldToCpp(Inve
 InvestorInfoCommRecField Converter::CThostFtdcInvestorInfoCommRecFieldToRust(CThostFtdcInvestorInfoCommRecField* x) {
     if (x == nullptr)
         return InvestorInfoCommRecField{.is_null = true};
-    InvestorInfoCommRecField y;
+    InvestorInfoCommRecField y{};
     y.ExchangeID = Converter::Gb2312ToRustString(x->ExchangeID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
@@ -16872,7 +16872,7 @@ CThostFtdcQryInvestorInfoCommRecField Converter::QryInvestorInfoCommRecFieldToCp
 QryInvestorInfoCommRecField Converter::CThostFtdcQryInvestorInfoCommRecFieldToRust(CThostFtdcQryInvestorInfoCommRecField* x) {
     if (x == nullptr)
         return QryInvestorInfoCommRecField{.is_null = true};
-    QryInvestorInfoCommRecField y;
+    QryInvestorInfoCommRecField y{};
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
@@ -16894,7 +16894,7 @@ CThostFtdcCombLegField Converter::CombLegFieldToCpp(CombLegField x) {
 CombLegField Converter::CThostFtdcCombLegFieldToRust(CThostFtdcCombLegField* x) {
     if (x == nullptr)
         return CombLegField{.is_null = true};
-    CombLegField y;
+    CombLegField y{};
     y.CombInstrumentID = Converter::Gb2312ToRustString(x->CombInstrumentID);
     y.LegID = x->LegID;
     y.LegInstrumentID = Converter::Gb2312ToRustString(x->LegInstrumentID);
@@ -16914,7 +16914,7 @@ CThostFtdcQryCombLegField Converter::QryCombLegFieldToCpp(QryCombLegField x) {
 QryCombLegField Converter::CThostFtdcQryCombLegFieldToRust(CThostFtdcQryCombLegField* x) {
     if (x == nullptr)
         return QryCombLegField{.is_null = true};
-    QryCombLegField y;
+    QryCombLegField y{};
     y.LegInstrumentID = Converter::Gb2312ToRustString(x->LegInstrumentID);
     return y;
 }
@@ -16941,7 +16941,7 @@ CThostFtdcInputOffsetSettingField Converter::InputOffsetSettingFieldToCpp(InputO
 InputOffsetSettingField Converter::CThostFtdcInputOffsetSettingFieldToRust(CThostFtdcInputOffsetSettingField* x) {
     if (x == nullptr)
         return InputOffsetSettingField{.is_null = true};
-    InputOffsetSettingField y;
+    InputOffsetSettingField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -17001,7 +17001,7 @@ CThostFtdcOffsetSettingField Converter::OffsetSettingFieldToCpp(OffsetSettingFie
 OffsetSettingField Converter::CThostFtdcOffsetSettingFieldToRust(CThostFtdcOffsetSettingField* x) {
     if (x == nullptr)
         return OffsetSettingField{.is_null = true};
-    OffsetSettingField y;
+    OffsetSettingField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -17074,7 +17074,7 @@ CThostFtdcCancelOffsetSettingField Converter::CancelOffsetSettingFieldToCpp(Canc
 CancelOffsetSettingField Converter::CThostFtdcCancelOffsetSettingFieldToRust(CThostFtdcCancelOffsetSettingField* x) {
     if (x == nullptr)
         return CancelOffsetSettingField{.is_null = true};
-    CancelOffsetSettingField y;
+    CancelOffsetSettingField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.InstrumentID = Converter::Gb2312ToRustString(x->InstrumentID);
@@ -17117,7 +17117,7 @@ CThostFtdcQryOffsetSettingField Converter::QryOffsetSettingFieldToCpp(QryOffsetS
 QryOffsetSettingField Converter::CThostFtdcQryOffsetSettingFieldToRust(CThostFtdcQryOffsetSettingField* x) {
     if (x == nullptr)
         return QryOffsetSettingField{.is_null = true};
-    QryOffsetSettingField y;
+    QryOffsetSettingField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.ProductID = Converter::Gb2312ToRustString(x->ProductID);
@@ -17138,7 +17138,7 @@ CThostFtdcAddrAppIDRelationField Converter::AddrAppIDRelationFieldToCpp(AddrAppI
 AddrAppIDRelationField Converter::CThostFtdcAddrAppIDRelationFieldToRust(CThostFtdcAddrAppIDRelationField* x) {
     if (x == nullptr)
         return AddrAppIDRelationField{.is_null = true};
-    AddrAppIDRelationField y;
+    AddrAppIDRelationField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.Address = Converter::Gb2312ToRustString(x->Address);
     y.DRIdentityID = x->DRIdentityID;
@@ -17156,7 +17156,7 @@ CThostFtdcQryAddrAppIDRelationField Converter::QryAddrAppIDRelationFieldToCpp(Qr
 QryAddrAppIDRelationField Converter::CThostFtdcQryAddrAppIDRelationFieldToRust(CThostFtdcQryAddrAppIDRelationField* x) {
     if (x == nullptr)
         return QryAddrAppIDRelationField{.is_null = true};
-    QryAddrAppIDRelationField y;
+    QryAddrAppIDRelationField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -17179,7 +17179,7 @@ CThostFtdcWechatUserSystemInfoField Converter::WechatUserSystemInfoFieldToCpp(We
 WechatUserSystemInfoField Converter::CThostFtdcWechatUserSystemInfoFieldToRust(CThostFtdcWechatUserSystemInfoField* x) {
     if (x == nullptr)
         return WechatUserSystemInfoField{.is_null = true};
-    WechatUserSystemInfoField y;
+    WechatUserSystemInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.WechatCltSysInfoLen = x->WechatCltSysInfoLen;
@@ -17204,7 +17204,7 @@ CThostFtdcInvestorReserveInfoField Converter::InvestorReserveInfoFieldToCpp(Inve
 InvestorReserveInfoField Converter::CThostFtdcInvestorReserveInfoFieldToRust(CThostFtdcInvestorReserveInfoField* x) {
     if (x == nullptr)
         return InvestorReserveInfoField{.is_null = true};
-    InvestorReserveInfoField y;
+    InvestorReserveInfoField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.UserID = Converter::Gb2312ToRustString(x->UserID);
     y.ReserveInfo = Converter::Gb2312ToRustString(x->ReserveInfo);
@@ -17221,7 +17221,7 @@ CThostFtdcQryInvestorDepartmentFlatField Converter::QryInvestorDepartmentFlatFie
 QryInvestorDepartmentFlatField Converter::CThostFtdcQryInvestorDepartmentFlatFieldToRust(CThostFtdcQryInvestorDepartmentFlatField* x) {
     if (x == nullptr)
         return QryInvestorDepartmentFlatField{.is_null = true};
-    QryInvestorDepartmentFlatField y;
+    QryInvestorDepartmentFlatField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -17238,7 +17238,7 @@ CThostFtdcInvestorDepartmentFlatField Converter::InvestorDepartmentFlatFieldToCp
 InvestorDepartmentFlatField Converter::CThostFtdcInvestorDepartmentFlatFieldToRust(CThostFtdcInvestorDepartmentFlatField* x) {
     if (x == nullptr)
         return InvestorDepartmentFlatField{.is_null = true};
-    InvestorDepartmentFlatField y;
+    InvestorDepartmentFlatField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     y.InvestorID = Converter::Gb2312ToRustString(x->InvestorID);
     y.DepartmentID = Converter::Gb2312ToRustString(x->DepartmentID);
@@ -17255,7 +17255,7 @@ CThostFtdcQryDepartmentUserField Converter::QryDepartmentUserFieldToCpp(QryDepar
 QryDepartmentUserField Converter::CThostFtdcQryDepartmentUserFieldToRust(CThostFtdcQryDepartmentUserField* x) {
     if (x == nullptr)
         return QryDepartmentUserField{.is_null = true};
-    QryDepartmentUserField y;
+    QryDepartmentUserField y{};
     y.BrokerID = Converter::Gb2312ToRustString(x->BrokerID);
     return y;
 }
@@ -17272,7 +17272,7 @@ CThostFtdcFrontInfoField Converter::FrontInfoFieldToCpp(FrontInfoField x) {
 FrontInfoField Converter::CThostFtdcFrontInfoFieldToRust(CThostFtdcFrontInfoField* x) {
     if (x == nullptr)
         return FrontInfoField{.is_null = true};
-    FrontInfoField y;
+    FrontInfoField y{};
     y.FrontAddr = Converter::Gb2312ToRustString(x->FrontAddr);
     y.QryFreq = x->QryFreq;
     y.FTDPkgFreq = x->FTDPkgFreq;
