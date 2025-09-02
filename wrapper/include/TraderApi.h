@@ -519,6 +519,7 @@ struct TraderApi {
     FrontInfoField GetFrontInfo() const;
 
     rust::String GetApiVersion() const;
+    void Release() const;
     void Init() const;
     int32_t Join() const;
     rust::String GetTradingDay() const;

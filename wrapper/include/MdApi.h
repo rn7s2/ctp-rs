@@ -518,6 +518,7 @@ struct MdApi {
     MdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);
 
     rust::String GetApiVersion() const;
+    void Release() const;
     void Init() const;
     int32_t Join() const;
     rust::String GetTradingDay() const;

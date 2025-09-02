@@ -56,7 +56,7 @@ dependencies = [
 
 [[package]]
 name = "ctp-rs"
-version = "6.7.11"
+version = "6.7.11+refined.20250901"
 dependencies = [
  "cxx",
  "cxx-build",

@@ -16,6 +16,11 @@ rust::String MdApi::GetApiVersion() const {
     );
 }
 
+void MdApi::Release() const {
+    return api->Release(
+    );
+}
+
 void MdApi::Init() const {
     return api->Init(
     );

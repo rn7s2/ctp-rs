@@ -1777,6 +1777,7 @@ mod ffi {
         fn CreateMdApi(spi: &MdSpi, flow_path: String, is_using_udp: bool, is_multicast: bool, is_production_mode: bool) -> UniquePtr<MdApi>;
 
         fn GetApiVersion(&self)-> String;
+        fn Release(&self);
         fn Init(&self);
         fn Join(&self)-> i32;
         fn GetTradingDay(&self)-> String;
@@ -1969,6 +1970,7 @@ mod ffi {
         fn GetFrontInfo(&self) -> FrontInfoField;
 
         fn GetApiVersion(&self)-> String;
+        fn Release(&self);
         fn Init(&self);
         fn Join(&self)-> i32;
         fn GetTradingDay(&self)-> String;

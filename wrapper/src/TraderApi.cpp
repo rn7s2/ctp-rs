@@ -23,6 +23,11 @@ rust::String TraderApi::GetApiVersion() const {
     );
 }
 
+void TraderApi::Release() const {
+    return api->Release(
+    );
+}
+
 void TraderApi::Init() const {
     return api->Init(
     );
