@@ -1,14 +1,14 @@
 [package]
-name = "ctp-rs"
-version = "6.7.11+refined.20250901"
-edition = "2024"
 authors = ["Ruiqi Lei <Rn7s2@outlook.com>"]
+categories = ["api-bindings", "finance"]
 description = "Safe & Idiomatic Rust bindings for CTP"
+edition = "2024"
+keywords = ["ctp", "ctp-rs", "ctp2rs", "ctp-binding", "quant"]
 license = "MIT"
+name = "ctp-rs"
 readme = "README.md"
 repository = "https://github.com/rn7s2/ctp-rs"
-keywords = ["ctp", "ctp-rs", "ctp2rs", "ctp-binding", "quant"]
-categories = ["api-bindings", "finance"]
+version = "6.7.11+refined.20251214"
 
 [dependencies]
 cxx = "1.0"
