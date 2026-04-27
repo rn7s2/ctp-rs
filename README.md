@@ -7,13 +7,15 @@
 
 Safe & Idiomatic Rust bindings for CTP
 
-CTP 接口的安全又好用的 Rust 绑定，最新版本为 6.7.11.
+CTP 接口的安全又好用的 Rust 绑定.
 
 ## Quickstart
 
 可直接从 [`crates.io`](https://crates.io/crates/ctp-rs) 安装：
 
 `cargo add ctp-rs`
+
+发布在 `crates.io` 的包采用 SemVer 版本号系统，其中底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.1.0+ctp.6.7.11`.
 
 ## Examples
 

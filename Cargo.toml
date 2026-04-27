@@ -7,8 +7,8 @@ keywords = ["ctp", "ctp-rs", "ctp2rs", "ctp-binding", "quant"]
 license = "MIT"
 name = "ctp-rs"
 readme = "README.md"
-repository = "https://github.com/rn7s2/ctp-rs"
-version = "6.7.11+refined.20251214"
+repository = "https://github.com/rn7s2/ctp-rs.git"
+version = "0.1.0+ctp.6.7.11"
 
 [dependencies]
 cxx = "1.0"
