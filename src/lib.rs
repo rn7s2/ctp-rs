@@ -1359,16 +1359,16 @@ pub enum MdSpiMsg {
     OnFrontConnected,
     OnFrontDisconnected(i32),
     OnHeartBeatWarning(i32),
-    OnRspUserLogin(RspUserLoginField, RspInfoField, i32, bool),
-    OnRspUserLogout(UserLogoutField, RspInfoField, i32, bool),
-    OnRspQryMulticastInstrument(MulticastInstrumentField, RspInfoField, i32, bool),
-    OnRspError(RspInfoField, i32, bool),
-    OnRspSubMarketData(SpecificInstrumentField, RspInfoField, i32, bool),
-    OnRspUnSubMarketData(SpecificInstrumentField, RspInfoField, i32, bool),
-    OnRspSubForQuoteRsp(SpecificInstrumentField, RspInfoField, i32, bool),
-    OnRspUnSubForQuoteRsp(SpecificInstrumentField, RspInfoField, i32, bool),
-    OnRtnDepthMarketData(DepthMarketDataField),
-    OnRtnForQuoteRsp(ForQuoteRspField),
+    OnRspUserLogin(Box<RspUserLoginField>, Box<RspInfoField>, i32, bool),
+    OnRspUserLogout(Box<UserLogoutField>, Box<RspInfoField>, i32, bool),
+    OnRspQryMulticastInstrument(Box<MulticastInstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRspError(Box<RspInfoField>, i32, bool),
+    OnRspSubMarketData(Box<SpecificInstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRspUnSubMarketData(Box<SpecificInstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRspSubForQuoteRsp(Box<SpecificInstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRspUnSubForQuoteRsp(Box<SpecificInstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRtnDepthMarketData(Box<DepthMarketDataField>),
+    OnRtnForQuoteRsp(Box<ForQuoteRspField>),
 }
 
 pub struct MdSpi {
@@ -1379,16 +1379,16 @@ impl MdSpi {
 pub fn OnFrontConnected(&self) { self.tx.send(MdSpiMsg::OnFrontConnected).ok(); }
 pub fn OnFrontDisconnected(&self, nReason: i32) { self.tx.send(MdSpiMsg::OnFrontDisconnected(nReason)).ok(); }
 pub fn OnHeartBeatWarning(&self, nTimeLapse: i32) { self.tx.send(MdSpiMsg::OnHeartBeatWarning(nTimeLapse)).ok(); }
-pub fn OnRspUserLogin(&self, pRspUserLogin: RspUserLoginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUserLogin(pRspUserLogin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUserLogout(&self, pUserLogout: UserLogoutField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUserLogout(pUserLogout, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryMulticastInstrument(&self, pMulticastInstrument: MulticastInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspQryMulticastInstrument(pMulticastInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspError(&self, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspError(pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspSubMarketData(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspSubMarketData(pSpecificInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUnSubMarketData(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUnSubMarketData(pSpecificInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspSubForQuoteRsp(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspSubForQuoteRsp(pSpecificInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUnSubForQuoteRsp(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUnSubForQuoteRsp(pSpecificInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRtnDepthMarketData(&self, pDepthMarketData: DepthMarketDataField) { self.tx.send(MdSpiMsg::OnRtnDepthMarketData(pDepthMarketData)).ok(); }
-pub fn OnRtnForQuoteRsp(&self, pForQuoteRsp: ForQuoteRspField) { self.tx.send(MdSpiMsg::OnRtnForQuoteRsp(pForQuoteRsp)).ok(); }
+pub fn OnRspUserLogin(&self, pRspUserLogin: RspUserLoginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUserLogin(Box::new(pRspUserLogin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUserLogout(&self, pUserLogout: UserLogoutField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUserLogout(Box::new(pUserLogout), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryMulticastInstrument(&self, pMulticastInstrument: MulticastInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspQryMulticastInstrument(Box::new(pMulticastInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspError(&self, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspError(Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspSubMarketData(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspSubMarketData(Box::new(pSpecificInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUnSubMarketData(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUnSubMarketData(Box::new(pSpecificInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspSubForQuoteRsp(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspSubForQuoteRsp(Box::new(pSpecificInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUnSubForQuoteRsp(&self, pSpecificInstrument: SpecificInstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(MdSpiMsg::OnRspUnSubForQuoteRsp(Box::new(pSpecificInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnDepthMarketData(&self, pDepthMarketData: DepthMarketDataField) { self.tx.send(MdSpiMsg::OnRtnDepthMarketData(Box::new(pDepthMarketData))).ok(); }
+pub fn OnRtnForQuoteRsp(&self, pForQuoteRsp: ForQuoteRspField) { self.tx.send(MdSpiMsg::OnRtnForQuoteRsp(Box::new(pForQuoteRsp))).ok(); }
 }
 
 unsafe impl Send for TraderApi {}
@@ -1408,167 +1408,167 @@ pub enum TraderSpiMsg {
     OnFrontConnected,
     OnFrontDisconnected(i32),
     OnHeartBeatWarning(i32),
-    OnRspAuthenticate(RspAuthenticateField, RspInfoField, i32, bool),
-    OnRspUserLogin(RspUserLoginField, RspInfoField, i32, bool),
-    OnRspUserLogout(UserLogoutField, RspInfoField, i32, bool),
-    OnRspUserPasswordUpdate(UserPasswordUpdateField, RspInfoField, i32, bool),
-    OnRspTradingAccountPasswordUpdate(TradingAccountPasswordUpdateField, RspInfoField, i32, bool),
-    OnRspUserAuthMethod(RspUserAuthMethodField, RspInfoField, i32, bool),
-    OnRspGenUserCaptcha(RspGenUserCaptchaField, RspInfoField, i32, bool),
-    OnRspGenUserText(RspGenUserTextField, RspInfoField, i32, bool),
-    OnRspOrderInsert(InputOrderField, RspInfoField, i32, bool),
-    OnRspParkedOrderInsert(ParkedOrderField, RspInfoField, i32, bool),
-    OnRspParkedOrderAction(ParkedOrderActionField, RspInfoField, i32, bool),
-    OnRspOrderAction(InputOrderActionField, RspInfoField, i32, bool),
-    OnRspQryMaxOrderVolume(QryMaxOrderVolumeField, RspInfoField, i32, bool),
-    OnRspSettlementInfoConfirm(SettlementInfoConfirmField, RspInfoField, i32, bool),
-    OnRspRemoveParkedOrder(RemoveParkedOrderField, RspInfoField, i32, bool),
-    OnRspRemoveParkedOrderAction(RemoveParkedOrderActionField, RspInfoField, i32, bool),
-    OnRspExecOrderInsert(InputExecOrderField, RspInfoField, i32, bool),
-    OnRspExecOrderAction(InputExecOrderActionField, RspInfoField, i32, bool),
-    OnRspForQuoteInsert(InputForQuoteField, RspInfoField, i32, bool),
-    OnRspQuoteInsert(InputQuoteField, RspInfoField, i32, bool),
-    OnRspQuoteAction(InputQuoteActionField, RspInfoField, i32, bool),
-    OnRspBatchOrderAction(InputBatchOrderActionField, RspInfoField, i32, bool),
-    OnRspOptionSelfCloseInsert(InputOptionSelfCloseField, RspInfoField, i32, bool),
-    OnRspOptionSelfCloseAction(InputOptionSelfCloseActionField, RspInfoField, i32, bool),
-    OnRspCombActionInsert(InputCombActionField, RspInfoField, i32, bool),
-    OnRspQryOrder(OrderField, RspInfoField, i32, bool),
-    OnRspQryTrade(TradeField, RspInfoField, i32, bool),
-    OnRspQryInvestorPosition(InvestorPositionField, RspInfoField, i32, bool),
-    OnRspQryTradingAccount(TradingAccountField, RspInfoField, i32, bool),
-    OnRspQryInvestor(InvestorField, RspInfoField, i32, bool),
-    OnRspQryTradingCode(TradingCodeField, RspInfoField, i32, bool),
-    OnRspQryInstrumentMarginRate(InstrumentMarginRateField, RspInfoField, i32, bool),
-    OnRspQryInstrumentCommissionRate(InstrumentCommissionRateField, RspInfoField, i32, bool),
-    OnRspQryUserSession(UserSessionField, RspInfoField, i32, bool),
-    OnRspQryExchange(ExchangeField, RspInfoField, i32, bool),
-    OnRspQryProduct(ProductField, RspInfoField, i32, bool),
-    OnRspQryInstrument(InstrumentField, RspInfoField, i32, bool),
-    OnRspQryDepthMarketData(DepthMarketDataField, RspInfoField, i32, bool),
-    OnRspQryTraderOffer(TraderOfferField, RspInfoField, i32, bool),
-    OnRspQrySettlementInfo(SettlementInfoField, RspInfoField, i32, bool),
-    OnRspQryTransferBank(TransferBankField, RspInfoField, i32, bool),
-    OnRspQryInvestorPositionDetail(InvestorPositionDetailField, RspInfoField, i32, bool),
-    OnRspQryNotice(NoticeField, RspInfoField, i32, bool),
-    OnRspQrySettlementInfoConfirm(SettlementInfoConfirmField, RspInfoField, i32, bool),
-    OnRspQryInvestorPositionCombineDetail(InvestorPositionCombineDetailField, RspInfoField, i32, bool),
-    OnRspQryCFMMCTradingAccountKey(CFMMCTradingAccountKeyField, RspInfoField, i32, bool),
-    OnRspQryEWarrantOffset(EWarrantOffsetField, RspInfoField, i32, bool),
-    OnRspQryInvestorProductGroupMargin(InvestorProductGroupMarginField, RspInfoField, i32, bool),
-    OnRspQryExchangeMarginRate(ExchangeMarginRateField, RspInfoField, i32, bool),
-    OnRspQryExchangeMarginRateAdjust(ExchangeMarginRateAdjustField, RspInfoField, i32, bool),
-    OnRspQryExchangeRate(ExchangeRateField, RspInfoField, i32, bool),
-    OnRspQrySecAgentACIDMap(SecAgentACIDMapField, RspInfoField, i32, bool),
-    OnRspQryProductExchRate(ProductExchRateField, RspInfoField, i32, bool),
-    OnRspQryProductGroup(ProductGroupField, RspInfoField, i32, bool),
-    OnRspQryMMInstrumentCommissionRate(MMInstrumentCommissionRateField, RspInfoField, i32, bool),
-    OnRspQryMMOptionInstrCommRate(MMOptionInstrCommRateField, RspInfoField, i32, bool),
-    OnRspQryInstrumentOrderCommRate(InstrumentOrderCommRateField, RspInfoField, i32, bool),
-    OnRspQrySecAgentTradingAccount(TradingAccountField, RspInfoField, i32, bool),
-    OnRspQrySecAgentCheckMode(SecAgentCheckModeField, RspInfoField, i32, bool),
-    OnRspQrySecAgentTradeInfo(SecAgentTradeInfoField, RspInfoField, i32, bool),
-    OnRspQryOptionInstrTradeCost(OptionInstrTradeCostField, RspInfoField, i32, bool),
-    OnRspQryOptionInstrCommRate(OptionInstrCommRateField, RspInfoField, i32, bool),
-    OnRspQryExecOrder(ExecOrderField, RspInfoField, i32, bool),
-    OnRspQryForQuote(ForQuoteField, RspInfoField, i32, bool),
-    OnRspQryQuote(QuoteField, RspInfoField, i32, bool),
-    OnRspQryOptionSelfClose(OptionSelfCloseField, RspInfoField, i32, bool),
-    OnRspQryInvestUnit(InvestUnitField, RspInfoField, i32, bool),
-    OnRspQryCombInstrumentGuard(CombInstrumentGuardField, RspInfoField, i32, bool),
-    OnRspQryCombAction(CombActionField, RspInfoField, i32, bool),
-    OnRspQryTransferSerial(TransferSerialField, RspInfoField, i32, bool),
-    OnRspQryAccountregister(AccountregisterField, RspInfoField, i32, bool),
-    OnRspError(RspInfoField, i32, bool),
-    OnRtnOrder(OrderField),
-    OnRtnTrade(TradeField),
-    OnErrRtnOrderInsert(InputOrderField, RspInfoField),
-    OnErrRtnOrderAction(OrderActionField, RspInfoField),
-    OnRtnInstrumentStatus(InstrumentStatusField),
-    OnRtnBulletin(BulletinField),
-    OnRtnTradingNotice(TradingNoticeInfoField),
-    OnRtnErrorConditionalOrder(ErrorConditionalOrderField),
-    OnRtnExecOrder(ExecOrderField),
-    OnErrRtnExecOrderInsert(InputExecOrderField, RspInfoField),
-    OnErrRtnExecOrderAction(ExecOrderActionField, RspInfoField),
-    OnErrRtnForQuoteInsert(InputForQuoteField, RspInfoField),
-    OnRtnQuote(QuoteField),
-    OnErrRtnQuoteInsert(InputQuoteField, RspInfoField),
-    OnErrRtnQuoteAction(QuoteActionField, RspInfoField),
-    OnRtnForQuoteRsp(ForQuoteRspField),
-    OnRtnCFMMCTradingAccountToken(CFMMCTradingAccountTokenField),
-    OnErrRtnBatchOrderAction(BatchOrderActionField, RspInfoField),
-    OnRtnOptionSelfClose(OptionSelfCloseField),
-    OnErrRtnOptionSelfCloseInsert(InputOptionSelfCloseField, RspInfoField),
-    OnErrRtnOptionSelfCloseAction(OptionSelfCloseActionField, RspInfoField),
-    OnRtnCombAction(CombActionField),
-    OnErrRtnCombActionInsert(InputCombActionField, RspInfoField),
-    OnRspQryContractBank(ContractBankField, RspInfoField, i32, bool),
-    OnRspQryParkedOrder(ParkedOrderField, RspInfoField, i32, bool),
-    OnRspQryParkedOrderAction(ParkedOrderActionField, RspInfoField, i32, bool),
-    OnRspQryTradingNotice(TradingNoticeField, RspInfoField, i32, bool),
-    OnRspQryBrokerTradingParams(BrokerTradingParamsField, RspInfoField, i32, bool),
-    OnRspQryBrokerTradingAlgos(BrokerTradingAlgosField, RspInfoField, i32, bool),
-    OnRspQueryCFMMCTradingAccountToken(QueryCFMMCTradingAccountTokenField, RspInfoField, i32, bool),
-    OnRtnFromBankToFutureByBank(RspTransferField),
-    OnRtnFromFutureToBankByBank(RspTransferField),
-    OnRtnRepealFromBankToFutureByBank(RspRepealField),
-    OnRtnRepealFromFutureToBankByBank(RspRepealField),
-    OnRtnFromBankToFutureByFuture(RspTransferField),
-    OnRtnFromFutureToBankByFuture(RspTransferField),
-    OnRtnRepealFromBankToFutureByFutureManual(RspRepealField),
-    OnRtnRepealFromFutureToBankByFutureManual(RspRepealField),
-    OnRtnQueryBankBalanceByFuture(NotifyQueryAccountField),
-    OnErrRtnBankToFutureByFuture(ReqTransferField, RspInfoField),
-    OnErrRtnFutureToBankByFuture(ReqTransferField, RspInfoField),
-    OnErrRtnRepealBankToFutureByFutureManual(ReqRepealField, RspInfoField),
-    OnErrRtnRepealFutureToBankByFutureManual(ReqRepealField, RspInfoField),
-    OnErrRtnQueryBankBalanceByFuture(ReqQueryAccountField, RspInfoField),
-    OnRtnRepealFromBankToFutureByFuture(RspRepealField),
-    OnRtnRepealFromFutureToBankByFuture(RspRepealField),
-    OnRspFromBankToFutureByFuture(ReqTransferField, RspInfoField, i32, bool),
-    OnRspFromFutureToBankByFuture(ReqTransferField, RspInfoField, i32, bool),
-    OnRspQueryBankAccountMoneyByFuture(ReqQueryAccountField, RspInfoField, i32, bool),
-    OnRtnOpenAccountByBank(OpenAccountField),
-    OnRtnCancelAccountByBank(CancelAccountField),
-    OnRtnChangeAccountByBank(ChangeAccountField),
-    OnRspQryClassifiedInstrument(InstrumentField, RspInfoField, i32, bool),
-    OnRspQryCombPromotionParam(CombPromotionParamField, RspInfoField, i32, bool),
-    OnRspQryRiskSettleInvstPosition(RiskSettleInvstPositionField, RspInfoField, i32, bool),
-    OnRspQryRiskSettleProductStatus(RiskSettleProductStatusField, RspInfoField, i32, bool),
-    OnRspQrySPBMFutureParameter(SPBMFutureParameterField, RspInfoField, i32, bool),
-    OnRspQrySPBMOptionParameter(SPBMOptionParameterField, RspInfoField, i32, bool),
-    OnRspQrySPBMIntraParameter(SPBMIntraParameterField, RspInfoField, i32, bool),
-    OnRspQrySPBMInterParameter(SPBMInterParameterField, RspInfoField, i32, bool),
-    OnRspQrySPBMPortfDefinition(SPBMPortfDefinitionField, RspInfoField, i32, bool),
-    OnRspQrySPBMInvestorPortfDef(SPBMInvestorPortfDefField, RspInfoField, i32, bool),
-    OnRspQryInvestorPortfMarginRatio(InvestorPortfMarginRatioField, RspInfoField, i32, bool),
-    OnRspQryInvestorProdSPBMDetail(InvestorProdSPBMDetailField, RspInfoField, i32, bool),
-    OnRspQryInvestorCommoditySPMMMargin(InvestorCommoditySPMMMarginField, RspInfoField, i32, bool),
-    OnRspQryInvestorCommodityGroupSPMMMargin(InvestorCommodityGroupSPMMMarginField, RspInfoField, i32, bool),
-    OnRspQrySPMMInstParam(SPMMInstParamField, RspInfoField, i32, bool),
-    OnRspQrySPMMProductParam(SPMMProductParamField, RspInfoField, i32, bool),
-    OnRspQrySPBMAddOnInterParameter(SPBMAddOnInterParameterField, RspInfoField, i32, bool),
-    OnRspQryRCAMSCombProductInfo(RCAMSCombProductInfoField, RspInfoField, i32, bool),
-    OnRspQryRCAMSInstrParameter(RCAMSInstrParameterField, RspInfoField, i32, bool),
-    OnRspQryRCAMSIntraParameter(RCAMSIntraParameterField, RspInfoField, i32, bool),
-    OnRspQryRCAMSInterParameter(RCAMSInterParameterField, RspInfoField, i32, bool),
-    OnRspQryRCAMSShortOptAdjustParam(RCAMSShortOptAdjustParamField, RspInfoField, i32, bool),
-    OnRspQryRCAMSInvestorCombPosition(RCAMSInvestorCombPositionField, RspInfoField, i32, bool),
-    OnRspQryInvestorProdRCAMSMargin(InvestorProdRCAMSMarginField, RspInfoField, i32, bool),
-    OnRspQryRULEInstrParameter(RULEInstrParameterField, RspInfoField, i32, bool),
-    OnRspQryRULEIntraParameter(RULEIntraParameterField, RspInfoField, i32, bool),
-    OnRspQryRULEInterParameter(RULEInterParameterField, RspInfoField, i32, bool),
-    OnRspQryInvestorProdRULEMargin(InvestorProdRULEMarginField, RspInfoField, i32, bool),
-    OnRspQryInvestorPortfSetting(InvestorPortfSettingField, RspInfoField, i32, bool),
-    OnRspQryInvestorInfoCommRec(InvestorInfoCommRecField, RspInfoField, i32, bool),
-    OnRspQryCombLeg(CombLegField, RspInfoField, i32, bool),
-    OnRspOffsetSetting(InputOffsetSettingField, RspInfoField, i32, bool),
-    OnRspCancelOffsetSetting(InputOffsetSettingField, RspInfoField, i32, bool),
-    OnRtnOffsetSetting(OffsetSettingField),
-    OnErrRtnOffsetSetting(InputOffsetSettingField, RspInfoField),
-    OnErrRtnCancelOffsetSetting(CancelOffsetSettingField, RspInfoField),
-    OnRspQryOffsetSetting(OffsetSettingField, RspInfoField, i32, bool),
+    OnRspAuthenticate(Box<RspAuthenticateField>, Box<RspInfoField>, i32, bool),
+    OnRspUserLogin(Box<RspUserLoginField>, Box<RspInfoField>, i32, bool),
+    OnRspUserLogout(Box<UserLogoutField>, Box<RspInfoField>, i32, bool),
+    OnRspUserPasswordUpdate(Box<UserPasswordUpdateField>, Box<RspInfoField>, i32, bool),
+    OnRspTradingAccountPasswordUpdate(Box<TradingAccountPasswordUpdateField>, Box<RspInfoField>, i32, bool),
+    OnRspUserAuthMethod(Box<RspUserAuthMethodField>, Box<RspInfoField>, i32, bool),
+    OnRspGenUserCaptcha(Box<RspGenUserCaptchaField>, Box<RspInfoField>, i32, bool),
+    OnRspGenUserText(Box<RspGenUserTextField>, Box<RspInfoField>, i32, bool),
+    OnRspOrderInsert(Box<InputOrderField>, Box<RspInfoField>, i32, bool),
+    OnRspParkedOrderInsert(Box<ParkedOrderField>, Box<RspInfoField>, i32, bool),
+    OnRspParkedOrderAction(Box<ParkedOrderActionField>, Box<RspInfoField>, i32, bool),
+    OnRspOrderAction(Box<InputOrderActionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryMaxOrderVolume(Box<QryMaxOrderVolumeField>, Box<RspInfoField>, i32, bool),
+    OnRspSettlementInfoConfirm(Box<SettlementInfoConfirmField>, Box<RspInfoField>, i32, bool),
+    OnRspRemoveParkedOrder(Box<RemoveParkedOrderField>, Box<RspInfoField>, i32, bool),
+    OnRspRemoveParkedOrderAction(Box<RemoveParkedOrderActionField>, Box<RspInfoField>, i32, bool),
+    OnRspExecOrderInsert(Box<InputExecOrderField>, Box<RspInfoField>, i32, bool),
+    OnRspExecOrderAction(Box<InputExecOrderActionField>, Box<RspInfoField>, i32, bool),
+    OnRspForQuoteInsert(Box<InputForQuoteField>, Box<RspInfoField>, i32, bool),
+    OnRspQuoteInsert(Box<InputQuoteField>, Box<RspInfoField>, i32, bool),
+    OnRspQuoteAction(Box<InputQuoteActionField>, Box<RspInfoField>, i32, bool),
+    OnRspBatchOrderAction(Box<InputBatchOrderActionField>, Box<RspInfoField>, i32, bool),
+    OnRspOptionSelfCloseInsert(Box<InputOptionSelfCloseField>, Box<RspInfoField>, i32, bool),
+    OnRspOptionSelfCloseAction(Box<InputOptionSelfCloseActionField>, Box<RspInfoField>, i32, bool),
+    OnRspCombActionInsert(Box<InputCombActionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryOrder(Box<OrderField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTrade(Box<TradeField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorPosition(Box<InvestorPositionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTradingAccount(Box<TradingAccountField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestor(Box<InvestorField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTradingCode(Box<TradingCodeField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInstrumentMarginRate(Box<InstrumentMarginRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInstrumentCommissionRate(Box<InstrumentCommissionRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryUserSession(Box<UserSessionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryExchange(Box<ExchangeField>, Box<RspInfoField>, i32, bool),
+    OnRspQryProduct(Box<ProductField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInstrument(Box<InstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRspQryDepthMarketData(Box<DepthMarketDataField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTraderOffer(Box<TraderOfferField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySettlementInfo(Box<SettlementInfoField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTransferBank(Box<TransferBankField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorPositionDetail(Box<InvestorPositionDetailField>, Box<RspInfoField>, i32, bool),
+    OnRspQryNotice(Box<NoticeField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySettlementInfoConfirm(Box<SettlementInfoConfirmField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorPositionCombineDetail(Box<InvestorPositionCombineDetailField>, Box<RspInfoField>, i32, bool),
+    OnRspQryCFMMCTradingAccountKey(Box<CFMMCTradingAccountKeyField>, Box<RspInfoField>, i32, bool),
+    OnRspQryEWarrantOffset(Box<EWarrantOffsetField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorProductGroupMargin(Box<InvestorProductGroupMarginField>, Box<RspInfoField>, i32, bool),
+    OnRspQryExchangeMarginRate(Box<ExchangeMarginRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryExchangeMarginRateAdjust(Box<ExchangeMarginRateAdjustField>, Box<RspInfoField>, i32, bool),
+    OnRspQryExchangeRate(Box<ExchangeRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySecAgentACIDMap(Box<SecAgentACIDMapField>, Box<RspInfoField>, i32, bool),
+    OnRspQryProductExchRate(Box<ProductExchRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryProductGroup(Box<ProductGroupField>, Box<RspInfoField>, i32, bool),
+    OnRspQryMMInstrumentCommissionRate(Box<MMInstrumentCommissionRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryMMOptionInstrCommRate(Box<MMOptionInstrCommRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInstrumentOrderCommRate(Box<InstrumentOrderCommRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySecAgentTradingAccount(Box<TradingAccountField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySecAgentCheckMode(Box<SecAgentCheckModeField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySecAgentTradeInfo(Box<SecAgentTradeInfoField>, Box<RspInfoField>, i32, bool),
+    OnRspQryOptionInstrTradeCost(Box<OptionInstrTradeCostField>, Box<RspInfoField>, i32, bool),
+    OnRspQryOptionInstrCommRate(Box<OptionInstrCommRateField>, Box<RspInfoField>, i32, bool),
+    OnRspQryExecOrder(Box<ExecOrderField>, Box<RspInfoField>, i32, bool),
+    OnRspQryForQuote(Box<ForQuoteField>, Box<RspInfoField>, i32, bool),
+    OnRspQryQuote(Box<QuoteField>, Box<RspInfoField>, i32, bool),
+    OnRspQryOptionSelfClose(Box<OptionSelfCloseField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestUnit(Box<InvestUnitField>, Box<RspInfoField>, i32, bool),
+    OnRspQryCombInstrumentGuard(Box<CombInstrumentGuardField>, Box<RspInfoField>, i32, bool),
+    OnRspQryCombAction(Box<CombActionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTransferSerial(Box<TransferSerialField>, Box<RspInfoField>, i32, bool),
+    OnRspQryAccountregister(Box<AccountregisterField>, Box<RspInfoField>, i32, bool),
+    OnRspError(Box<RspInfoField>, i32, bool),
+    OnRtnOrder(Box<OrderField>),
+    OnRtnTrade(Box<TradeField>),
+    OnErrRtnOrderInsert(Box<InputOrderField>, Box<RspInfoField>),
+    OnErrRtnOrderAction(Box<OrderActionField>, Box<RspInfoField>),
+    OnRtnInstrumentStatus(Box<InstrumentStatusField>),
+    OnRtnBulletin(Box<BulletinField>),
+    OnRtnTradingNotice(Box<TradingNoticeInfoField>),
+    OnRtnErrorConditionalOrder(Box<ErrorConditionalOrderField>),
+    OnRtnExecOrder(Box<ExecOrderField>),
+    OnErrRtnExecOrderInsert(Box<InputExecOrderField>, Box<RspInfoField>),
+    OnErrRtnExecOrderAction(Box<ExecOrderActionField>, Box<RspInfoField>),
+    OnErrRtnForQuoteInsert(Box<InputForQuoteField>, Box<RspInfoField>),
+    OnRtnQuote(Box<QuoteField>),
+    OnErrRtnQuoteInsert(Box<InputQuoteField>, Box<RspInfoField>),
+    OnErrRtnQuoteAction(Box<QuoteActionField>, Box<RspInfoField>),
+    OnRtnForQuoteRsp(Box<ForQuoteRspField>),
+    OnRtnCFMMCTradingAccountToken(Box<CFMMCTradingAccountTokenField>),
+    OnErrRtnBatchOrderAction(Box<BatchOrderActionField>, Box<RspInfoField>),
+    OnRtnOptionSelfClose(Box<OptionSelfCloseField>),
+    OnErrRtnOptionSelfCloseInsert(Box<InputOptionSelfCloseField>, Box<RspInfoField>),
+    OnErrRtnOptionSelfCloseAction(Box<OptionSelfCloseActionField>, Box<RspInfoField>),
+    OnRtnCombAction(Box<CombActionField>),
+    OnErrRtnCombActionInsert(Box<InputCombActionField>, Box<RspInfoField>),
+    OnRspQryContractBank(Box<ContractBankField>, Box<RspInfoField>, i32, bool),
+    OnRspQryParkedOrder(Box<ParkedOrderField>, Box<RspInfoField>, i32, bool),
+    OnRspQryParkedOrderAction(Box<ParkedOrderActionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryTradingNotice(Box<TradingNoticeField>, Box<RspInfoField>, i32, bool),
+    OnRspQryBrokerTradingParams(Box<BrokerTradingParamsField>, Box<RspInfoField>, i32, bool),
+    OnRspQryBrokerTradingAlgos(Box<BrokerTradingAlgosField>, Box<RspInfoField>, i32, bool),
+    OnRspQueryCFMMCTradingAccountToken(Box<QueryCFMMCTradingAccountTokenField>, Box<RspInfoField>, i32, bool),
+    OnRtnFromBankToFutureByBank(Box<RspTransferField>),
+    OnRtnFromFutureToBankByBank(Box<RspTransferField>),
+    OnRtnRepealFromBankToFutureByBank(Box<RspRepealField>),
+    OnRtnRepealFromFutureToBankByBank(Box<RspRepealField>),
+    OnRtnFromBankToFutureByFuture(Box<RspTransferField>),
+    OnRtnFromFutureToBankByFuture(Box<RspTransferField>),
+    OnRtnRepealFromBankToFutureByFutureManual(Box<RspRepealField>),
+    OnRtnRepealFromFutureToBankByFutureManual(Box<RspRepealField>),
+    OnRtnQueryBankBalanceByFuture(Box<NotifyQueryAccountField>),
+    OnErrRtnBankToFutureByFuture(Box<ReqTransferField>, Box<RspInfoField>),
+    OnErrRtnFutureToBankByFuture(Box<ReqTransferField>, Box<RspInfoField>),
+    OnErrRtnRepealBankToFutureByFutureManual(Box<ReqRepealField>, Box<RspInfoField>),
+    OnErrRtnRepealFutureToBankByFutureManual(Box<ReqRepealField>, Box<RspInfoField>),
+    OnErrRtnQueryBankBalanceByFuture(Box<ReqQueryAccountField>, Box<RspInfoField>),
+    OnRtnRepealFromBankToFutureByFuture(Box<RspRepealField>),
+    OnRtnRepealFromFutureToBankByFuture(Box<RspRepealField>),
+    OnRspFromBankToFutureByFuture(Box<ReqTransferField>, Box<RspInfoField>, i32, bool),
+    OnRspFromFutureToBankByFuture(Box<ReqTransferField>, Box<RspInfoField>, i32, bool),
+    OnRspQueryBankAccountMoneyByFuture(Box<ReqQueryAccountField>, Box<RspInfoField>, i32, bool),
+    OnRtnOpenAccountByBank(Box<OpenAccountField>),
+    OnRtnCancelAccountByBank(Box<CancelAccountField>),
+    OnRtnChangeAccountByBank(Box<ChangeAccountField>),
+    OnRspQryClassifiedInstrument(Box<InstrumentField>, Box<RspInfoField>, i32, bool),
+    OnRspQryCombPromotionParam(Box<CombPromotionParamField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRiskSettleInvstPosition(Box<RiskSettleInvstPositionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRiskSettleProductStatus(Box<RiskSettleProductStatusField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMFutureParameter(Box<SPBMFutureParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMOptionParameter(Box<SPBMOptionParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMIntraParameter(Box<SPBMIntraParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMInterParameter(Box<SPBMInterParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMPortfDefinition(Box<SPBMPortfDefinitionField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMInvestorPortfDef(Box<SPBMInvestorPortfDefField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorPortfMarginRatio(Box<InvestorPortfMarginRatioField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorProdSPBMDetail(Box<InvestorProdSPBMDetailField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorCommoditySPMMMargin(Box<InvestorCommoditySPMMMarginField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorCommodityGroupSPMMMargin(Box<InvestorCommodityGroupSPMMMarginField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPMMInstParam(Box<SPMMInstParamField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPMMProductParam(Box<SPMMProductParamField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySPBMAddOnInterParameter(Box<SPBMAddOnInterParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRCAMSCombProductInfo(Box<RCAMSCombProductInfoField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRCAMSInstrParameter(Box<RCAMSInstrParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRCAMSIntraParameter(Box<RCAMSIntraParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRCAMSInterParameter(Box<RCAMSInterParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRCAMSShortOptAdjustParam(Box<RCAMSShortOptAdjustParamField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRCAMSInvestorCombPosition(Box<RCAMSInvestorCombPositionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorProdRCAMSMargin(Box<InvestorProdRCAMSMarginField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRULEInstrParameter(Box<RULEInstrParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRULEIntraParameter(Box<RULEIntraParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryRULEInterParameter(Box<RULEInterParameterField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorProdRULEMargin(Box<InvestorProdRULEMarginField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorPortfSetting(Box<InvestorPortfSettingField>, Box<RspInfoField>, i32, bool),
+    OnRspQryInvestorInfoCommRec(Box<InvestorInfoCommRecField>, Box<RspInfoField>, i32, bool),
+    OnRspQryCombLeg(Box<CombLegField>, Box<RspInfoField>, i32, bool),
+    OnRspOffsetSetting(Box<InputOffsetSettingField>, Box<RspInfoField>, i32, bool),
+    OnRspCancelOffsetSetting(Box<InputOffsetSettingField>, Box<RspInfoField>, i32, bool),
+    OnRtnOffsetSetting(Box<OffsetSettingField>),
+    OnErrRtnOffsetSetting(Box<InputOffsetSettingField>, Box<RspInfoField>),
+    OnErrRtnCancelOffsetSetting(Box<CancelOffsetSettingField>, Box<RspInfoField>),
+    OnRspQryOffsetSetting(Box<OffsetSettingField>, Box<RspInfoField>, i32, bool),
 }
 
 pub struct TraderSpi {
@@ -1579,167 +1579,167 @@ impl TraderSpi {
 pub fn OnFrontConnected(&self) { self.tx.send(TraderSpiMsg::OnFrontConnected).ok(); }
 pub fn OnFrontDisconnected(&self, nReason: i32) { self.tx.send(TraderSpiMsg::OnFrontDisconnected(nReason)).ok(); }
 pub fn OnHeartBeatWarning(&self, nTimeLapse: i32) { self.tx.send(TraderSpiMsg::OnHeartBeatWarning(nTimeLapse)).ok(); }
-pub fn OnRspAuthenticate(&self, pRspAuthenticateField: RspAuthenticateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspAuthenticate(pRspAuthenticateField, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUserLogin(&self, pRspUserLogin: RspUserLoginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserLogin(pRspUserLogin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUserLogout(&self, pUserLogout: UserLogoutField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserLogout(pUserLogout, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUserPasswordUpdate(&self, pUserPasswordUpdate: UserPasswordUpdateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserPasswordUpdate(pUserPasswordUpdate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspTradingAccountPasswordUpdate(&self, pTradingAccountPasswordUpdate: TradingAccountPasswordUpdateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspTradingAccountPasswordUpdate(pTradingAccountPasswordUpdate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspUserAuthMethod(&self, pRspUserAuthMethod: RspUserAuthMethodField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserAuthMethod(pRspUserAuthMethod, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspGenUserCaptcha(&self, pRspGenUserCaptcha: RspGenUserCaptchaField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspGenUserCaptcha(pRspGenUserCaptcha, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspGenUserText(&self, pRspGenUserText: RspGenUserTextField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspGenUserText(pRspGenUserText, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspOrderInsert(&self, pInputOrder: InputOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOrderInsert(pInputOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspParkedOrderInsert(&self, pParkedOrder: ParkedOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspParkedOrderInsert(pParkedOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspParkedOrderAction(&self, pParkedOrderAction: ParkedOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspParkedOrderAction(pParkedOrderAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspOrderAction(&self, pInputOrderAction: InputOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOrderAction(pInputOrderAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryMaxOrderVolume(&self, pQryMaxOrderVolume: QryMaxOrderVolumeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryMaxOrderVolume(pQryMaxOrderVolume, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspSettlementInfoConfirm(&self, pSettlementInfoConfirm: SettlementInfoConfirmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspSettlementInfoConfirm(pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspRemoveParkedOrder(&self, pRemoveParkedOrder: RemoveParkedOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspRemoveParkedOrder(pRemoveParkedOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspRemoveParkedOrderAction(&self, pRemoveParkedOrderAction: RemoveParkedOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspRemoveParkedOrderAction(pRemoveParkedOrderAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspExecOrderInsert(&self, pInputExecOrder: InputExecOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspExecOrderInsert(pInputExecOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspExecOrderAction(&self, pInputExecOrderAction: InputExecOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspExecOrderAction(pInputExecOrderAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspForQuoteInsert(&self, pInputForQuote: InputForQuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspForQuoteInsert(pInputForQuote, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQuoteInsert(&self, pInputQuote: InputQuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQuoteInsert(pInputQuote, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQuoteAction(&self, pInputQuoteAction: InputQuoteActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQuoteAction(pInputQuoteAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspBatchOrderAction(&self, pInputBatchOrderAction: InputBatchOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspBatchOrderAction(pInputBatchOrderAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspOptionSelfCloseInsert(&self, pInputOptionSelfClose: InputOptionSelfCloseField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOptionSelfCloseInsert(pInputOptionSelfClose, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspOptionSelfCloseAction(&self, pInputOptionSelfCloseAction: InputOptionSelfCloseActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOptionSelfCloseAction(pInputOptionSelfCloseAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspCombActionInsert(&self, pInputCombAction: InputCombActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspCombActionInsert(pInputCombAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryOrder(&self, pOrder: OrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOrder(pOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTrade(&self, pTrade: TradeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTrade(pTrade, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorPosition(&self, pInvestorPosition: InvestorPositionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPosition(pInvestorPosition, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTradingAccount(&self, pTradingAccount: TradingAccountField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingAccount(pTradingAccount, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestor(&self, pInvestor: InvestorField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestor(pInvestor, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTradingCode(&self, pTradingCode: TradingCodeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingCode(pTradingCode, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInstrumentMarginRate(&self, pInstrumentMarginRate: InstrumentMarginRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentMarginRate(pInstrumentMarginRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInstrumentCommissionRate(&self, pInstrumentCommissionRate: InstrumentCommissionRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentCommissionRate(pInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryUserSession(&self, pUserSession: UserSessionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryUserSession(pUserSession, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryExchange(&self, pExchange: ExchangeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchange(pExchange, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryProduct(&self, pProduct: ProductField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProduct(pProduct, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInstrument(&self, pInstrument: InstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrument(pInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryDepthMarketData(&self, pDepthMarketData: DepthMarketDataField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryDepthMarketData(pDepthMarketData, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTraderOffer(&self, pTraderOffer: TraderOfferField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTraderOffer(pTraderOffer, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySettlementInfo(&self, pSettlementInfo: SettlementInfoField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySettlementInfo(pSettlementInfo, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTransferBank(&self, pTransferBank: TransferBankField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTransferBank(pTransferBank, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorPositionDetail(&self, pInvestorPositionDetail: InvestorPositionDetailField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPositionDetail(pInvestorPositionDetail, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryNotice(&self, pNotice: NoticeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryNotice(pNotice, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySettlementInfoConfirm(&self, pSettlementInfoConfirm: SettlementInfoConfirmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySettlementInfoConfirm(pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorPositionCombineDetail(&self, pInvestorPositionCombineDetail: InvestorPositionCombineDetailField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPositionCombineDetail(pInvestorPositionCombineDetail, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryCFMMCTradingAccountKey(&self, pCFMMCTradingAccountKey: CFMMCTradingAccountKeyField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCFMMCTradingAccountKey(pCFMMCTradingAccountKey, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryEWarrantOffset(&self, pEWarrantOffset: EWarrantOffsetField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryEWarrantOffset(pEWarrantOffset, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorProductGroupMargin(&self, pInvestorProductGroupMargin: InvestorProductGroupMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProductGroupMargin(pInvestorProductGroupMargin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryExchangeMarginRate(&self, pExchangeMarginRate: ExchangeMarginRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchangeMarginRate(pExchangeMarginRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryExchangeMarginRateAdjust(&self, pExchangeMarginRateAdjust: ExchangeMarginRateAdjustField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchangeMarginRateAdjust(pExchangeMarginRateAdjust, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryExchangeRate(&self, pExchangeRate: ExchangeRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchangeRate(pExchangeRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySecAgentACIDMap(&self, pSecAgentACIDMap: SecAgentACIDMapField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentACIDMap(pSecAgentACIDMap, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryProductExchRate(&self, pProductExchRate: ProductExchRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProductExchRate(pProductExchRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryProductGroup(&self, pProductGroup: ProductGroupField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProductGroup(pProductGroup, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryMMInstrumentCommissionRate(&self, pMMInstrumentCommissionRate: MMInstrumentCommissionRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryMMInstrumentCommissionRate(pMMInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryMMOptionInstrCommRate(&self, pMMOptionInstrCommRate: MMOptionInstrCommRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryMMOptionInstrCommRate(pMMOptionInstrCommRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInstrumentOrderCommRate(&self, pInstrumentOrderCommRate: InstrumentOrderCommRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentOrderCommRate(pInstrumentOrderCommRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySecAgentTradingAccount(&self, pTradingAccount: TradingAccountField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentTradingAccount(pTradingAccount, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySecAgentCheckMode(&self, pSecAgentCheckMode: SecAgentCheckModeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentCheckMode(pSecAgentCheckMode, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySecAgentTradeInfo(&self, pSecAgentTradeInfo: SecAgentTradeInfoField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentTradeInfo(pSecAgentTradeInfo, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryOptionInstrTradeCost(&self, pOptionInstrTradeCost: OptionInstrTradeCostField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOptionInstrTradeCost(pOptionInstrTradeCost, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryOptionInstrCommRate(&self, pOptionInstrCommRate: OptionInstrCommRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOptionInstrCommRate(pOptionInstrCommRate, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryExecOrder(&self, pExecOrder: ExecOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExecOrder(pExecOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryForQuote(&self, pForQuote: ForQuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryForQuote(pForQuote, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryQuote(&self, pQuote: QuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryQuote(pQuote, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryOptionSelfClose(&self, pOptionSelfClose: OptionSelfCloseField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOptionSelfClose(pOptionSelfClose, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestUnit(&self, pInvestUnit: InvestUnitField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestUnit(pInvestUnit, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryCombInstrumentGuard(&self, pCombInstrumentGuard: CombInstrumentGuardField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombInstrumentGuard(pCombInstrumentGuard, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryCombAction(&self, pCombAction: CombActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombAction(pCombAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTransferSerial(&self, pTransferSerial: TransferSerialField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTransferSerial(pTransferSerial, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryAccountregister(&self, pAccountregister: AccountregisterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryAccountregister(pAccountregister, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspError(&self, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspError(pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRtnOrder(&self, pOrder: OrderField) { self.tx.send(TraderSpiMsg::OnRtnOrder(pOrder)).ok(); }
-pub fn OnRtnTrade(&self, pTrade: TradeField) { self.tx.send(TraderSpiMsg::OnRtnTrade(pTrade)).ok(); }
-pub fn OnErrRtnOrderInsert(&self, pInputOrder: InputOrderField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOrderInsert(pInputOrder, pRspInfo)).ok(); }
-pub fn OnErrRtnOrderAction(&self, pOrderAction: OrderActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOrderAction(pOrderAction, pRspInfo)).ok(); }
-pub fn OnRtnInstrumentStatus(&self, pInstrumentStatus: InstrumentStatusField) { self.tx.send(TraderSpiMsg::OnRtnInstrumentStatus(pInstrumentStatus)).ok(); }
-pub fn OnRtnBulletin(&self, pBulletin: BulletinField) { self.tx.send(TraderSpiMsg::OnRtnBulletin(pBulletin)).ok(); }
-pub fn OnRtnTradingNotice(&self, pTradingNoticeInfo: TradingNoticeInfoField) { self.tx.send(TraderSpiMsg::OnRtnTradingNotice(pTradingNoticeInfo)).ok(); }
-pub fn OnRtnErrorConditionalOrder(&self, pErrorConditionalOrder: ErrorConditionalOrderField) { self.tx.send(TraderSpiMsg::OnRtnErrorConditionalOrder(pErrorConditionalOrder)).ok(); }
-pub fn OnRtnExecOrder(&self, pExecOrder: ExecOrderField) { self.tx.send(TraderSpiMsg::OnRtnExecOrder(pExecOrder)).ok(); }
-pub fn OnErrRtnExecOrderInsert(&self, pInputExecOrder: InputExecOrderField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnExecOrderInsert(pInputExecOrder, pRspInfo)).ok(); }
-pub fn OnErrRtnExecOrderAction(&self, pExecOrderAction: ExecOrderActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnExecOrderAction(pExecOrderAction, pRspInfo)).ok(); }
-pub fn OnErrRtnForQuoteInsert(&self, pInputForQuote: InputForQuoteField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnForQuoteInsert(pInputForQuote, pRspInfo)).ok(); }
-pub fn OnRtnQuote(&self, pQuote: QuoteField) { self.tx.send(TraderSpiMsg::OnRtnQuote(pQuote)).ok(); }
-pub fn OnErrRtnQuoteInsert(&self, pInputQuote: InputQuoteField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnQuoteInsert(pInputQuote, pRspInfo)).ok(); }
-pub fn OnErrRtnQuoteAction(&self, pQuoteAction: QuoteActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnQuoteAction(pQuoteAction, pRspInfo)).ok(); }
-pub fn OnRtnForQuoteRsp(&self, pForQuoteRsp: ForQuoteRspField) { self.tx.send(TraderSpiMsg::OnRtnForQuoteRsp(pForQuoteRsp)).ok(); }
-pub fn OnRtnCFMMCTradingAccountToken(&self, pCFMMCTradingAccountToken: CFMMCTradingAccountTokenField) { self.tx.send(TraderSpiMsg::OnRtnCFMMCTradingAccountToken(pCFMMCTradingAccountToken)).ok(); }
-pub fn OnErrRtnBatchOrderAction(&self, pBatchOrderAction: BatchOrderActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnBatchOrderAction(pBatchOrderAction, pRspInfo)).ok(); }
-pub fn OnRtnOptionSelfClose(&self, pOptionSelfClose: OptionSelfCloseField) { self.tx.send(TraderSpiMsg::OnRtnOptionSelfClose(pOptionSelfClose)).ok(); }
-pub fn OnErrRtnOptionSelfCloseInsert(&self, pInputOptionSelfClose: InputOptionSelfCloseField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOptionSelfCloseInsert(pInputOptionSelfClose, pRspInfo)).ok(); }
-pub fn OnErrRtnOptionSelfCloseAction(&self, pOptionSelfCloseAction: OptionSelfCloseActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOptionSelfCloseAction(pOptionSelfCloseAction, pRspInfo)).ok(); }
-pub fn OnRtnCombAction(&self, pCombAction: CombActionField) { self.tx.send(TraderSpiMsg::OnRtnCombAction(pCombAction)).ok(); }
-pub fn OnErrRtnCombActionInsert(&self, pInputCombAction: InputCombActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnCombActionInsert(pInputCombAction, pRspInfo)).ok(); }
-pub fn OnRspQryContractBank(&self, pContractBank: ContractBankField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryContractBank(pContractBank, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryParkedOrder(&self, pParkedOrder: ParkedOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryParkedOrder(pParkedOrder, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryParkedOrderAction(&self, pParkedOrderAction: ParkedOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryParkedOrderAction(pParkedOrderAction, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryTradingNotice(&self, pTradingNotice: TradingNoticeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingNotice(pTradingNotice, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryBrokerTradingParams(&self, pBrokerTradingParams: BrokerTradingParamsField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryBrokerTradingParams(pBrokerTradingParams, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryBrokerTradingAlgos(&self, pBrokerTradingAlgos: BrokerTradingAlgosField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryBrokerTradingAlgos(pBrokerTradingAlgos, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQueryCFMMCTradingAccountToken(&self, pQueryCFMMCTradingAccountToken: QueryCFMMCTradingAccountTokenField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQueryCFMMCTradingAccountToken(pQueryCFMMCTradingAccountToken, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRtnFromBankToFutureByBank(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromBankToFutureByBank(pRspTransfer)).ok(); }
-pub fn OnRtnFromFutureToBankByBank(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromFutureToBankByBank(pRspTransfer)).ok(); }
-pub fn OnRtnRepealFromBankToFutureByBank(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromBankToFutureByBank(pRspRepeal)).ok(); }
-pub fn OnRtnRepealFromFutureToBankByBank(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromFutureToBankByBank(pRspRepeal)).ok(); }
-pub fn OnRtnFromBankToFutureByFuture(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromBankToFutureByFuture(pRspTransfer)).ok(); }
-pub fn OnRtnFromFutureToBankByFuture(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromFutureToBankByFuture(pRspTransfer)).ok(); }
-pub fn OnRtnRepealFromBankToFutureByFutureManual(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromBankToFutureByFutureManual(pRspRepeal)).ok(); }
-pub fn OnRtnRepealFromFutureToBankByFutureManual(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromFutureToBankByFutureManual(pRspRepeal)).ok(); }
-pub fn OnRtnQueryBankBalanceByFuture(&self, pNotifyQueryAccount: NotifyQueryAccountField) { self.tx.send(TraderSpiMsg::OnRtnQueryBankBalanceByFuture(pNotifyQueryAccount)).ok(); }
-pub fn OnErrRtnBankToFutureByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnBankToFutureByFuture(pReqTransfer, pRspInfo)).ok(); }
-pub fn OnErrRtnFutureToBankByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnFutureToBankByFuture(pReqTransfer, pRspInfo)).ok(); }
-pub fn OnErrRtnRepealBankToFutureByFutureManual(&self, pReqRepeal: ReqRepealField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnRepealBankToFutureByFutureManual(pReqRepeal, pRspInfo)).ok(); }
-pub fn OnErrRtnRepealFutureToBankByFutureManual(&self, pReqRepeal: ReqRepealField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnRepealFutureToBankByFutureManual(pReqRepeal, pRspInfo)).ok(); }
-pub fn OnErrRtnQueryBankBalanceByFuture(&self, pReqQueryAccount: ReqQueryAccountField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnQueryBankBalanceByFuture(pReqQueryAccount, pRspInfo)).ok(); }
-pub fn OnRtnRepealFromBankToFutureByFuture(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromBankToFutureByFuture(pRspRepeal)).ok(); }
-pub fn OnRtnRepealFromFutureToBankByFuture(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromFutureToBankByFuture(pRspRepeal)).ok(); }
-pub fn OnRspFromBankToFutureByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspFromBankToFutureByFuture(pReqTransfer, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspFromFutureToBankByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspFromFutureToBankByFuture(pReqTransfer, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQueryBankAccountMoneyByFuture(&self, pReqQueryAccount: ReqQueryAccountField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQueryBankAccountMoneyByFuture(pReqQueryAccount, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRtnOpenAccountByBank(&self, pOpenAccount: OpenAccountField) { self.tx.send(TraderSpiMsg::OnRtnOpenAccountByBank(pOpenAccount)).ok(); }
-pub fn OnRtnCancelAccountByBank(&self, pCancelAccount: CancelAccountField) { self.tx.send(TraderSpiMsg::OnRtnCancelAccountByBank(pCancelAccount)).ok(); }
-pub fn OnRtnChangeAccountByBank(&self, pChangeAccount: ChangeAccountField) { self.tx.send(TraderSpiMsg::OnRtnChangeAccountByBank(pChangeAccount)).ok(); }
-pub fn OnRspQryClassifiedInstrument(&self, pInstrument: InstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryClassifiedInstrument(pInstrument, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryCombPromotionParam(&self, pCombPromotionParam: CombPromotionParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombPromotionParam(pCombPromotionParam, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRiskSettleInvstPosition(&self, pRiskSettleInvstPosition: RiskSettleInvstPositionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRiskSettleInvstPosition(pRiskSettleInvstPosition, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRiskSettleProductStatus(&self, pRiskSettleProductStatus: RiskSettleProductStatusField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRiskSettleProductStatus(pRiskSettleProductStatus, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMFutureParameter(&self, pSPBMFutureParameter: SPBMFutureParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMFutureParameter(pSPBMFutureParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMOptionParameter(&self, pSPBMOptionParameter: SPBMOptionParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMOptionParameter(pSPBMOptionParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMIntraParameter(&self, pSPBMIntraParameter: SPBMIntraParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMIntraParameter(pSPBMIntraParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMInterParameter(&self, pSPBMInterParameter: SPBMInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMInterParameter(pSPBMInterParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMPortfDefinition(&self, pSPBMPortfDefinition: SPBMPortfDefinitionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMPortfDefinition(pSPBMPortfDefinition, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMInvestorPortfDef(&self, pSPBMInvestorPortfDef: SPBMInvestorPortfDefField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMInvestorPortfDef(pSPBMInvestorPortfDef, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorPortfMarginRatio(&self, pInvestorPortfMarginRatio: InvestorPortfMarginRatioField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPortfMarginRatio(pInvestorPortfMarginRatio, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorProdSPBMDetail(&self, pInvestorProdSPBMDetail: InvestorProdSPBMDetailField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdSPBMDetail(pInvestorProdSPBMDetail, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorCommoditySPMMMargin(&self, pInvestorCommoditySPMMMargin: InvestorCommoditySPMMMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorCommoditySPMMMargin(pInvestorCommoditySPMMMargin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorCommodityGroupSPMMMargin(&self, pInvestorCommodityGroupSPMMMargin: InvestorCommodityGroupSPMMMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorCommodityGroupSPMMMargin(pInvestorCommodityGroupSPMMMargin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPMMInstParam(&self, pSPMMInstParam: SPMMInstParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPMMInstParam(pSPMMInstParam, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPMMProductParam(&self, pSPMMProductParam: SPMMProductParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPMMProductParam(pSPMMProductParam, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQrySPBMAddOnInterParameter(&self, pSPBMAddOnInterParameter: SPBMAddOnInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMAddOnInterParameter(pSPBMAddOnInterParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRCAMSCombProductInfo(&self, pRCAMSCombProductInfo: RCAMSCombProductInfoField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSCombProductInfo(pRCAMSCombProductInfo, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRCAMSInstrParameter(&self, pRCAMSInstrParameter: RCAMSInstrParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSInstrParameter(pRCAMSInstrParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRCAMSIntraParameter(&self, pRCAMSIntraParameter: RCAMSIntraParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSIntraParameter(pRCAMSIntraParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRCAMSInterParameter(&self, pRCAMSInterParameter: RCAMSInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSInterParameter(pRCAMSInterParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRCAMSShortOptAdjustParam(&self, pRCAMSShortOptAdjustParam: RCAMSShortOptAdjustParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSShortOptAdjustParam(pRCAMSShortOptAdjustParam, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRCAMSInvestorCombPosition(&self, pRCAMSInvestorCombPosition: RCAMSInvestorCombPositionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSInvestorCombPosition(pRCAMSInvestorCombPosition, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorProdRCAMSMargin(&self, pInvestorProdRCAMSMargin: InvestorProdRCAMSMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdRCAMSMargin(pInvestorProdRCAMSMargin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRULEInstrParameter(&self, pRULEInstrParameter: RULEInstrParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRULEInstrParameter(pRULEInstrParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRULEIntraParameter(&self, pRULEIntraParameter: RULEIntraParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRULEIntraParameter(pRULEIntraParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryRULEInterParameter(&self, pRULEInterParameter: RULEInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRULEInterParameter(pRULEInterParameter, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorProdRULEMargin(&self, pInvestorProdRULEMargin: InvestorProdRULEMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdRULEMargin(pInvestorProdRULEMargin, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorPortfSetting(&self, pInvestorPortfSetting: InvestorPortfSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPortfSetting(pInvestorPortfSetting, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryInvestorInfoCommRec(&self, pInvestorInfoCommRec: InvestorInfoCommRecField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorInfoCommRec(pInvestorInfoCommRec, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspQryCombLeg(&self, pCombLeg: CombLegField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombLeg(pCombLeg, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOffsetSetting(pInputOffsetSetting, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRspCancelOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspCancelOffsetSetting(pInputOffsetSetting, pRspInfo, nRequestID, bIsLast)).ok(); }
-pub fn OnRtnOffsetSetting(&self, pOffsetSetting: OffsetSettingField) { self.tx.send(TraderSpiMsg::OnRtnOffsetSetting(pOffsetSetting)).ok(); }
-pub fn OnErrRtnOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOffsetSetting(pInputOffsetSetting, pRspInfo)).ok(); }
-pub fn OnErrRtnCancelOffsetSetting(&self, pCancelOffsetSetting: CancelOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnCancelOffsetSetting(pCancelOffsetSetting, pRspInfo)).ok(); }
-pub fn OnRspQryOffsetSetting(&self, pOffsetSetting: OffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOffsetSetting(pOffsetSetting, pRspInfo, nRequestID, bIsLast)).ok(); }
+pub fn OnRspAuthenticate(&self, pRspAuthenticateField: RspAuthenticateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspAuthenticate(Box::new(pRspAuthenticateField), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUserLogin(&self, pRspUserLogin: RspUserLoginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserLogin(Box::new(pRspUserLogin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUserLogout(&self, pUserLogout: UserLogoutField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserLogout(Box::new(pUserLogout), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUserPasswordUpdate(&self, pUserPasswordUpdate: UserPasswordUpdateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserPasswordUpdate(Box::new(pUserPasswordUpdate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspTradingAccountPasswordUpdate(&self, pTradingAccountPasswordUpdate: TradingAccountPasswordUpdateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspTradingAccountPasswordUpdate(Box::new(pTradingAccountPasswordUpdate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspUserAuthMethod(&self, pRspUserAuthMethod: RspUserAuthMethodField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserAuthMethod(Box::new(pRspUserAuthMethod), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspGenUserCaptcha(&self, pRspGenUserCaptcha: RspGenUserCaptchaField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspGenUserCaptcha(Box::new(pRspGenUserCaptcha), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspGenUserText(&self, pRspGenUserText: RspGenUserTextField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspGenUserText(Box::new(pRspGenUserText), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspOrderInsert(&self, pInputOrder: InputOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOrderInsert(Box::new(pInputOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspParkedOrderInsert(&self, pParkedOrder: ParkedOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspParkedOrderInsert(Box::new(pParkedOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspParkedOrderAction(&self, pParkedOrderAction: ParkedOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspParkedOrderAction(Box::new(pParkedOrderAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspOrderAction(&self, pInputOrderAction: InputOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOrderAction(Box::new(pInputOrderAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryMaxOrderVolume(&self, pQryMaxOrderVolume: QryMaxOrderVolumeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryMaxOrderVolume(Box::new(pQryMaxOrderVolume), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspSettlementInfoConfirm(&self, pSettlementInfoConfirm: SettlementInfoConfirmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspSettlementInfoConfirm(Box::new(pSettlementInfoConfirm), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspRemoveParkedOrder(&self, pRemoveParkedOrder: RemoveParkedOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspRemoveParkedOrder(Box::new(pRemoveParkedOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspRemoveParkedOrderAction(&self, pRemoveParkedOrderAction: RemoveParkedOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspRemoveParkedOrderAction(Box::new(pRemoveParkedOrderAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspExecOrderInsert(&self, pInputExecOrder: InputExecOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspExecOrderInsert(Box::new(pInputExecOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspExecOrderAction(&self, pInputExecOrderAction: InputExecOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspExecOrderAction(Box::new(pInputExecOrderAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspForQuoteInsert(&self, pInputForQuote: InputForQuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspForQuoteInsert(Box::new(pInputForQuote), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQuoteInsert(&self, pInputQuote: InputQuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQuoteInsert(Box::new(pInputQuote), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQuoteAction(&self, pInputQuoteAction: InputQuoteActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQuoteAction(Box::new(pInputQuoteAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspBatchOrderAction(&self, pInputBatchOrderAction: InputBatchOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspBatchOrderAction(Box::new(pInputBatchOrderAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspOptionSelfCloseInsert(&self, pInputOptionSelfClose: InputOptionSelfCloseField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOptionSelfCloseInsert(Box::new(pInputOptionSelfClose), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspOptionSelfCloseAction(&self, pInputOptionSelfCloseAction: InputOptionSelfCloseActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOptionSelfCloseAction(Box::new(pInputOptionSelfCloseAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspCombActionInsert(&self, pInputCombAction: InputCombActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspCombActionInsert(Box::new(pInputCombAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryOrder(&self, pOrder: OrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOrder(Box::new(pOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTrade(&self, pTrade: TradeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTrade(Box::new(pTrade), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorPosition(&self, pInvestorPosition: InvestorPositionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPosition(Box::new(pInvestorPosition), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTradingAccount(&self, pTradingAccount: TradingAccountField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingAccount(Box::new(pTradingAccount), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestor(&self, pInvestor: InvestorField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestor(Box::new(pInvestor), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTradingCode(&self, pTradingCode: TradingCodeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingCode(Box::new(pTradingCode), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInstrumentMarginRate(&self, pInstrumentMarginRate: InstrumentMarginRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentMarginRate(Box::new(pInstrumentMarginRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInstrumentCommissionRate(&self, pInstrumentCommissionRate: InstrumentCommissionRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentCommissionRate(Box::new(pInstrumentCommissionRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryUserSession(&self, pUserSession: UserSessionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryUserSession(Box::new(pUserSession), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryExchange(&self, pExchange: ExchangeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchange(Box::new(pExchange), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryProduct(&self, pProduct: ProductField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProduct(Box::new(pProduct), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInstrument(&self, pInstrument: InstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrument(Box::new(pInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryDepthMarketData(&self, pDepthMarketData: DepthMarketDataField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryDepthMarketData(Box::new(pDepthMarketData), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTraderOffer(&self, pTraderOffer: TraderOfferField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTraderOffer(Box::new(pTraderOffer), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySettlementInfo(&self, pSettlementInfo: SettlementInfoField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySettlementInfo(Box::new(pSettlementInfo), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTransferBank(&self, pTransferBank: TransferBankField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTransferBank(Box::new(pTransferBank), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorPositionDetail(&self, pInvestorPositionDetail: InvestorPositionDetailField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPositionDetail(Box::new(pInvestorPositionDetail), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryNotice(&self, pNotice: NoticeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryNotice(Box::new(pNotice), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySettlementInfoConfirm(&self, pSettlementInfoConfirm: SettlementInfoConfirmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySettlementInfoConfirm(Box::new(pSettlementInfoConfirm), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorPositionCombineDetail(&self, pInvestorPositionCombineDetail: InvestorPositionCombineDetailField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPositionCombineDetail(Box::new(pInvestorPositionCombineDetail), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryCFMMCTradingAccountKey(&self, pCFMMCTradingAccountKey: CFMMCTradingAccountKeyField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCFMMCTradingAccountKey(Box::new(pCFMMCTradingAccountKey), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryEWarrantOffset(&self, pEWarrantOffset: EWarrantOffsetField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryEWarrantOffset(Box::new(pEWarrantOffset), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorProductGroupMargin(&self, pInvestorProductGroupMargin: InvestorProductGroupMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProductGroupMargin(Box::new(pInvestorProductGroupMargin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryExchangeMarginRate(&self, pExchangeMarginRate: ExchangeMarginRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchangeMarginRate(Box::new(pExchangeMarginRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryExchangeMarginRateAdjust(&self, pExchangeMarginRateAdjust: ExchangeMarginRateAdjustField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchangeMarginRateAdjust(Box::new(pExchangeMarginRateAdjust), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryExchangeRate(&self, pExchangeRate: ExchangeRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExchangeRate(Box::new(pExchangeRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySecAgentACIDMap(&self, pSecAgentACIDMap: SecAgentACIDMapField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentACIDMap(Box::new(pSecAgentACIDMap), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryProductExchRate(&self, pProductExchRate: ProductExchRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProductExchRate(Box::new(pProductExchRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryProductGroup(&self, pProductGroup: ProductGroupField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryProductGroup(Box::new(pProductGroup), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryMMInstrumentCommissionRate(&self, pMMInstrumentCommissionRate: MMInstrumentCommissionRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryMMInstrumentCommissionRate(Box::new(pMMInstrumentCommissionRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryMMOptionInstrCommRate(&self, pMMOptionInstrCommRate: MMOptionInstrCommRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryMMOptionInstrCommRate(Box::new(pMMOptionInstrCommRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInstrumentOrderCommRate(&self, pInstrumentOrderCommRate: InstrumentOrderCommRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInstrumentOrderCommRate(Box::new(pInstrumentOrderCommRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySecAgentTradingAccount(&self, pTradingAccount: TradingAccountField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentTradingAccount(Box::new(pTradingAccount), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySecAgentCheckMode(&self, pSecAgentCheckMode: SecAgentCheckModeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentCheckMode(Box::new(pSecAgentCheckMode), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySecAgentTradeInfo(&self, pSecAgentTradeInfo: SecAgentTradeInfoField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySecAgentTradeInfo(Box::new(pSecAgentTradeInfo), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryOptionInstrTradeCost(&self, pOptionInstrTradeCost: OptionInstrTradeCostField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOptionInstrTradeCost(Box::new(pOptionInstrTradeCost), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryOptionInstrCommRate(&self, pOptionInstrCommRate: OptionInstrCommRateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOptionInstrCommRate(Box::new(pOptionInstrCommRate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryExecOrder(&self, pExecOrder: ExecOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryExecOrder(Box::new(pExecOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryForQuote(&self, pForQuote: ForQuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryForQuote(Box::new(pForQuote), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryQuote(&self, pQuote: QuoteField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryQuote(Box::new(pQuote), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryOptionSelfClose(&self, pOptionSelfClose: OptionSelfCloseField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOptionSelfClose(Box::new(pOptionSelfClose), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestUnit(&self, pInvestUnit: InvestUnitField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestUnit(Box::new(pInvestUnit), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryCombInstrumentGuard(&self, pCombInstrumentGuard: CombInstrumentGuardField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombInstrumentGuard(Box::new(pCombInstrumentGuard), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryCombAction(&self, pCombAction: CombActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombAction(Box::new(pCombAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTransferSerial(&self, pTransferSerial: TransferSerialField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTransferSerial(Box::new(pTransferSerial), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryAccountregister(&self, pAccountregister: AccountregisterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryAccountregister(Box::new(pAccountregister), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspError(&self, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspError(Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnOrder(&self, pOrder: OrderField) { self.tx.send(TraderSpiMsg::OnRtnOrder(Box::new(pOrder))).ok(); }
+pub fn OnRtnTrade(&self, pTrade: TradeField) { self.tx.send(TraderSpiMsg::OnRtnTrade(Box::new(pTrade))).ok(); }
+pub fn OnErrRtnOrderInsert(&self, pInputOrder: InputOrderField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOrderInsert(Box::new(pInputOrder), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnOrderAction(&self, pOrderAction: OrderActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOrderAction(Box::new(pOrderAction), Box::new(pRspInfo))).ok(); }
+pub fn OnRtnInstrumentStatus(&self, pInstrumentStatus: InstrumentStatusField) { self.tx.send(TraderSpiMsg::OnRtnInstrumentStatus(Box::new(pInstrumentStatus))).ok(); }
+pub fn OnRtnBulletin(&self, pBulletin: BulletinField) { self.tx.send(TraderSpiMsg::OnRtnBulletin(Box::new(pBulletin))).ok(); }
+pub fn OnRtnTradingNotice(&self, pTradingNoticeInfo: TradingNoticeInfoField) { self.tx.send(TraderSpiMsg::OnRtnTradingNotice(Box::new(pTradingNoticeInfo))).ok(); }
+pub fn OnRtnErrorConditionalOrder(&self, pErrorConditionalOrder: ErrorConditionalOrderField) { self.tx.send(TraderSpiMsg::OnRtnErrorConditionalOrder(Box::new(pErrorConditionalOrder))).ok(); }
+pub fn OnRtnExecOrder(&self, pExecOrder: ExecOrderField) { self.tx.send(TraderSpiMsg::OnRtnExecOrder(Box::new(pExecOrder))).ok(); }
+pub fn OnErrRtnExecOrderInsert(&self, pInputExecOrder: InputExecOrderField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnExecOrderInsert(Box::new(pInputExecOrder), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnExecOrderAction(&self, pExecOrderAction: ExecOrderActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnExecOrderAction(Box::new(pExecOrderAction), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnForQuoteInsert(&self, pInputForQuote: InputForQuoteField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnForQuoteInsert(Box::new(pInputForQuote), Box::new(pRspInfo))).ok(); }
+pub fn OnRtnQuote(&self, pQuote: QuoteField) { self.tx.send(TraderSpiMsg::OnRtnQuote(Box::new(pQuote))).ok(); }
+pub fn OnErrRtnQuoteInsert(&self, pInputQuote: InputQuoteField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnQuoteInsert(Box::new(pInputQuote), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnQuoteAction(&self, pQuoteAction: QuoteActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnQuoteAction(Box::new(pQuoteAction), Box::new(pRspInfo))).ok(); }
+pub fn OnRtnForQuoteRsp(&self, pForQuoteRsp: ForQuoteRspField) { self.tx.send(TraderSpiMsg::OnRtnForQuoteRsp(Box::new(pForQuoteRsp))).ok(); }
+pub fn OnRtnCFMMCTradingAccountToken(&self, pCFMMCTradingAccountToken: CFMMCTradingAccountTokenField) { self.tx.send(TraderSpiMsg::OnRtnCFMMCTradingAccountToken(Box::new(pCFMMCTradingAccountToken))).ok(); }
+pub fn OnErrRtnBatchOrderAction(&self, pBatchOrderAction: BatchOrderActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnBatchOrderAction(Box::new(pBatchOrderAction), Box::new(pRspInfo))).ok(); }
+pub fn OnRtnOptionSelfClose(&self, pOptionSelfClose: OptionSelfCloseField) { self.tx.send(TraderSpiMsg::OnRtnOptionSelfClose(Box::new(pOptionSelfClose))).ok(); }
+pub fn OnErrRtnOptionSelfCloseInsert(&self, pInputOptionSelfClose: InputOptionSelfCloseField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOptionSelfCloseInsert(Box::new(pInputOptionSelfClose), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnOptionSelfCloseAction(&self, pOptionSelfCloseAction: OptionSelfCloseActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOptionSelfCloseAction(Box::new(pOptionSelfCloseAction), Box::new(pRspInfo))).ok(); }
+pub fn OnRtnCombAction(&self, pCombAction: CombActionField) { self.tx.send(TraderSpiMsg::OnRtnCombAction(Box::new(pCombAction))).ok(); }
+pub fn OnErrRtnCombActionInsert(&self, pInputCombAction: InputCombActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnCombActionInsert(Box::new(pInputCombAction), Box::new(pRspInfo))).ok(); }
+pub fn OnRspQryContractBank(&self, pContractBank: ContractBankField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryContractBank(Box::new(pContractBank), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryParkedOrder(&self, pParkedOrder: ParkedOrderField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryParkedOrder(Box::new(pParkedOrder), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryParkedOrderAction(&self, pParkedOrderAction: ParkedOrderActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryParkedOrderAction(Box::new(pParkedOrderAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryTradingNotice(&self, pTradingNotice: TradingNoticeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryTradingNotice(Box::new(pTradingNotice), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryBrokerTradingParams(&self, pBrokerTradingParams: BrokerTradingParamsField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryBrokerTradingParams(Box::new(pBrokerTradingParams), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryBrokerTradingAlgos(&self, pBrokerTradingAlgos: BrokerTradingAlgosField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryBrokerTradingAlgos(Box::new(pBrokerTradingAlgos), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQueryCFMMCTradingAccountToken(&self, pQueryCFMMCTradingAccountToken: QueryCFMMCTradingAccountTokenField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQueryCFMMCTradingAccountToken(Box::new(pQueryCFMMCTradingAccountToken), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnFromBankToFutureByBank(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromBankToFutureByBank(Box::new(pRspTransfer))).ok(); }
+pub fn OnRtnFromFutureToBankByBank(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromFutureToBankByBank(Box::new(pRspTransfer))).ok(); }
+pub fn OnRtnRepealFromBankToFutureByBank(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromBankToFutureByBank(Box::new(pRspRepeal))).ok(); }
+pub fn OnRtnRepealFromFutureToBankByBank(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromFutureToBankByBank(Box::new(pRspRepeal))).ok(); }
+pub fn OnRtnFromBankToFutureByFuture(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromBankToFutureByFuture(Box::new(pRspTransfer))).ok(); }
+pub fn OnRtnFromFutureToBankByFuture(&self, pRspTransfer: RspTransferField) { self.tx.send(TraderSpiMsg::OnRtnFromFutureToBankByFuture(Box::new(pRspTransfer))).ok(); }
+pub fn OnRtnRepealFromBankToFutureByFutureManual(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromBankToFutureByFutureManual(Box::new(pRspRepeal))).ok(); }
+pub fn OnRtnRepealFromFutureToBankByFutureManual(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromFutureToBankByFutureManual(Box::new(pRspRepeal))).ok(); }
+pub fn OnRtnQueryBankBalanceByFuture(&self, pNotifyQueryAccount: NotifyQueryAccountField) { self.tx.send(TraderSpiMsg::OnRtnQueryBankBalanceByFuture(Box::new(pNotifyQueryAccount))).ok(); }
+pub fn OnErrRtnBankToFutureByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnBankToFutureByFuture(Box::new(pReqTransfer), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnFutureToBankByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnFutureToBankByFuture(Box::new(pReqTransfer), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnRepealBankToFutureByFutureManual(&self, pReqRepeal: ReqRepealField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnRepealBankToFutureByFutureManual(Box::new(pReqRepeal), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnRepealFutureToBankByFutureManual(&self, pReqRepeal: ReqRepealField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnRepealFutureToBankByFutureManual(Box::new(pReqRepeal), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnQueryBankBalanceByFuture(&self, pReqQueryAccount: ReqQueryAccountField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnQueryBankBalanceByFuture(Box::new(pReqQueryAccount), Box::new(pRspInfo))).ok(); }
+pub fn OnRtnRepealFromBankToFutureByFuture(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromBankToFutureByFuture(Box::new(pRspRepeal))).ok(); }
+pub fn OnRtnRepealFromFutureToBankByFuture(&self, pRspRepeal: RspRepealField) { self.tx.send(TraderSpiMsg::OnRtnRepealFromFutureToBankByFuture(Box::new(pRspRepeal))).ok(); }
+pub fn OnRspFromBankToFutureByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspFromBankToFutureByFuture(Box::new(pReqTransfer), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspFromFutureToBankByFuture(&self, pReqTransfer: ReqTransferField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspFromFutureToBankByFuture(Box::new(pReqTransfer), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQueryBankAccountMoneyByFuture(&self, pReqQueryAccount: ReqQueryAccountField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQueryBankAccountMoneyByFuture(Box::new(pReqQueryAccount), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnOpenAccountByBank(&self, pOpenAccount: OpenAccountField) { self.tx.send(TraderSpiMsg::OnRtnOpenAccountByBank(Box::new(pOpenAccount))).ok(); }
+pub fn OnRtnCancelAccountByBank(&self, pCancelAccount: CancelAccountField) { self.tx.send(TraderSpiMsg::OnRtnCancelAccountByBank(Box::new(pCancelAccount))).ok(); }
+pub fn OnRtnChangeAccountByBank(&self, pChangeAccount: ChangeAccountField) { self.tx.send(TraderSpiMsg::OnRtnChangeAccountByBank(Box::new(pChangeAccount))).ok(); }
+pub fn OnRspQryClassifiedInstrument(&self, pInstrument: InstrumentField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryClassifiedInstrument(Box::new(pInstrument), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryCombPromotionParam(&self, pCombPromotionParam: CombPromotionParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombPromotionParam(Box::new(pCombPromotionParam), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRiskSettleInvstPosition(&self, pRiskSettleInvstPosition: RiskSettleInvstPositionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRiskSettleInvstPosition(Box::new(pRiskSettleInvstPosition), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRiskSettleProductStatus(&self, pRiskSettleProductStatus: RiskSettleProductStatusField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRiskSettleProductStatus(Box::new(pRiskSettleProductStatus), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMFutureParameter(&self, pSPBMFutureParameter: SPBMFutureParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMFutureParameter(Box::new(pSPBMFutureParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMOptionParameter(&self, pSPBMOptionParameter: SPBMOptionParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMOptionParameter(Box::new(pSPBMOptionParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMIntraParameter(&self, pSPBMIntraParameter: SPBMIntraParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMIntraParameter(Box::new(pSPBMIntraParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMInterParameter(&self, pSPBMInterParameter: SPBMInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMInterParameter(Box::new(pSPBMInterParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMPortfDefinition(&self, pSPBMPortfDefinition: SPBMPortfDefinitionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMPortfDefinition(Box::new(pSPBMPortfDefinition), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMInvestorPortfDef(&self, pSPBMInvestorPortfDef: SPBMInvestorPortfDefField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMInvestorPortfDef(Box::new(pSPBMInvestorPortfDef), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorPortfMarginRatio(&self, pInvestorPortfMarginRatio: InvestorPortfMarginRatioField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPortfMarginRatio(Box::new(pInvestorPortfMarginRatio), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorProdSPBMDetail(&self, pInvestorProdSPBMDetail: InvestorProdSPBMDetailField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdSPBMDetail(Box::new(pInvestorProdSPBMDetail), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorCommoditySPMMMargin(&self, pInvestorCommoditySPMMMargin: InvestorCommoditySPMMMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorCommoditySPMMMargin(Box::new(pInvestorCommoditySPMMMargin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorCommodityGroupSPMMMargin(&self, pInvestorCommodityGroupSPMMMargin: InvestorCommodityGroupSPMMMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorCommodityGroupSPMMMargin(Box::new(pInvestorCommodityGroupSPMMMargin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPMMInstParam(&self, pSPMMInstParam: SPMMInstParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPMMInstParam(Box::new(pSPMMInstParam), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPMMProductParam(&self, pSPMMProductParam: SPMMProductParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPMMProductParam(Box::new(pSPMMProductParam), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySPBMAddOnInterParameter(&self, pSPBMAddOnInterParameter: SPBMAddOnInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySPBMAddOnInterParameter(Box::new(pSPBMAddOnInterParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRCAMSCombProductInfo(&self, pRCAMSCombProductInfo: RCAMSCombProductInfoField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSCombProductInfo(Box::new(pRCAMSCombProductInfo), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRCAMSInstrParameter(&self, pRCAMSInstrParameter: RCAMSInstrParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSInstrParameter(Box::new(pRCAMSInstrParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRCAMSIntraParameter(&self, pRCAMSIntraParameter: RCAMSIntraParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSIntraParameter(Box::new(pRCAMSIntraParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRCAMSInterParameter(&self, pRCAMSInterParameter: RCAMSInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSInterParameter(Box::new(pRCAMSInterParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRCAMSShortOptAdjustParam(&self, pRCAMSShortOptAdjustParam: RCAMSShortOptAdjustParamField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSShortOptAdjustParam(Box::new(pRCAMSShortOptAdjustParam), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRCAMSInvestorCombPosition(&self, pRCAMSInvestorCombPosition: RCAMSInvestorCombPositionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRCAMSInvestorCombPosition(Box::new(pRCAMSInvestorCombPosition), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorProdRCAMSMargin(&self, pInvestorProdRCAMSMargin: InvestorProdRCAMSMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdRCAMSMargin(Box::new(pInvestorProdRCAMSMargin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRULEInstrParameter(&self, pRULEInstrParameter: RULEInstrParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRULEInstrParameter(Box::new(pRULEInstrParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRULEIntraParameter(&self, pRULEIntraParameter: RULEIntraParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRULEIntraParameter(Box::new(pRULEIntraParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryRULEInterParameter(&self, pRULEInterParameter: RULEInterParameterField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryRULEInterParameter(Box::new(pRULEInterParameter), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorProdRULEMargin(&self, pInvestorProdRULEMargin: InvestorProdRULEMarginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorProdRULEMargin(Box::new(pInvestorProdRULEMargin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorPortfSetting(&self, pInvestorPortfSetting: InvestorPortfSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorPortfSetting(Box::new(pInvestorPortfSetting), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryInvestorInfoCommRec(&self, pInvestorInfoCommRec: InvestorInfoCommRecField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryInvestorInfoCommRec(Box::new(pInvestorInfoCommRec), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryCombLeg(&self, pCombLeg: CombLegField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryCombLeg(Box::new(pCombLeg), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspOffsetSetting(Box::new(pInputOffsetSetting), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspCancelOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspCancelOffsetSetting(Box::new(pInputOffsetSetting), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnOffsetSetting(&self, pOffsetSetting: OffsetSettingField) { self.tx.send(TraderSpiMsg::OnRtnOffsetSetting(Box::new(pOffsetSetting))).ok(); }
+pub fn OnErrRtnOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOffsetSetting(Box::new(pInputOffsetSetting), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnCancelOffsetSetting(&self, pCancelOffsetSetting: CancelOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnCancelOffsetSetting(Box::new(pCancelOffsetSetting), Box::new(pRspInfo))).ok(); }
+pub fn OnRspQryOffsetSetting(&self, pOffsetSetting: OffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOffsetSetting(Box::new(pOffsetSetting), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
 }
 
 #[cxx::bridge]

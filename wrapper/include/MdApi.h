@@ -505,6 +505,7 @@ struct FrontInfoField;
 
 struct MdApi;
 struct MdSpi;
+class CMdSpi;
 
 #include "ctp-rs/src/lib.rs.h"
 #include "ctp-rs/wrapper/include/CMdSpi.h"
@@ -533,7 +534,6 @@ struct MdApi {
     int32_t ReqUserLogout(UserLogoutField pUserLogout, int32_t nRequestID) const;
     int32_t ReqQryMulticastInstrument(QryMulticastInstrumentField pQryMulticastInstrument, int32_t nRequestID) const;
 
-    rust::Box<MdSpi> gateway;
     CThostFtdcMdApi *api;
     CMdSpi *spi;
 };

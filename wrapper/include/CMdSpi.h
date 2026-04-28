@@ -1,16 +1,16 @@
 #pragma once
 
+#include "ctp-rs/src/lib.rs.h"
 #include "ctp-rs/lib/ThostFtdcMdApi.h"
 #include "ctp-rs/lib/ThostFtdcTraderApi.h"
 
+#include "rust/cxx.h"
 #include <cstdint>
-
-struct MdApi;
 
 class CMdSpi : public CThostFtdcMdSpi
 {
 public:
-    explicit CMdSpi(const MdApi *gateway);
+    explicit CMdSpi(rust::Box<MdSpi> gateway);
 
     void OnFrontConnected() override;
     void OnFrontDisconnected(int32_t nReason) override;
@@ -27,5 +27,5 @@ public:
     void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField* pForQuoteRsp) override;
 
 private:
-    const MdApi *gateway;
+    rust::Box<MdSpi> gateway;
 };

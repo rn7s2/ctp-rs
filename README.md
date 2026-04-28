@@ -48,10 +48,12 @@ CTP 接口的安全又好用的 Rust 绑定.
             match msg {
                 MdSpiMsg::OnFrontConnected => {
                     println!("front connected");
-                    let mut req = ReqUserLoginField::default();
-                    req.BrokerID = "".to_string();
-                    req.UserID = "".to_string();
-                    req.Password = "".to_string();
+                    let req = ReqUserLoginField {
+                        BrokerID: "".to_string(),
+                        UserID: "".to_string(),
+                        Password: "".to_string(),
+                        ..Default::default()
+                    };
                     api.ReqUserLogin(req, 0);
                 }
                 MdSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {

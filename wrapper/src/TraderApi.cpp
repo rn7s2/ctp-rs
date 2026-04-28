@@ -1,8 +1,8 @@
 #include "ctp-rs/wrapper/include/TraderApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
-TraderApi::TraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) : gateway(std::move(gateway)) {
-    spi = new CTraderSpi(this);
+TraderApi::TraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) {
+    spi = new CTraderSpi(std::move(gateway));
     api = CThostFtdcTraderApi::CreateFtdcTraderApi(flow_path.c_str(), is_production_mode);
     api->RegisterSpi(spi);
 }

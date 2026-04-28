@@ -505,6 +505,7 @@ struct FrontInfoField;
 
 struct TraderApi;
 struct TraderSpi;
+class CTraderSpi;
 
 #include "ctp-rs/src/lib.rs.h"
 #include "ctp-rs/wrapper/include/CTraderSpi.h"
@@ -651,7 +652,6 @@ struct TraderApi {
     int32_t ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
     int32_t ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const;
 
-    rust::Box<TraderSpi> gateway;
     CThostFtdcTraderApi *api;
     CTraderSpi *spi;
 };

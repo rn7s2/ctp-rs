@@ -1,16 +1,16 @@
 #pragma once
 
+#include "ctp-rs/src/lib.rs.h"
 #include "ctp-rs/lib/ThostFtdcMdApi.h"
 #include "ctp-rs/lib/ThostFtdcTraderApi.h"
 
+#include "rust/cxx.h"
 #include <cstdint>
-
-struct TraderApi;
 
 class CTraderSpi : public CThostFtdcTraderSpi
 {
 public:
-    explicit CTraderSpi(const TraderApi *gateway);
+    explicit CTraderSpi(rust::Box<TraderSpi> gateway);
 
     void OnFrontConnected() override;
     void OnFrontDisconnected(int32_t nReason) override;
@@ -178,5 +178,5 @@ public:
     void OnRspQryOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
 
 private:
-    const TraderApi *gateway;
+    rust::Box<TraderSpi> gateway;
 };
