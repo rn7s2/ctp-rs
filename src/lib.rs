@@ -6,10 +6,8 @@
 
 pub use ffi::*;
 use std::fs::create_dir_all;
-use std::mem::forget;
 use std::path::Path;
 use std::sync::mpsc::Sender;
-use std::sync::Arc;
 
 pub type UniquePtr<T> = cxx::UniquePtr<T>;
 
@@ -1352,10 +1350,7 @@ impl MdApi {
         if !Path::new(&flow_path).exists() {
             create_dir_all(&flow_path).unwrap();
         }
-        let spi = Arc::pin(MdSpi { tx });
-        let api = CreateMdApi(&spi, flow_path, is_using_udp, is_multicast, is_production_mode);
-        forget(spi); // 让 spi 一直存在，防止被释放
-        api
+        CreateMdApi(Box::new(MdSpi { tx }), flow_path, is_using_udp, is_multicast, is_production_mode)
     }
 }
 
@@ -1404,10 +1399,7 @@ impl TraderApi {
         if !Path::new(&flow_path).exists() {
             create_dir_all(&flow_path).unwrap();
         }
-        let spi = Arc::pin(TraderSpi { tx });
-        let api = CreateTraderApi(&spi, flow_path, is_production_mode);
-        forget(spi); // 让 spi 一直存在，防止被释放
-        api
+        CreateTraderApi(Box::new(TraderSpi { tx }), flow_path, is_production_mode)
     }
 }
 
@@ -1774,20 +1766,19 @@ mod ffi {
         include!("ctp-rs/wrapper/include/MdApi.h");
         type MdApi;
 
-        fn CreateMdApi(spi: &MdSpi, flow_path: String, is_using_udp: bool, is_multicast: bool, is_production_mode: bool) -> UniquePtr<MdApi>;
+        fn CreateMdApi(spi: Box<MdSpi>, flow_path: String, is_using_udp: bool, is_multicast: bool, is_production_mode: bool) -> UniquePtr<MdApi>;
 
         fn GetApiVersion(&self)-> String;
-        fn Release(&self);
         fn Init(&self);
         fn Join(&self)-> i32;
         fn GetTradingDay(&self)-> String;
         fn RegisterFront(&self, pszFrontAddress: String);
         fn RegisterNameServer(&self, pszNsAddress: String);
         fn RegisterFensUserInfo(&self, pFensUserInfo: FensUserInfoField);
-        fn SubscribeMarketData(&self, ppInstrumentID: Vec<String>, nCount: i32)-> i32;
-        fn UnSubscribeMarketData(&self, ppInstrumentID: Vec<String>, nCount: i32)-> i32;
-        fn SubscribeForQuoteRsp(&self, ppInstrumentID: Vec<String>, nCount: i32)-> i32;
-        fn UnSubscribeForQuoteRsp(&self, ppInstrumentID: Vec<String>, nCount: i32)-> i32;
+        fn SubscribeMarketData(&self, ppInstrumentID: Vec<String>)-> i32;
+        fn UnSubscribeMarketData(&self, ppInstrumentID: Vec<String>)-> i32;
+        fn SubscribeForQuoteRsp(&self, ppInstrumentID: Vec<String>)-> i32;
+        fn UnSubscribeForQuoteRsp(&self, ppInstrumentID: Vec<String>)-> i32;
         fn ReqUserLogin(&self, pReqUserLoginField: ReqUserLoginField, nRequestID: i32)-> i32;
         fn ReqUserLogout(&self, pUserLogout: UserLogoutField, nRequestID: i32)-> i32;
         fn ReqQryMulticastInstrument(&self, pQryMulticastInstrument: QryMulticastInstrumentField, nRequestID: i32)-> i32;
@@ -1966,11 +1957,10 @@ mod ffi {
         include!("ctp-rs/wrapper/include/TraderApi.h");
         type TraderApi;
 
-        fn CreateTraderApi(spi: &TraderSpi, flow_path: String, is_production_mode: bool) -> UniquePtr<TraderApi>;
+        fn CreateTraderApi(spi: Box<TraderSpi>, flow_path: String, is_production_mode: bool) -> UniquePtr<TraderApi>;
         fn GetFrontInfo(&self) -> FrontInfoField;
 
         fn GetApiVersion(&self)-> String;
-        fn Release(&self);
         fn Init(&self);
         fn Join(&self)-> i32;
         fn GetTradingDay(&self)-> String;

@@ -15,63 +15,63 @@ CTP 接口的安全又好用的 Rust 绑定.
 
 `cargo add ctp-rs`
 
-发布在 `crates.io` 的包采用 SemVer 版本号系统，其中底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.1.0+ctp.6.7.11`.
+发布在 `crates.io` 的包采用 SemVer 版本号系统.\
+底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.1.0+ctp.6.7.11`.
 
 ## Examples
 
 1. md_api
 
    ```rs
-   use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
-   use std::sync::{Arc, mpsc::channel};
+    use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
+    use std::sync::{Arc, mpsc::channel};
 
-   // for more fronts, see: http://www.openctp.cn/simenv.html
-   const FRONT_ADDR: &str = "tcp://210.14.72.12:4602";
-   const FLOW_PATH: &str = "MdFlow/";
-   const INSTRUMENTS: &[&str] = &["au2509", "cu2509"];
+    // for more fronts, see: http://www.openctp.cn/simenv.html
+    const FRONT_ADDR: &str = "tcp://...";
+    const FLOW_PATH: &str = "MdFlow/";
+    const INSTRUMENTS: &[&str] = &["...", "..."];
 
-   fn main() {
-       let (tx, rx) = channel();
-       let api = Arc::new(MdApi::CreateMdApiAndSpi(
-           tx,
-           FLOW_PATH.to_string(),
-           false,
-           false,
-           true,
-       ));
-       api.RegisterFront(FRONT_ADDR.to_string());
-       api.Init();
+    fn main() {
+        let (tx, rx) = channel();
+        let api = Arc::new(MdApi::CreateMdApiAndSpi(
+            tx,
+            FLOW_PATH.to_string(),
+            false,
+            false,
+            true,
+        ));
+        api.RegisterFront(FRONT_ADDR.to_string());
+        api.Init();
 
-       loop {
-           let msg = rx.recv().unwrap();
-           match msg {
-               MdSpiMsg::OnFrontConnected => {
-                   println!("front connected");
-                   let mut req = ReqUserLoginField::default();
-                   req.BrokerID = "".to_string();
-                   req.UserID = "".to_string();
-                   req.Password = "".to_string();
-                   api.ReqUserLogin(req, 0);
-               }
-               MdSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {
-                   if rsp_info.ErrorID != 0 {
-                       println!("user login failed: {:?}", rsp_info);
-                       continue;
-                   } else {
-                       println!("user login success: {:?}", rsp_info);
-                       let instruments: Vec<String> =
-                           INSTRUMENTS.iter().map(|&s| s.to_string()).collect();
-                       let len = instruments.len() as i32;
-                       api.SubscribeMarketData(instruments, len);
-                   }
-               }
-               MdSpiMsg::OnRtnDepthMarketData(tick) => {
-                   println!("{:?}", tick);
-               }
-               _ => {}
-           }
-       }
-   }
+        loop {
+            let msg = rx.recv().unwrap();
+            match msg {
+                MdSpiMsg::OnFrontConnected => {
+                    println!("front connected");
+                    let mut req = ReqUserLoginField::default();
+                    req.BrokerID = "".to_string();
+                    req.UserID = "".to_string();
+                    req.Password = "".to_string();
+                    api.ReqUserLogin(req, 0);
+                }
+                MdSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {
+                    if rsp_info.ErrorID != 0 {
+                        println!("user login failed: {:?}", rsp_info);
+                        continue;
+                    } else {
+                        println!("user login success: {:?}", rsp_info);
+                        let instruments: Vec<String> =
+                            INSTRUMENTS.iter().map(|&s| s.to_string()).collect();
+                        api.SubscribeMarketData(instruments);
+                    }
+                }
+                MdSpiMsg::OnRtnDepthMarketData(tick) => {
+                    println!("{:?}", tick);
+                }
+                _ => {}
+            }
+        }
+    }
    ```
 
 2. td_api
@@ -88,7 +88,7 @@ CTP 接口的安全又好用的 Rust 绑定.
    const PASSWORD: &str = "...";
    const APP_ID: &str = "...";
    const AUTH_CODE: &str = "...";
-   const FRONT_ADDR: &str = "...";
+   const FRONT_ADDR: &str = "tcp://...";
    const FLOW_PATH: &str = "TraderFlow/";
 
    fn main() {
@@ -159,11 +159,10 @@ CTP 接口的安全又好用的 Rust 绑定.
 
 ## Notes
 
-1. 大部分接口实现了字符串自动编码转换，可在 Rust 中直接使用 String.
-
+1. 大部分接口实现了字符串自动编码转换，可在 Rust 中直接使用 String.\
    少部分字段（如结算单）会截断汉字或字符造成编码转换失败，这些字段保留 `Vec<u8>`.
 
-   如需打印可能含有中文的字符串，可以考虑 [`encoding_rs`](https://crates.io/crates/encoding_rs) 等库可以方便地转换编码：
+   对于保留 `Vec<u8>`的字段，如需打印可能含有中文的字符串，可以考虑 [`encoding_rs`](https://crates.io/crates/encoding_rs) 等库可以方便地转换编码：
 
    ```rs
    use encoding_rs::GBK;

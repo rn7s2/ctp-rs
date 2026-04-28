@@ -515,11 +515,11 @@ struct TraderSpi;
 #include <memory>
 
 struct TraderApi {
-    TraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode);
+    TraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode);
+    ~TraderApi();
     FrontInfoField GetFrontInfo() const;
 
     rust::String GetApiVersion() const;
-    void Release() const;
     void Init() const;
     int32_t Join() const;
     rust::String GetTradingDay() const;
@@ -651,9 +651,9 @@ struct TraderApi {
     int32_t ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
     int32_t ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const;
 
-    const TraderSpi &gateway;
+    rust::Box<TraderSpi> gateway;
     CThostFtdcTraderApi *api;
     CTraderSpi *spi;
 };
 
-std::unique_ptr<TraderApi> CreateTraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode);
+std::unique_ptr<TraderApi> CreateTraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode);

@@ -515,27 +515,27 @@ struct MdSpi;
 #include <memory>
 
 struct MdApi {
-    MdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);
+    MdApi(rust::Box<MdSpi> gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);
+    ~MdApi();
 
     rust::String GetApiVersion() const;
-    void Release() const;
     void Init() const;
     int32_t Join() const;
     rust::String GetTradingDay() const;
     void RegisterFront(rust::String pszFrontAddress) const;
     void RegisterNameServer(rust::String pszNsAddress) const;
     void RegisterFensUserInfo(FensUserInfoField pFensUserInfo) const;
-    int32_t SubscribeMarketData(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const;
-    int32_t UnSubscribeMarketData(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const;
-    int32_t SubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const;
-    int32_t UnSubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const;
+    int32_t SubscribeMarketData(rust::Vec<rust::String> ppInstrumentID) const;
+    int32_t UnSubscribeMarketData(rust::Vec<rust::String> ppInstrumentID) const;
+    int32_t SubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID) const;
+    int32_t UnSubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID) const;
     int32_t ReqUserLogin(ReqUserLoginField pReqUserLoginField, int32_t nRequestID) const;
     int32_t ReqUserLogout(UserLogoutField pUserLogout, int32_t nRequestID) const;
     int32_t ReqQryMulticastInstrument(QryMulticastInstrumentField pQryMulticastInstrument, int32_t nRequestID) const;
 
-    const MdSpi &gateway;
+    rust::Box<MdSpi> gateway;
     CThostFtdcMdApi *api;
     CMdSpi *spi;
 };
 
-std::unique_ptr<MdApi> CreateMdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);
+std::unique_ptr<MdApi> CreateMdApi(rust::Box<MdSpi> gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode);

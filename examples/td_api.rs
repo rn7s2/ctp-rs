@@ -9,7 +9,7 @@ const USER_ID: &str = "...";
 const PASSWORD: &str = "...";
 const APP_ID: &str = "...";
 const AUTH_CODE: &str = "...";
-const FRONT_ADDR: &str = "...";
+const FRONT_ADDR: &str = "tcp://...";
 const FLOW_PATH: &str = "TraderFlow/";
 
 fn main() {

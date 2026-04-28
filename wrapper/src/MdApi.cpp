@@ -1,23 +1,27 @@
 #include "ctp-rs/wrapper/include/MdApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
-MdApi::MdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) : gateway(gateway) {
+MdApi::MdApi(rust::Box<MdSpi> gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) : gateway(std::move(gateway)) {
     spi = new CMdSpi(this);
     api = CThostFtdcMdApi::CreateFtdcMdApi(flow_path.c_str(), is_using_udp, is_multicast, is_production_mode);
     api->RegisterSpi(spi);
 }
 
-std::unique_ptr<MdApi> CreateMdApi(const MdSpi &gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) {
-    return std::make_unique<MdApi>(gateway, flow_path, is_using_udp, is_multicast, is_production_mode);
+MdApi::~MdApi() {
+    if (api) {
+        api->Release();
+        api = nullptr;
+    }
+    delete spi;
+    spi = nullptr;
+}
+
+std::unique_ptr<MdApi> CreateMdApi(rust::Box<MdSpi> gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) {
+    return std::make_unique<MdApi>(std::move(gateway), flow_path, is_using_udp, is_multicast, is_production_mode);
 }
 
 rust::String MdApi::GetApiVersion() const {
     return api->GetApiVersion(
-    );
-}
-
-void MdApi::Release() const {
-    return api->Release(
     );
 }
 
@@ -55,39 +59,39 @@ void MdApi::RegisterFensUserInfo(FensUserInfoField pFensUserInfo) const {
     );
 }
 
-int32_t MdApi::SubscribeMarketData(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const {
-    char **ppInstrumentIDs = new char *[ppInstrumentID.size()];
+int32_t MdApi::SubscribeMarketData(rust::Vec<rust::String> ppInstrumentID) const {
+    char **ppInstrumentID_raw = new char *[ppInstrumentID.size()];
     for (int i = 0; i < ppInstrumentID.size(); i++)
-        ppInstrumentIDs[i] = (char *)ppInstrumentID[i].c_str();
-    int ret = api->SubscribeMarketData(ppInstrumentIDs, ppInstrumentID.size());
-    delete[] ppInstrumentIDs;
+        ppInstrumentID_raw[i] = (char *)ppInstrumentID[i].c_str();
+    int ret = api->SubscribeMarketData(ppInstrumentID_raw, ppInstrumentID.size());
+    delete[] ppInstrumentID_raw;
     return ret;
 }
 
-int32_t MdApi::UnSubscribeMarketData(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const {
-    char **ppInstrumentIDs = new char *[ppInstrumentID.size()];
+int32_t MdApi::UnSubscribeMarketData(rust::Vec<rust::String> ppInstrumentID) const {
+    char **ppInstrumentID_raw = new char *[ppInstrumentID.size()];
     for (int i = 0; i < ppInstrumentID.size(); i++)
-        ppInstrumentIDs[i] = (char *)ppInstrumentID[i].c_str();
-    int ret = api->UnSubscribeMarketData(ppInstrumentIDs, ppInstrumentID.size());
-    delete[] ppInstrumentIDs;
+        ppInstrumentID_raw[i] = (char *)ppInstrumentID[i].c_str();
+    int ret = api->UnSubscribeMarketData(ppInstrumentID_raw, ppInstrumentID.size());
+    delete[] ppInstrumentID_raw;
     return ret;
 }
 
-int32_t MdApi::SubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const {
-    char **ppInstrumentIDs = new char *[ppInstrumentID.size()];
+int32_t MdApi::SubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID) const {
+    char **ppInstrumentID_raw = new char *[ppInstrumentID.size()];
     for (int i = 0; i < ppInstrumentID.size(); i++)
-        ppInstrumentIDs[i] = (char *)ppInstrumentID[i].c_str();
-    int ret = api->SubscribeForQuoteRsp(ppInstrumentIDs, ppInstrumentID.size());
-    delete[] ppInstrumentIDs;
+        ppInstrumentID_raw[i] = (char *)ppInstrumentID[i].c_str();
+    int ret = api->SubscribeForQuoteRsp(ppInstrumentID_raw, ppInstrumentID.size());
+    delete[] ppInstrumentID_raw;
     return ret;
 }
 
-int32_t MdApi::UnSubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID, int32_t nCount) const {
-    char **ppInstrumentIDs = new char *[ppInstrumentID.size()];
+int32_t MdApi::UnSubscribeForQuoteRsp(rust::Vec<rust::String> ppInstrumentID) const {
+    char **ppInstrumentID_raw = new char *[ppInstrumentID.size()];
     for (int i = 0; i < ppInstrumentID.size(); i++)
-        ppInstrumentIDs[i] = (char *)ppInstrumentID[i].c_str();
-    int ret = api->UnSubscribeForQuoteRsp(ppInstrumentIDs, ppInstrumentID.size());
-    delete[] ppInstrumentIDs;
+        ppInstrumentID_raw[i] = (char *)ppInstrumentID[i].c_str();
+    int ret = api->UnSubscribeForQuoteRsp(ppInstrumentID_raw, ppInstrumentID.size());
+    delete[] ppInstrumentID_raw;
     return ret;
 }
 

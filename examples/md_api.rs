@@ -2,9 +2,9 @@ use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
 use std::sync::{Arc, mpsc::channel};
 
 // for more fronts, see: http://www.openctp.cn/simenv.html
-const FRONT_ADDR: &str = "tcp://210.14.72.12:4602";
+const FRONT_ADDR: &str = "tcp://...";
 const FLOW_PATH: &str = "MdFlow/";
-const INSTRUMENTS: &[&str] = &["au2509", "cu2509"];
+const INSTRUMENTS: &[&str] = &["...", "..."];
 
 fn main() {
     let (tx, rx) = channel();
@@ -37,8 +37,7 @@ fn main() {
                     println!("user login success: {:?}", rsp_info);
                     let instruments: Vec<String> =
                         INSTRUMENTS.iter().map(|&s| s.to_string()).collect();
-                    let len = instruments.len() as i32;
-                    api.SubscribeMarketData(instruments, len);
+                    api.SubscribeMarketData(instruments);
                 }
             }
             MdSpiMsg::OnRtnDepthMarketData(tick) => {

@@ -1,14 +1,23 @@
 #include "ctp-rs/wrapper/include/TraderApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
-TraderApi::TraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode) : gateway(gateway) {
+TraderApi::TraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) : gateway(std::move(gateway)) {
     spi = new CTraderSpi(this);
     api = CThostFtdcTraderApi::CreateFtdcTraderApi(flow_path.c_str(), is_production_mode);
     api->RegisterSpi(spi);
 }
 
-std::unique_ptr<TraderApi> CreateTraderApi(const TraderSpi &gateway, rust::String flow_path, bool is_production_mode) {
-    return std::make_unique<TraderApi>(gateway, flow_path, is_production_mode);
+TraderApi::~TraderApi() {
+    if (api) {
+        api->Release();
+        api = nullptr;
+    }
+    delete spi;
+    spi = nullptr;
+}
+
+std::unique_ptr<TraderApi> CreateTraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) {
+    return std::make_unique<TraderApi>(std::move(gateway), flow_path, is_production_mode);
 }
 
 FrontInfoField TraderApi::GetFrontInfo() const {
@@ -20,11 +29,6 @@ FrontInfoField TraderApi::GetFrontInfo() const {
 
 rust::String TraderApi::GetApiVersion() const {
     return api->GetApiVersion(
-    );
-}
-
-void TraderApi::Release() const {
-    return api->Release(
     );
 }
 
