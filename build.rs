@@ -37,6 +37,7 @@ fn main() {
         .define("CXX_RS", None)
         .flag_if_supported("/EHsc")
         .flag_if_supported("/std:c++20")
+        .flag_if_supported("/utf-8")
         .flag_if_supported("/w")
         .flag_if_supported("-std=c++20")
         .flag_if_supported("-w")
