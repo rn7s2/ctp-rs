@@ -1,7 +1,7 @@
 use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
 use std::sync::{Arc, mpsc::channel};
 
-// for more fronts, see: http://www.openctp.cn/simenv.html
+// 模拟环境地址列表见：http://www.openctp.cn/simenv.html
 const FRONT_ADDR: &str = "tcp://...";
 const FLOW_PATH: &str = "MdFlow/";
 const INSTRUMENTS: &[&str] = &["...", "..."];

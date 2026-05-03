@@ -1,19 +1,23 @@
 [package]
 authors = ["Ruiqi Lei <Rn7s2@outlook.com>"]
 categories = ["api-bindings", "finance"]
-description = "Safe & Idiomatic Rust bindings for CTP"
+description = "Safe & idiomatic Rust bindings for CTP; cross-platform (Windows/Linux/macOS) with built-in LocalCTP support"
 edition = "2024"
-keywords = ["ctp", "ctp-rs", "ctp2rs", "ctp-binding", "quant"]
+keywords = ["ctp", "futures", "trading", "ctp2rs", "quant"]
 license = "MIT"
 name = "ctp-rs"
 readme = "README.md"
 repository = "https://github.com/rn7s2/ctp-rs.git"
-version = "0.1.4+ctp.6.7.11"
+version = "0.2.0+ctp.6.7.11"
+
+[features]
+localctp = []
 
 [dependencies]
 cxx = "1.0"
 
 [build-dependencies]
+cc = "1.0"
 cxx-build = "1.0"
 
 [package.metadata.docs.rs]

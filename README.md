@@ -3,172 +3,213 @@
 [![GitHub](https://img.shields.io/badge/GitHub-Rn7s2/ctp--rs-green&logo=github)](https://github.com/rn7s2/ctp-rs)
 [![Rust](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/rn7s2/ctp-rs/actions/workflows/rust.yml)
 [![Crate](https://img.shields.io/crates/v/ctp-rs.svg)](https://crates.io/crates/ctp-rs)
-[![API](https://docs.rs/rand/badge.svg)](https://docs.rs/ctp-rs)
+[![API](https://docs.rs/ctp-rs/badge.svg)](https://docs.rs/ctp-rs)
 
-Safe & Idiomatic Rust bindings for CTP
+CTP 期货接口的安全、符合 Rust 惯用法的绑定。支持 Windows、Linux 与 macOS 三平台，并内置 LocalCTP 本地模拟交易功能，无需连接真实服务器即可开发和测试交易逻辑。
 
-CTP 接口的安全又好用的 Rust 绑定.
+Safe & idiomatic Rust bindings for CTP — cross-platform (Windows / Linux / macOS) with built-in LocalCTP for offline simulation.
 
-## Quickstart
+## 特性
+
+- **跨平台**：支持 Windows、Linux（x86_64）与 macOS（Apple Silicon / x86_64）
+- **安全 API**：所有接口均采用 Rust 字符串与所有权语义，字符串编码自动转换，消除 C++ 裸指针风险
+- **内置 LocalCTP**：无需连接真实交易服务器，本地离线即可模拟下单、持仓、结算全流程
+- **基于 channel 的消息传递**：SPI 回调通过标准库 `mpsc::channel` 传递，可与异步运行时或多线程程序无缝集成
+
+## 快速开始
 
 可直接从 [`crates.io`](https://crates.io/crates/ctp-rs) 安装：
 
-`cargo add ctp-rs`
+```sh
+cargo add ctp-rs
+```
 
-发布在 `crates.io` 的包采用 SemVer 版本号系统.\
-底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.1.0+ctp.6.7.11`.
+如需本地模拟交易（LocalCTP），启用对应 feature：
 
-## Examples
+```sh
+cargo add ctp-rs --features localctp
+```
 
-1. md_api
+发布在 `crates.io` 的包采用 SemVer 版本号系统。\
+底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.1.0+ctp.6.7.11`。
 
-   ```rs
-    use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
-    use std::sync::{Arc, mpsc::channel};
+## 示例
 
-    // for more fronts, see: http://www.openctp.cn/simenv.html
-    const FRONT_ADDR: &str = "tcp://...";
-    const FLOW_PATH: &str = "MdFlow/";
-    const INSTRUMENTS: &[&str] = &["...", "..."];
+### 1. 行情接口（MdApi）
 
-    fn main() {
-        let (tx, rx) = channel();
-        let api = Arc::new(MdApi::CreateMdApiAndSpi(
-            tx,
-            FLOW_PATH.to_string(),
-            false,
-            false,
-            true,
-        ));
-        api.RegisterFront(FRONT_ADDR.to_string());
-        api.Init();
+```rs
+use ctp_rs::{MdApi, MdSpiMsg, ReqUserLoginField};
+use std::sync::{Arc, mpsc::channel};
 
-        loop {
-            let msg = rx.recv().unwrap();
-            match msg {
-                MdSpiMsg::OnFrontConnected => {
-                    println!("front connected");
+// 模拟环境地址列表见：http://www.openctp.cn/simenv.html
+const FRONT_ADDR: &str = "tcp://...";
+const FLOW_PATH: &str = "MdFlow/";
+const INSTRUMENTS: &[&str] = &["...", "..."];
+
+fn main() {
+    let (tx, rx) = channel();
+    let api = Arc::new(MdApi::CreateMdApiAndSpi(
+        tx,
+        FLOW_PATH.to_string(),
+        false,
+        false,
+        true,
+    ));
+    api.RegisterFront(FRONT_ADDR.to_string());
+    api.Init();
+
+    loop {
+        let msg = rx.recv().unwrap();
+        match msg {
+            MdSpiMsg::OnFrontConnected => {
+                println!("front connected");
+                let req = ReqUserLoginField {
+                    BrokerID: "".to_string(),
+                    UserID: "".to_string(),
+                    Password: "".to_string(),
+                    ..Default::default()
+                };
+                api.ReqUserLogin(req, 0);
+            }
+            MdSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {
+                if rsp_info.ErrorID != 0 {
+                    println!("user login failed: {:?}", rsp_info);
+                    continue;
+                } else {
+                    println!("user login success: {:?}", rsp_info);
+                    let instruments: Vec<String> =
+                        INSTRUMENTS.iter().map(|&s| s.to_string()).collect();
+                    api.SubscribeMarketData(instruments);
+                }
+            }
+            MdSpiMsg::OnRtnDepthMarketData(tick) => {
+                println!("{:?}", tick);
+            }
+            _ => {}
+        }
+    }
+}
+```
+
+### 2. 交易接口（TraderApi）
+
+```rs
+use ctp_rs::{
+    QryInstrumentField, ReqAuthenticateField, ReqUserLoginField, THOST_TE_RESUME_TYPE, TraderApi,
+    TraderSpiMsg,
+};
+use std::sync::{Arc, mpsc::channel};
+
+const BROKER_ID: &str = "...";
+const USER_ID: &str = "...";
+const PASSWORD: &str = "...";
+const APP_ID: &str = "...";
+const AUTH_CODE: &str = "...";
+const FRONT_ADDR: &str = "tcp://...";
+const FLOW_PATH: &str = "TraderFlow/";
+
+fn main() {
+    let (tx, rx) = channel();
+    let api = Arc::new(TraderApi::CreateTraderApiAndSpi(
+        tx,
+        FLOW_PATH.to_string(),
+        true,
+    ));
+    api.RegisterFront(FRONT_ADDR.to_string());
+    api.SubscribePublicTopic(THOST_TE_RESUME_TYPE::THOST_TERT_QUICK as i32);
+    api.SubscribePrivateTopic(THOST_TE_RESUME_TYPE::THOST_TERT_RESTART as i32);
+    api.Init();
+
+    loop {
+        let msg = rx.recv().unwrap();
+        match msg {
+            TraderSpiMsg::OnFrontConnected => {
+                println!("front connected");
+                let req = ReqAuthenticateField {
+                    BrokerID: BROKER_ID.to_string(),
+                    UserID: USER_ID.to_string(),
+                    AuthCode: AUTH_CODE.to_string(),
+                    AppID: APP_ID.to_string(),
+                    ..Default::default()
+                };
+                api.ReqAuthenticate(req, 0);
+            }
+            TraderSpiMsg::OnRspAuthenticate(_, rsp_info, _, _) => {
+                if rsp_info.ErrorID != 0 {
+                    println!("auth failed: {:?}", rsp_info);
+                    std::process::exit(1);
+                } else {
+                    println!("auth success: {:?}", rsp_info);
+
                     let req = ReqUserLoginField {
-                        BrokerID: "".to_string(),
-                        UserID: "".to_string(),
-                        Password: "".to_string(),
+                        BrokerID: BROKER_ID.to_string(),
+                        UserID: USER_ID.to_string(),
+                        Password: PASSWORD.to_string(),
                         ..Default::default()
                     };
                     api.ReqUserLogin(req, 0);
                 }
-                MdSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {
-                    if rsp_info.ErrorID != 0 {
-                        println!("user login failed: {:?}", rsp_info);
-                        continue;
-                    } else {
-                        println!("user login success: {:?}", rsp_info);
-                        let instruments: Vec<String> =
-                            INSTRUMENTS.iter().map(|&s| s.to_string()).collect();
-                        api.SubscribeMarketData(instruments);
-                    }
-                }
-                MdSpiMsg::OnRtnDepthMarketData(tick) => {
-                    println!("{:?}", tick);
-                }
-                _ => {}
             }
+            TraderSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {
+                if rsp_info.ErrorID != 0 {
+                    println!("user login failed: {:?}", rsp_info);
+                    std::process::exit(1);
+                } else {
+                    println!("user login success: {:?}", rsp_info);
+
+                    api.ReqQryInstrument(QryInstrumentField::default(), 0);
+                }
+            }
+            TraderSpiMsg::OnRspQryInstrument(instrument, rsp_info, _, _) => {
+                if instrument.is_null {
+                    eprintln!("qry instrument: {:?}", rsp_info);
+                    std::process::exit(1);
+                }
+
+                println!("{:?}", instrument);
+            }
+            _ => {}
         }
     }
-   ```
+}
+```
 
-2. td_api
+## LocalCTP（本地模拟交易）
 
-   ```rs
-   use ctp_rs::{
-       QryInstrumentField, ReqAuthenticateField, ReqUserLoginField, THOST_TE_RESUME_TYPE, TraderApi,
-       TraderSpiMsg,
-   };
-   use std::sync::{Arc, mpsc::channel};
+ctp-rs 内置了 [LocalCTP](https://github.com/dearleeyoung/LocalCTP)（MIT 协议），提供完整的 TraderApi 本地模拟实现。LocalCTP 以 SQLite 存储委托、持仓与资金状态，支持从 CSV 文件加载合约定义，可在无网络环境下完成下单、撤单、结算等全流程测试。
 
-   const BROKER_ID: &str = "...";
-   const USER_ID: &str = "...";
-   const PASSWORD: &str = "...";
-   const APP_ID: &str = "...";
-   const AUTH_CODE: &str = "...";
-   const FRONT_ADDR: &str = "tcp://...";
-   const FLOW_PATH: &str = "TraderFlow/";
+### 启用方式
 
-   fn main() {
-       let (tx, rx) = channel();
-       let api = Arc::new(TraderApi::CreateTraderApiAndSpi(
-           tx,
-           FLOW_PATH.to_string(),
-           true,
-       ));
-       api.RegisterFront(FRONT_ADDR.to_string());
-       api.SubscribePublicTopic(THOST_TE_RESUME_TYPE::THOST_TERT_QUICK as i32);
-       api.SubscribePrivateTopic(THOST_TE_RESUME_TYPE::THOST_TERT_RESTART as i32);
-       api.Init();
+```toml
+# Cargo.toml
+[dependencies]
+ctp-rs = { version = "...", features = ["localctp"] }
+```
 
-       loop {
-           let msg = rx.recv().unwrap();
-           match msg {
-               TraderSpiMsg::OnFrontConnected => {
-                   println!("front connected");
-                   let req = ReqAuthenticateField {
-                       BrokerID: BROKER_ID.to_string(),
-                       UserID: USER_ID.to_string(),
-                       AuthCode: AUTH_CODE.to_string(),
-                       AppID: APP_ID.to_string(),
-                       ..Default::default()
-                   };
-                   api.ReqAuthenticate(req, 0);
-               }
-               TraderSpiMsg::OnRspAuthenticate(_, rsp_info, _, _) => {
-                   if rsp_info.ErrorID != 0 {
-                       println!("auth failed: {:?}", rsp_info);
-                       std::process::exit(1);
-                   } else {
-                       println!("auth success: {:?}", rsp_info);
+### 平台行为
 
-                       let req = ReqUserLoginField {
-                           BrokerID: BROKER_ID.to_string(),
-                           UserID: USER_ID.to_string(),
-                           Password: PASSWORD.to_string(),
-                           ..Default::default()
-                       };
-                       api.ReqUserLogin(req, 0);
-                   }
-               }
-               TraderSpiMsg::OnRspUserLogin(_, rsp_info, _, _) => {
-                   if rsp_info.ErrorID != 0 {
-                       println!("user login failed: {:?}", rsp_info);
-                       std::process::exit(1);
-                   } else {
-                       println!("user login success: {:?}", rsp_info);
+| 平台            | 行为                                                                                |
+| --------------- | ----------------------------------------------------------------------------------- |
+| Windows / Linux | 默认使用预编译的真实 CTP TraderApi 动态库；启用 `localctp` feature 后切换为本地模拟 |
+| macOS           | ctp-rs 不提供预编译 TraderApi，**自动使用 LocalCTP**                                |
 
-                       api.ReqQryInstrument(QryInstrumentField::default(), 0);
-                   }
-               }
-               TraderSpiMsg::OnRspQryInstrument(instrument, rsp_info, _, _) => {
-                   if instrument.is_null {
-                       eprintln!("qry instrument: {:?}", rsp_info);
-                       std::process::exit(1);
-                   }
+### ctp-rs 对上游的修改
 
-                   println!("{:?}", instrument);
-               }
-               _ => {}
-           }
-       }
-   }
-   ```
+- 为 `LeeDateTime` 增加了 macOS 平台支持
+- `LeeDateTime` 始终钉住 UTC+8 时区，避免操作系统时区非北京时间时导致交易日与结算时间计算错误
 
-## Notes
+当前内置版本见 [localctp/VERSION.md](localctp/VERSION.md)。
 
-1. 大部分接口实现了字符串自动编码转换，可在 Rust 中直接使用 String.\
-   少部分字段（如结算单）会截断汉字或字符造成编码转换失败，这些字段保留 `Vec<u8>`.
+## 注意事项
 
-   对于保留 `Vec<u8>`的字段，如需打印可能含有中文的字符串，可以考虑 [`encoding_rs`](https://crates.io/crates/encoding_rs) 等库可以方便地转换编码：
+1. 大部分接口实现了字符串自动编码转换，可在 Rust 中直接使用 `String`。\
+   少部分字段（如结算单）因 CTP 截断汉字导致编码转换失败，这些字段保留为 `Vec<u8>`。
+
+   如需打印含中文的 `Vec<u8>` 字段，可使用 [`encoding_rs`](https://crates.io/crates/encoding_rs)：
 
    ```rs
    use encoding_rs::GBK;
    let contents = GBK.decode(&bytes).0.to_string();
    ```
 
-2. CTP 返回空指针时，接口返回的相应 Field 内 is_null 会为 true.
+2. CTP 返回空指针时，对应 Field 结构体的 `is_null` 字段会为 `true`。

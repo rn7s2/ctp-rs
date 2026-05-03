@@ -1,9 +1,22 @@
 #include "ctp-rs/wrapper/include/MdApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
+#ifdef __APPLE__
+// Implemented in MdApiDarwinShim.cpp against the lib/darwin/ headers, where
+// CreateFtdcMdApi takes only three booleans. is_production_mode has no
+// equivalent in the darwin SDK and is silently ignored.
+extern "C" void* CtpRsDarwinCreateFtdcMdApi(const char*, bool, bool);
+#endif
+
 MdApi::MdApi(rust::Box<MdSpi> gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) {
     spi = new CMdSpi(std::move(gateway));
+#ifdef __APPLE__
+    (void)is_production_mode;
+    api = static_cast<CThostFtdcMdApi*>(
+        CtpRsDarwinCreateFtdcMdApi(flow_path.c_str(), is_using_udp, is_multicast));
+#else
     api = CThostFtdcMdApi::CreateFtdcMdApi(flow_path.c_str(), is_using_udp, is_multicast, is_production_mode);
+#endif
     api->RegisterSpi(spi);
 }
 
