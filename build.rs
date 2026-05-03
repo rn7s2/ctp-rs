@@ -137,7 +137,7 @@ fn build_localctp(localctp_dir: &Path) -> PathBuf {
         "auto_generated_code/CTPSQLWrapper.cpp",
     ];
     // SQLite must be compiled as C, not C++
-    let c_sources = ["sqlite/sqlite3.c", "sqlite/shell.c"];
+    let c_sources = ["sqlite/sqlite3.c"];
 
     if cfg!(target_os = "windows") {
         let output = build_out.join("thosttraderapi_se.dll");
