@@ -13,7 +13,7 @@ jobs:
   build-win:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Build
         run: cargo build --examples --verbose
       - name: Build (localctp)
@@ -22,7 +22,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Build
         run: cargo build --examples --verbose
       - name: Build (localctp)
@@ -31,6 +31,6 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Build (localctp)
         run: cargo build --examples --verbose
