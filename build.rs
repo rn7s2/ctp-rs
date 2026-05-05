@@ -7,15 +7,19 @@ use std::{
 // CTP native libraries (headers + framework dylibs + Win .dll/.lib + Linux .so)
 // are too large for crates.io's compressed package limit, so they're hosted on
 // R2 and fetched on first build instead of being shipped inside the crate.
-// The zip's top-level layout matches what the rest of build.rs expects to find
-// under `lib/` (darwin/*.framework, lib*.so, *.dll/.lib, headers, error.xml).
+// The zip is extracted into `$OUT_DIR/lib/` (build.rs must not write to the
+// source tree — `cargo publish` rejects that). The zip's top-level layout is
+// what the rest of build.rs expects: darwin/*.framework, lib*.so, *.dll/.lib,
+// headers, error.xml.
 const LIB_ASSET_URL: &str = "https://ctp-api.ruiqilei.com/ctp.6.7.11.darwin.6.7.7.zip";
 const LIB_ASSET_VERSION: &str = "ctp.6.7.11.darwin.6.7.7";
 
 fn main() {
     let root = env!("CARGO_MANIFEST_DIR");
-    let lib_dir = Path::new(root).join("lib");
     let out_dir = PathBuf::from(std::env::var("OUT_DIR").unwrap());
+    // Native libs land under OUT_DIR (not the source tree) so `cargo publish`
+    // verification doesn't reject this build script for modifying source.
+    let lib_dir = out_dir.join("lib");
 
     ensure_lib_dir(&lib_dir);
 
@@ -92,6 +96,9 @@ fn main() {
     ];
 
     let mut build = cxx_build::bridges(rust_files);
+    // CTP headers live alongside the prebuilt libraries in `lib_dir` (under
+    // OUT_DIR). Wrapper headers include them as plain `<ThostFtdc*.h>`.
+    build.include(&lib_dir);
     build
         .define("CXX_RS", None)
         .flag_if_supported("/EHsc")
@@ -147,7 +154,7 @@ fn main() {
     //   * macOS without localctp: trader framework dylib is embedded, no copy.
     if use_localctp {
         println!("cargo:rerun-if-changed=localctp");
-        let built = build_localctp(&Path::new(root).join("localctp"));
+        let built = build_localctp(&Path::new(root).join("localctp"), &lib_dir);
         if !cfg!(target_os = "macos") {
             let trader = if cfg!(target_os = "windows") {
                 "thosttraderapi_se.dll"
@@ -168,12 +175,18 @@ fn main() {
     }
 }
 
-/// Downloads and extracts the CTP native-library bundle into `lib_dir` if it
-/// isn't already present at the expected version. The bundle is hosted on R2
-/// (see `LIB_ASSET_URL`) and unzips into the same shape the rest of build.rs
-/// expects: `darwin/*.framework`, `lib*.so`, `*.dll`/`*.lib`, top-level CTP
-/// headers, and `error.xml`. A sentinel file `lib/.ctp-rs-asset-version`
-/// records the extracted version so subsequent builds skip re-downloading.
+/// Downloads and extracts the CTP native-library bundle into `lib_dir`
+/// (which lives under `$OUT_DIR`) if it isn't already there. The bundle is
+/// hosted on R2 (see `LIB_ASSET_URL`) and unzips into the shape the rest of
+/// build.rs expects: `darwin/*.framework`, `lib*.so`, `*.dll`/`*.lib`,
+/// top-level CTP headers, and `error.xml`.
+///
+/// `OUT_DIR` is per-build (target/profile/build-script hash), and any change
+/// to `LIB_ASSET_URL` re-hashes build.rs and yields a fresh `OUT_DIR`. So if
+/// `lib_dir` already exists here it must be the bundle this build wants —
+/// no version check needed. Extraction happens into a sibling `.partial`
+/// dir and is renamed in atomically, so a partial extraction can never be
+/// mistaken for a complete one.
 ///
 /// Uses `curl` + `unzip` (Unix) / `tar` (Windows) rather than Rust HTTP/zip
 /// crates: those add multi-megabyte build-time deps and don't preserve the
@@ -181,27 +194,21 @@ fn main() {
 /// are universally available on supported platforms — see README "Build
 /// requirements".
 fn ensure_lib_dir(lib_dir: &Path) {
-    let sentinel = lib_dir.join(".ctp-rs-asset-version");
-    println!("cargo:rerun-if-changed={}", sentinel.display());
-
-    if let Ok(v) = fs::read_to_string(&sentinel)
-        && v.trim() == LIB_ASSET_VERSION
-    {
+    if lib_dir.exists() {
         return;
     }
 
-    // Stale or missing — wipe and re-extract. fs::remove_dir_all on a
-    // nonexistent path errors, so check first.
-    if lib_dir.exists() {
-        fs::remove_dir_all(lib_dir)
-            .unwrap_or_else(|e| panic!("failed to clear {}: {}", lib_dir.display(), e));
+    let staging = lib_dir.with_file_name("lib.partial");
+    if staging.exists() {
+        fs::remove_dir_all(&staging)
+            .unwrap_or_else(|e| panic!("failed to clear {}: {}", staging.display(), e));
     }
-    fs::create_dir_all(lib_dir)
-        .unwrap_or_else(|e| panic!("failed to create {}: {}", lib_dir.display(), e));
+    fs::create_dir_all(&staging)
+        .unwrap_or_else(|e| panic!("failed to create {}: {}", staging.display(), e));
 
-    let zip_path = lib_dir.join(".ctp-rs-asset.zip");
+    let zip_path = staging.join(".ctp-rs-asset.zip");
     println!(
-        "cargo:warning=ctp-rs: downloading native libraries ({}) — this happens once per checkout",
+        "cargo:warning=ctp-rs: downloading native libraries ({}) — this happens once per OUT_DIR",
         LIB_ASSET_VERSION
     );
     let status = Command::new("curl")
@@ -229,7 +236,7 @@ fn ensure_lib_dir(lib_dir: &Path) {
             .arg("-xf")
             .arg(&zip_path)
             .arg("-C")
-            .arg(lib_dir)
+            .arg(&staging)
             .status()
             .expect("`tar` not found — required to extract on Windows (see README)")
     } else {
@@ -238,26 +245,33 @@ fn ensure_lib_dir(lib_dir: &Path) {
             .arg("-o")
             .arg(&zip_path)
             .arg("-d")
-            .arg(lib_dir)
+            .arg(&staging)
             .status()
             .expect("`unzip` not found — required to extract CTP libraries (see README)")
     };
     assert!(
         extract_status.success(),
         "failed to extract CTP native libraries into {}",
-        lib_dir.display()
+        staging.display()
     );
 
     // __MACOSX/ holds AppleDouble resource forks that the macOS Finder
-    // injects when zipping; noise on every platform, just clutters lib/.
-    let macosx_junk = lib_dir.join("__MACOSX");
+    // injects when zipping; noise on every platform, just clutters the dir.
+    let macosx_junk = staging.join("__MACOSX");
     if macosx_junk.exists() {
         let _ = fs::remove_dir_all(&macosx_junk);
     }
     let _ = fs::remove_file(&zip_path);
 
-    fs::write(&sentinel, LIB_ASSET_VERSION)
-        .unwrap_or_else(|e| panic!("failed to write sentinel {}: {}", sentinel.display(), e));
+    // Atomic publish: lib_dir only ever exists when extraction succeeded.
+    fs::rename(&staging, lib_dir).unwrap_or_else(|e| {
+        panic!(
+            "failed to rename {} → {}: {}",
+            staging.display(),
+            lib_dir.display(),
+            e
+        )
+    });
 }
 
 /// Re-signs and embeds a CTP framework dylib so it can be `dlopen`'d at
@@ -284,11 +298,10 @@ fn embed_macos_framework_dylib(
         .join(framework_name);
     assert!(
         src_dylib.exists(),
-        "missing macOS framework dylib at {} — drop {}.framework into \
-         lib/darwin/, or build with --features localctp to use the embedded \
-         simulator instead",
+        "missing macOS framework dylib at {} — the auto-downloaded CTP bundle \
+         appears incomplete; run `cargo clean` and rebuild to re-fetch, or \
+         build with --features localctp to use the embedded simulator instead",
         src_dylib.display(),
-        framework_name,
     );
 
     let signed_dylib = out_dir.join(format!("{}_adhoc.dylib", framework_name));
@@ -338,7 +351,7 @@ fn embed_macos_framework_dylib(
     blob_cpp.to_string_lossy().into_owned()
 }
 
-fn build_localctp(localctp_dir: &Path) -> PathBuf {
+fn build_localctp(localctp_dir: &Path, lib_dir: &Path) -> PathBuf {
     let build_out = PathBuf::from(std::env::var("OUT_DIR").unwrap());
 
     // All C++ sources — dllmain.cpp is guarded by #ifdef _WIN32 inside, safe on Linux/macOS
@@ -396,10 +409,7 @@ fn build_localctp(localctp_dir: &Path) -> PathBuf {
             "/I{}",
             localctp_dir.join("auto_generated_code").display()
         ))
-        .arg(format!(
-            "/I{}",
-            localctp_dir.parent().unwrap().join("lib").display()
-        ));
+        .arg(format!("/I{}", lib_dir.display()));
 
         for src in &cpp_sources {
             cmd.arg(localctp_dir.join(src));
@@ -426,7 +436,7 @@ fn build_localctp(localctp_dir: &Path) -> PathBuf {
 
         let includes = [
             format!("-I{}", localctp_dir.join("auto_generated_code").display()),
-            format!("-I{}", localctp_dir.parent().unwrap().join("lib").display()),
+            format!("-I{}", lib_dir.display()),
         ];
 
         // Step 1: compile C++ sources (makefile CFLAGS: -std=c++11 -Wall -Wno-format-security -fPIC)

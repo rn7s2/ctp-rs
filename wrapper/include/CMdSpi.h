@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ctp-rs/src/lib.rs.h"
-#include "ctp-rs/lib/ThostFtdcMdApi.h"
-#include "ctp-rs/lib/ThostFtdcTraderApi.h"
+#include "ThostFtdcMdApi.h"
+#include "ThostFtdcTraderApi.h"
 
 #include "rust/cxx.h"
 #include <cstdint>

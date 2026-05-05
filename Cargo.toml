@@ -9,9 +9,6 @@ name = "ctp-rs"
 readme = "README.md"
 repository = "https://github.com/rn7s2/ctp-rs.git"
 version = "0.3.0+ctp.6.7.11.darwin.6.7.7"
-# `lib/` is fetched at build time by build.rs (too large for crates.io's
-# compressed package limit); never include it in the published tarball.
-exclude = ["lib/**"]
 
 [features]
 localctp = []
