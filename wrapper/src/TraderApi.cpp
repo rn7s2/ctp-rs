@@ -1,9 +1,30 @@
 #include "ctp-rs/wrapper/include/TraderApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+// Implemented in TraderApiDarwinShim.cpp. Used when the trader-side library
+// is the embedded framework dylib; localctp builds bypass these by linking
+// the real CThostFtdcTraderApi statically.
+extern "C" void* CtpRsDarwinCreateFtdcTraderApi(const char*, bool);
+extern "C" const char* CtpRsDarwinGetTraderApiVersion();
+#endif
+
+#if defined(CTP_RS_LOCALCTP)
+// Implemented in localctp/LocalCTP.cpp. Blocks until LocalCTP's settlement
+// timer thread finishes its first-pass init. Without this, user-side SPI
+// callbacks can race the timer thread's mid-init mutation of shared state
+// and crash with "mutex lock failed: Invalid argument".
+extern "C" void localctp_wait_until_ready();
+#endif
+
 TraderApi::TraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) {
     spi = new CTraderSpi(std::move(gateway));
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    api = static_cast<CThostFtdcTraderApi*>(
+        CtpRsDarwinCreateFtdcTraderApi(flow_path.c_str(), is_production_mode));
+#else
     api = CThostFtdcTraderApi::CreateFtdcTraderApi(flow_path.c_str(), is_production_mode);
+#endif
     api->RegisterSpi(spi);
 }
 
@@ -17,6 +38,9 @@ TraderApi::~TraderApi() {
 }
 
 std::unique_ptr<TraderApi> CreateTraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) {
+#if defined(CTP_RS_LOCALCTP)
+    localctp_wait_until_ready();
+#endif
     return std::make_unique<TraderApi>(std::move(gateway), flow_path, is_production_mode);
 }
 
@@ -28,8 +52,12 @@ FrontInfoField TraderApi::GetFrontInfo() const {
 }
 
 rust::String TraderApi::GetApiVersion() const {
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    return CtpRsDarwinGetTraderApiVersion();
+#else
     return api->GetApiVersion(
     );
+#endif
 }
 
 void TraderApi::Init() const {

@@ -7,41 +7,68 @@ use std::{
 fn main() {
     let root = env!("CARGO_MANIFEST_DIR");
     let lib_dir = Path::new(root).join("lib");
+    let out_dir = PathBuf::from(std::env::var("OUT_DIR").unwrap());
 
-    // ctp-rs will only ship a market-data archive for macOS — there is
-    // no prebuilt traderapi shipped — so localctp is mandatory there.
-    let use_localctp = std::env::var("CARGO_FEATURE_LOCALCTP").is_ok() || cfg!(target_os = "macos");
+    let use_localctp = std::env::var("CARGO_FEATURE_LOCALCTP").is_ok();
+
+    // True on macOS when the trader-side library is the embedded framework
+    // dylib (i.e. the default, non-localctp build). The cxx wrapper checks
+    // CTP_RS_DARWIN_TRADER_DLOPEN to route CreateFtdcTraderApi/GetApiVersion
+    // through the runtime shim instead of calling the static class methods,
+    // which aren't link-resolvable when the dylib is loaded dynamically.
+    let darwin_trader_dlopen = cfg!(target_os = "macos") && !use_localctp;
 
     println!("cargo:rustc-link-search={}", lib_dir.display());
     if cfg!(target_os = "macos") {
-        let darwin_lib_dir = lib_dir.join("darwin");
-        println!("cargo:rustc-link-search={}", darwin_lib_dir.display());
-        // mdapi: universal static archive shipped under lib/darwin/.
-        println!("cargo:rustc-link-lib=static=thostmduserapi_se");
-        // traderapi: static archive built from localctp; lives in OUT_DIR.
-        println!(
-            "cargo:rustc-link-search={}",
-            std::env::var("OUT_DIR").unwrap()
-        );
-        println!("cargo:rustc-link-lib=static=thosttraderapi_se");
+        // mdapi: always embedded from lib/darwin/thostmduserapi_se.framework
+        // and dlopen()'d at runtime. Nothing to link against.
+        // traderapi: either localctp's static archive (use_localctp=true) or
+        // the embedded framework dylib (use_localctp=false), wired up below.
+        if use_localctp {
+            println!("cargo:rustc-link-search={}", out_dir.display());
+            println!("cargo:rustc-link-lib=static=thosttraderapi_se");
+        }
         // Converter.cpp uses iconv on Unix; macOS ships libiconv separately.
         println!("cargo:rustc-link-lib=iconv");
+        // Used by the framework dylibs (loaded at runtime).
+        println!("cargo:rustc-link-lib=dylib=c++");
     } else {
         println!("cargo:rustc-link-lib=thostmduserapi_se");
         println!("cargo:rustc-link-lib=thosttraderapi_se");
     }
 
-    let mut cpp_files = vec![
-        "wrapper/src/MdApi.cpp",
-        "wrapper/src/TraderApi.cpp",
-        "wrapper/src/CMdSpi.cpp",
-        "wrapper/src/CTraderSpi.cpp",
-        "wrapper/src/Converter.cpp",
+    let mut cpp_files: Vec<String> = vec![
+        "wrapper/src/MdApi.cpp".into(),
+        "wrapper/src/TraderApi.cpp".into(),
+        "wrapper/src/CMdSpi.cpp".into(),
+        "wrapper/src/CTraderSpi.cpp".into(),
+        "wrapper/src/Converter.cpp".into(),
     ];
     if cfg!(target_os = "macos") {
-        // Bridges the linux header's 4-arg CreateFtdcMdApi to the darwin
-        // archive's 3-arg version; see the file for details.
-        cpp_files.push("wrapper/src/MdApiDarwinShim.cpp");
+        // The DarwinDylibLoader helper is shared by the md and trader shims.
+        cpp_files.push("wrapper/src/DarwinDylibLoader.cpp".into());
+        // mdapi shim: bridges the linux header's 4-arg CreateFtdcMdApi to
+        // the darwin dylib's 3-arg version + dlopen()s the embedded blob.
+        cpp_files.push("wrapper/src/MdApiDarwinShim.cpp".into());
+
+        let md_blob_cpp = embed_macos_framework_dylib(
+            &lib_dir,
+            &out_dir,
+            "thostmduserapi_se",
+            "md",
+        );
+        cpp_files.push(md_blob_cpp);
+
+        if darwin_trader_dlopen {
+            cpp_files.push("wrapper/src/TraderApiDarwinShim.cpp".into());
+            let trader_blob_cpp = embed_macos_framework_dylib(
+                &lib_dir,
+                &out_dir,
+                "thosttraderapi_se",
+                "trader",
+            );
+            cpp_files.push(trader_blob_cpp);
+        }
     }
 
     let rust_files = vec!["src/lib.rs"];
@@ -49,56 +76,73 @@ fn main() {
         "wrapper/include/Converter.h",
         "wrapper/include/CMdSpi.h",
         "wrapper/include/CTraderSpi.h",
+        "wrapper/include/DarwinDylibLoader.h",
         "wrapper/include/MdApi.h",
         "wrapper/include/TraderApi.h",
         "wrapper/src/Converter.cpp",
         "wrapper/src/CMdSpi.cpp",
         "wrapper/src/CTraderSpi.cpp",
+        "wrapper/src/DarwinDylibLoader.cpp",
         "wrapper/src/MdApi.cpp",
-        "wrapper/src/TraderApi.cpp",
         "wrapper/src/MdApiDarwinShim.cpp",
+        "wrapper/src/TraderApi.cpp",
+        "wrapper/src/TraderApiDarwinShim.cpp",
     ];
 
-    cxx_build::bridges(rust_files)
+    let mut build = cxx_build::bridges(rust_files);
+    build
         .define("CXX_RS", None)
         .flag_if_supported("/EHsc")
         .flag_if_supported("/std:c++20")
         .flag_if_supported("/utf-8")
         .flag_if_supported("/w")
         .flag_if_supported("-std=c++20")
-        .flag_if_supported("-w")
-        .files(cpp_files)
-        .compile("ctp_rs");
+        .flag_if_supported("-w");
+    if darwin_trader_dlopen {
+        build.define("CTP_RS_DARWIN_TRADER_DLOPEN", None);
+    }
+    if use_localctp {
+        // Toggles wrapper/src/TraderApi.cpp's call to localctp_wait_until_ready(),
+        // which blocks CreateTraderApi() until LocalCTP's first-pass settlement
+        // init has completed (avoids a startup race with the SPI callback path).
+        build.define("CTP_RS_LOCALCTP", None);
+    }
+    build.files(cpp_files).compile("ctp_rs");
 
     println!("cargo:rerun-if-changed=src/lib.rs");
     for file in wrapper_files.iter() {
         println!("cargo:rerun-if-changed={}", file);
     }
 
-    // copy DLL/SO to out dir
-    let out_dir = {
+    // Per-profile target directory (e.g. target/debug/) — where executables
+    // land and where Win/Linux dyloaders look for sibling .dll/.so. macOS
+    // doesn't need a runtime copy: both md and trader are either embedded
+    // (default) or statically linked (localctp), so the binary is fully
+    // self-contained.
+    let target_dir = {
         let mut path = PathBuf::from(std::env::var("OUT_DIR").unwrap());
         _ = path.pop() && path.pop() && path.pop();
         path
     };
 
-    // Md library: copy the dynamic lib to out_dir on win/linux for runtime
-    // loading. macOS ships mdapi as a static archive, nothing to copy.
+    // Md library: copy the dynamic lib next to the binary on win/linux.
+    // macOS embeds the framework dylib into the binary itself.
     if cfg!(target_os = "windows") {
         let md = "thostmduserapi_se.dll";
-        fs::copy(lib_dir.join(md), out_dir.join(md))
+        fs::copy(lib_dir.join(md), target_dir.join(md))
             .unwrap_or_else(|e| panic!("Copy {} failed: {}", md, e));
     } else if cfg!(target_os = "linux") {
         let md = "libthostmduserapi_se.so";
-        fs::copy(lib_dir.join(md), out_dir.join(md))
+        fs::copy(lib_dir.join(md), target_dir.join(md))
             .unwrap_or_else(|e| panic!("Copy {} failed: {}", md, e));
     }
 
     // Trader library:
     //   * win/linux without localctp: copy the prebuilt dynamic lib from lib/.
-    //   * win/linux with localctp: build, then copy the result to out_dir.
-    //   * macOS: build a static archive from localctp; the linker picks it up
-    //     via cargo:rustc-link-search=OUT_DIR above. No runtime copy needed.
+    //   * win/linux with localctp: build, then copy the result next to the bin.
+    //   * macOS with localctp: localctp is built as a static archive that the
+    //     linker pulls in via cargo:rustc-link-lib=static=. No runtime copy.
+    //   * macOS without localctp: trader framework dylib is embedded, no copy.
     if use_localctp {
         println!("cargo:rerun-if-changed=localctp");
         let built = build_localctp(&Path::new(root).join("localctp"));
@@ -108,18 +152,96 @@ fn main() {
             } else {
                 "libthosttraderapi_se.so"
             };
-            fs::copy(&built, out_dir.join(trader))
+            fs::copy(&built, target_dir.join(trader))
                 .unwrap_or_else(|e| panic!("Copy {} failed: {}", trader, e));
         }
-    } else {
+    } else if !cfg!(target_os = "macos") {
         let trader = if cfg!(target_os = "windows") {
             "thosttraderapi_se.dll"
         } else {
             "libthosttraderapi_se.so"
         };
-        fs::copy(lib_dir.join(trader), out_dir.join(trader))
+        fs::copy(lib_dir.join(trader), target_dir.join(trader))
             .unwrap_or_else(|e| panic!("Copy {} failed: {}", trader, e));
     }
+}
+
+/// Re-signs and embeds a CTP framework dylib so it can be `dlopen`'d at
+/// runtime out of /tmp. Returns the path to a generated .cpp under OUT_DIR
+/// that uses `.incbin` to splice the re-signed bytes into __DATA,__const,
+/// with `_ctp_rs_<sym_prefix>_dylib_{start,end}` markers.
+///
+/// The shipped frameworks are signed with an "Apple Development" certificate
+/// which Gatekeeper rejects for `dlopen` from arbitrary paths. We make a
+/// private OUT_DIR copy, strip the existing signature, and ad-hoc re-sign;
+/// the re-signed bytes are what end up in the binary, so end users never
+/// run `codesign` themselves.
+fn embed_macos_framework_dylib(
+    lib_dir: &Path,
+    out_dir: &Path,
+    framework_name: &str, // e.g. "thostmduserapi_se" — both fw dirname and binary name
+    sym_prefix: &str,     // e.g. "md" → _ctp_rs_md_dylib_{start,end}
+) -> String {
+    let src_dylib = lib_dir
+        .join("darwin")
+        .join(format!("{}.framework", framework_name))
+        .join("Versions")
+        .join("A")
+        .join(framework_name);
+    assert!(
+        src_dylib.exists(),
+        "missing macOS framework dylib at {} — drop {}.framework into \
+         lib/darwin/, or build with --features localctp to use the embedded \
+         simulator instead",
+        src_dylib.display(),
+        framework_name,
+    );
+
+    let signed_dylib = out_dir.join(format!("{}_adhoc.dylib", framework_name));
+    fs::copy(&src_dylib, &signed_dylib)
+        .unwrap_or_else(|e| panic!("copy {}: {}", framework_name, e));
+    // Strip the quarantine xattr that arrived with the framework download +
+    // any other extended attributes — codesign refuses otherwise.
+    let _ = Command::new("xattr").arg("-c").arg(&signed_dylib).status();
+    // Best-effort signature removal; no-op-with-error if there isn't one.
+    let _ = Command::new("codesign")
+        .arg("--remove-signature")
+        .arg(&signed_dylib)
+        .status();
+    let status = Command::new("codesign")
+        .arg("--force")
+        .arg("--sign")
+        .arg("-")
+        .arg(&signed_dylib)
+        .status()
+        .expect("codesign not found — required to re-sign CTP dylibs on macOS");
+    assert!(
+        status.success(),
+        "codesign --sign - failed for {}",
+        signed_dylib.display()
+    );
+
+    // .incbin path must be absolute — clang's integrated assembler resolves
+    // it relative to its CWD, which we don't control here.
+    let dylib_abs = signed_dylib.canonicalize().unwrap();
+    let blob_cpp = out_dir.join(format!("{}_dylib_blob.cpp", sym_prefix));
+    let blob_src = format!(
+        "// Auto-generated by build.rs — do not edit.\n\
+         __asm__(\n\
+         \"    .section __DATA,__const\\n\"\n\
+         \"    .p2align 4\\n\"\n\
+         \"    .globl _ctp_rs_{prefix}_dylib_start\\n\"\n\
+         \"_ctp_rs_{prefix}_dylib_start:\\n\"\n\
+         \"    .incbin \\\"{path}\\\"\\n\"\n\
+         \"    .globl _ctp_rs_{prefix}_dylib_end\\n\"\n\
+         \"_ctp_rs_{prefix}_dylib_end:\\n\"\n\
+         );\n",
+        prefix = sym_prefix,
+        path = dylib_abs.display()
+    );
+    fs::write(&blob_cpp, blob_src).unwrap();
+    println!("cargo:rerun-if-changed={}", src_dylib.display());
+    blob_cpp.to_string_lossy().into_owned()
 }
 
 fn build_localctp(localctp_dir: &Path) -> PathBuf {

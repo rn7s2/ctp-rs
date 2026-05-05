@@ -134,6 +134,13 @@ class CSettlementHandler
     void doWorkAfterSettlement(const std::string& oldTradingDay,
         const std::string& newTradingDay);//处理结算后的工作
     void accumulateTradingAccountFromPosition();
+    // 首轮初始化完成标志. m_timerThread 在 sleep 3s 之后会读取一批
+    // 静态配置(sqlHandler / m_settlementTime / tradingDay)并跑首轮 checkSettlement,
+    // 这段窗口内若用户线程同时下发 SPI 回调会触碰同一批数据结构, 引发 mutex 失败.
+    // WaitUntilReady() 让用户侧能阻塞到首轮跑完, 避免该启动期竞争.
+    static std::atomic<bool> s_ready;
+    static std::mutex s_readyMtx;
+    static std::condition_variable s_readyCv;
 public:
     //单实例模式
     static CSettlementHandler& getSettlementHandler(CSqliteHandler& _sqlHandler)
@@ -142,6 +149,8 @@ public:
         return h;
     }
     ~CSettlementHandler();
+
+    static void WaitUntilReady();
 };
 
 /*

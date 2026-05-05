@@ -591,6 +591,12 @@ ACCUMULATE_WITH_SAME_NAME(FrozenCash) ";"
         {
             doSettlement();
         }
+        // 首轮初始化结束, 通知 WaitUntilReady() 中等待的调用方.
+        {
+            std::lock_guard<std::mutex> lck(s_readyMtx);
+            s_ready.store(true, std::memory_order_release);
+        }
+        s_readyCv.notify_all();
         while (m_running)
         {
             //别在一次sleep中sleep太长时间(影响Join的等待时间)
@@ -630,6 +636,31 @@ CSettlementHandler::~CSettlementHandler()
     if (m_timerThread.joinable())
         m_timerThread.join();
 }
+
+std::atomic<bool> CSettlementHandler::s_ready{false};
+std::mutex CSettlementHandler::s_readyMtx;
+std::condition_variable CSettlementHandler::s_readyCv;
+
+void CSettlementHandler::WaitUntilReady()
+{
+    // 触发 settlementHandler 单例的延迟初始化, 确保 m_timerThread 已经被启动.
+    // 静态库链接时, 仅靠 LocalTraderApi.cpp 中的引用初始化通常已经触发,
+    // 但显式触发一次更稳妥(成本仅一次原子读取).
+    (void)CSettlementHandler::getSettlementHandler(CLocalTraderApi::sqlHandler);
+    std::unique_lock<std::mutex> lck(s_readyMtx);
+    s_readyCv.wait(lck, []{ return s_ready.load(std::memory_order_acquire); });
+}
+
+} // namespace localCTP
+
+// C 链接的转发函数, 供 wrapper/src/TraderApi.cpp 在不引入 LocalCTP 头文件
+// (会与原生 CTP 头冲突)的前提下调用.
+extern "C" void localctp_wait_until_ready()
+{
+    localCTP::CSettlementHandler::WaitUntilReady();
+}
+
+namespace localCTP {
 
 bool CSettlementHandler::checkSettlement()
 {

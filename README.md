@@ -31,7 +31,7 @@ cargo add ctp-rs --features localctp
 ```
 
 发布在 `crates.io` 的包采用 SemVer 版本号系统。\
-底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.1.0+ctp.6.7.11`。
+底层绑定的 CTP C++ 版本号被包含在 build meta 中，如 `0.2.1+ctp.6.7.11.darwin.6.7.7`：Windows/Linux 跟随上游，macOS 使用上游目前最新的 darwin SDK。
 
 ## 示例
 
@@ -188,17 +188,25 @@ ctp-rs = { version = "...", features = ["localctp"] }
 
 ### 平台行为
 
-| 平台            | 行为                                                                                |
-| --------------- | ----------------------------------------------------------------------------------- |
-| Windows / Linux | 默认使用预编译的真实 CTP TraderApi 动态库；启用 `localctp` feature 后切换为本地模拟 |
-| macOS           | ctp-rs 不提供预编译 TraderApi，**自动使用 LocalCTP**                                |
+- **默认（不启用任何 feature）**：三平台均使用预编译的真实 CTP 动态库。Windows/Linux 是 `.dll`/`.so`，macOS 是嵌入到二进制中的 framework dylib，详见下方 [macOS 说明](#macos-说明)。
+- **启用 `localctp`**：TraderApi 切换为 LocalCTP，MdApi 仍使用真实 CTP。Windows/Linux 上 LocalCTP 编译为动态库并与可执行文件并排部署；macOS 上 LocalCTP 编译为静态库直接链入二进制。
 
-### ctp-rs 对上游的修改
+### ctp-rs 对上游 LocalCTP 的修改
 
 - 为 `LeeDateTime` 增加了 macOS 平台支持
 - `LeeDateTime` 始终钉住 UTC+8 时区，避免操作系统时区非北京时间时导致交易日与结算时间计算错误
 
 当前内置版本见 [localctp/VERSION.md](localctp/VERSION.md)。
+
+## macOS 说明
+
+macOS 平台的真实 CTP 由 [`lib/darwin/`](lib/darwin/) 下的 `thostmduserapi_se.framework` 与 `thosttraderapi_se.framework` 提供（darwin 6.7.7）。这两个 framework 的处理方式与 Windows/Linux 上的 `.dll`/`.so` 不同：
+
+- **构建期嵌入**：`build.rs` 把两个 framework 内部的 dylib 字节通过 `.incbin` 拼进 `__DATA,__const` 段，最终二进制是自包含的——不需要把任何 dylib 与可执行文件一起分发。
+- **运行期 `dlopen`**：第一次调用 MdApi/TraderApi 时，会把嵌入的字节写到 `$TMPDIR/ctp-rs.<pid>.<name>.dylib`，再用 `RTLD_NOW | RTLD_LOCAL` 打开。`CreateFtdcMdApi` / `CreateFtdcTraderApi` / `GetApiVersion` 通过 `dlsym` 拿到，其余方法均为虚函数，走 framework 自带的 vtable。
+- **临时再签名**：Gatekeeper 不允许从任意路径 `dlopen`。`build.rs` 会在构建时调用 `codesign --remove-signature` 后再 `codesign --sign -` 做 ad-hoc 签名，最终用户机器上无需再做任何签名操作。
+- **darwin SDK 与 Linux/Windows 不一致**：上游目前 macOS 仅发布到 6.7.7，Linux/Windows 已是 6.7.11。两者的 wire protocol 兼容，但极个别字段或常量可能不同；行为差异请参考 [`lib/darwin/thostmduserapi_se.framework/Versions/A/Headers/`](lib/darwin/thostmduserapi_se.framework/Versions/A/Headers/) 下的实际头文件。
+- **CreateFtdcXxxApi 签名差异**：darwin 的 `CreateFtdcMdApi` / `CreateFtdcTraderApi` 比 Linux 头文件少一个 `bIsProductionMode` 参数，wrapper 内部已自动桥接，对 Rust 侧完全透明。
 
 ## 注意事项
 

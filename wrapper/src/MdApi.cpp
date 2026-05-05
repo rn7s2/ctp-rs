@@ -2,10 +2,12 @@
 #include "ctp-rs/wrapper/include/Converter.h"
 
 #ifdef __APPLE__
-// Implemented in MdApiDarwinShim.cpp against the lib/darwin/ headers, where
-// CreateFtdcMdApi takes only three booleans. is_production_mode has no
-// equivalent in the darwin SDK and is silently ignored.
+// Both implemented in MdApiDarwinShim.cpp. CreateFtdcMdApi takes only three
+// booleans on darwin (is_production_mode is silently dropped); GetApiVersion
+// is a static class method that we resolve via dlsym at runtime since the
+// dylib is loaded dynamically rather than linked.
 extern "C" void* CtpRsDarwinCreateFtdcMdApi(const char*, bool, bool);
+extern "C" const char* CtpRsDarwinGetMdApiVersion();
 #endif
 
 MdApi::MdApi(rust::Box<MdSpi> gateway, rust::String flow_path, bool is_using_udp, bool is_multicast, bool is_production_mode) {
@@ -34,8 +36,12 @@ std::unique_ptr<MdApi> CreateMdApi(rust::Box<MdSpi> gateway, rust::String flow_p
 }
 
 rust::String MdApi::GetApiVersion() const {
+#ifdef __APPLE__
+    return CtpRsDarwinGetMdApiVersion();
+#else
     return api->GetApiVersion(
     );
+#endif
 }
 
 void MdApi::Init() const {
