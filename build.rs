@@ -15,6 +15,14 @@ const LIB_ASSET_URL: &str = "https://ctp-api.ruiqilei.com/ctp.6.7.11.darwin.6.7.
 const LIB_ASSET_VERSION: &str = "ctp.6.7.11.darwin.6.7.7";
 
 fn main() {
+    // docs.rs builds in a sandbox without network access, so the native-lib
+    // download in `ensure_lib_dir` would fail. Rustdoc only type-checks the
+    // crate (cxx::bridge expands on the Rust side; no link step), so we can
+    // skip the download + C++ build + lib copies entirely.
+    if std::env::var_os("DOCS_RS").is_some() {
+        return;
+    }
+
     let root = env!("CARGO_MANIFEST_DIR");
     let out_dir = PathBuf::from(std::env::var("OUT_DIR").unwrap());
     // Native libs land under OUT_DIR (not the source tree) so `cargo publish`
