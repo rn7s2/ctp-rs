@@ -654,8 +654,14 @@ void CSettlementHandler::WaitUntilReady()
 } // namespace localCTP
 
 // C 链接的转发函数, 供 wrapper/src/TraderApi.cpp 在不引入 LocalCTP 头文件
-// (会与原生 CTP 头冲突)的前提下调用.
+// (会与原生 CTP 头冲突)的前提下调用. Windows 下 localctp 编译为 DLL,
+// 必须显式 dllexport 才能进入随 DLL 一同生成的 import lib, 否则 wrapper
+// 端链接会出现 LNK2019 unresolved external symbol.
+#ifdef _WIN32
+extern "C" __declspec(dllexport) void localctp_wait_until_ready()
+#else
 extern "C" void localctp_wait_until_ready()
+#endif
 {
     localCTP::CSettlementHandler::WaitUntilReady();
 }
