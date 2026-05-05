@@ -32,6 +32,12 @@ fn main() {
     // which aren't link-resolvable when the dylib is loaded dynamically.
     let darwin_trader_dlopen = cfg!(target_os = "macos") && !use_localctp;
 
+    // OUT_DIR is searched ahead of lib_dir so a LocalCTP-built
+    // libthosttraderapi_se.{so,a,lib} in OUT_DIR shadows the prebuilt SimNow
+    // one in lib_dir. Without this, on Linux with --features localctp the
+    // linker resolves -lthosttraderapi_se against the prebuilt .so (which
+    // doesn't export localctp_wait_until_ready) and the wrapper fails to link.
+    println!("cargo:rustc-link-search={}", out_dir.display());
     println!("cargo:rustc-link-search={}", lib_dir.display());
     if cfg!(target_os = "macos") {
         // mdapi: always embedded from lib/darwin/thostmduserapi_se.framework
@@ -39,7 +45,6 @@ fn main() {
         // traderapi: either localctp's static archive (use_localctp=true) or
         // the embedded framework dylib (use_localctp=false), wired up below.
         if use_localctp {
-            println!("cargo:rustc-link-search={}", out_dir.display());
             println!("cargo:rustc-link-lib=static=thosttraderapi_se");
         }
         // Converter.cpp uses iconv on Unix; macOS ships libiconv separately.
