@@ -188,36 +188,62 @@ ctp-rs = { version = "...", features = ["localctp"] }
 
 ### 平台行为
 
-- **默认（不启用任何 feature）**：三平台均使用预编译的真实 CTP 动态库。Windows/Linux 是 `.dll`/`.so`，macOS 是嵌入到二进制中的 framework dylib，详见下方 [macOS 说明](#macos-说明)。
+- **默认（不启用任何 feature）**：三平台均使用预编译的真实 CTP 动态库。Windows/Linux 是 `.dll`/`.so`，macOS 是嵌入到二进制中的 framework dylib，详见下方 [macOS framework 处理](#macos-framework-处理)。
 - **启用 `localctp`**：TraderApi 切换为 LocalCTP，MdApi 仍使用真实 CTP。Windows/Linux 上 LocalCTP 编译为动态库并与可执行文件并排部署；macOS 上 LocalCTP 编译为静态库直接链入二进制。
 
-### ctp-rs 对上游 LocalCTP 的修改
+当前内置 LocalCTP 版本见 [localctp/VERSION.md](localctp/VERSION.md)。
 
-- 为 `LeeDateTime` 增加了 macOS 平台支持
-- `LeeDateTime` 始终钉住 UTC+8 时区，避免操作系统时区非北京时间时导致交易日与结算时间计算错误
+## 注意事项
 
-当前内置版本见 [localctp/VERSION.md](localctp/VERSION.md)。
+### CTP 回报中的空指针
 
-## macOS 说明
+- CTP 返回空指针时，对应 Field 结构体的 `is_null` 字段会为 `true`。
 
-macOS 平台的真实 CTP 由 [`lib/darwin/`](lib/darwin/) 下的 `thostmduserapi_se.framework` 与 `thosttraderapi_se.framework` 提供（darwin 6.7.7）。这两个 framework 的处理方式与 Windows/Linux 上的 `.dll`/`.so` 不同：
+### 字符串编码
+
+- 大部分接口实现了字符串自动编码转换，可在 Rust 中直接使用 `String`。\
+  少部分字段（如结算单）因 CTP 截断汉字导致编码转换失败，这些字段保留为 `Vec<u8>`。
+
+  如需打印含中文的 `Vec<u8>` 字段，可使用 [`encoding_rs`](https://crates.io/crates/encoding_rs)：
+
+  ```rs
+  use encoding_rs::GBK;
+  let contents = GBK.decode(&bytes).0.to_string();
+  ```
+
+### 构建要求
+
+CTP 原生库（headers + macOS framework + Windows `.dll`/`.lib` + Linux `.so`，共约 35 MB 解压后）超过了 `crates.io` 的压缩包体积限制，因此**不随 crate 发布**。`build.rs` 在第一次构建时会从 Cloudflare R2 下载并解压到源码目录下的 `lib/`，并写入版本哨兵 `lib/.ctp-rs-asset-version`，后续构建直接复用。
+
+下载源（约 12 MB）：
+
+- <https://ctp-api.ruiqilei.com/ctp.6.7.11.darwin.6.7.7.zip>
+
+为避免引入额外的 Rust HTTP/zip 构建依赖（多 MB 编译开销，且无法保留 macOS framework 内部的符号链接），`build.rs` 直接调用系统工具完成下载与解压。**首次构建机器需具备**：
+
+| 平台    | 必需                  | 备注                                                                                                |
+| ------- | --------------------- | --------------------------------------------------------------------------------------------------- |
+| macOS   | `curl`、`unzip`       | 系统自带，无需额外安装                                                                              |
+| Linux   | `curl`、`unzip`       | 大部分发行版自带；最小镜像（如 `ubuntu:*-slim`、`debian:*-slim`）需 `apt-get install -y curl unzip` |
+| Windows | `curl.exe`、`tar.exe` | Windows 10 1803+（2018 年 4 月）/ Windows Server 2019+ 自带                                         |
+
+构建机器必须可访问 `ctp-api.ruiqilei.com`。如所在环境无外网，可手动下载上面的 zip 并解压到 `lib/`，再创建 `lib/.ctp-rs-asset-version`，内容写入 `ctp.6.7.11.darwin.6.7.7`（版本可能不同，参见 crates.io 版本号），即可让 `build.rs` 跳过下载步骤。
+
+### macOS framework 处理
+
+macOS 平台的真实 CTP 由 `lib/darwin/` 下的 `thostmduserapi_se.framework` 与 `thosttraderapi_se.framework` 提供（darwin 6.7.7）。这两个 framework 的处理方式与 Windows/Linux 上的 `.dll`/`.so` 不同：
 
 - **构建期嵌入**：`build.rs` 把两个 framework 内部的 dylib 字节通过 `.incbin` 拼进 `__DATA,__const` 段，最终二进制是自包含的——不需要把任何 dylib 与可执行文件一起分发。
 - **运行期 `dlopen`**：第一次调用 MdApi/TraderApi 时，会把嵌入的字节写到 `$TMPDIR/ctp-rs.<pid>.<name>.dylib`，再用 `RTLD_NOW | RTLD_LOCAL` 打开。`CreateFtdcMdApi` / `CreateFtdcTraderApi` / `GetApiVersion` 通过 `dlsym` 拿到，其余方法均为虚函数，走 framework 自带的 vtable。
 - **临时再签名**：Gatekeeper 不允许从任意路径 `dlopen`。`build.rs` 会在构建时调用 `codesign --remove-signature` 后再 `codesign --sign -` 做 ad-hoc 签名，最终用户机器上无需再做任何签名操作。
-- **darwin SDK 与 Linux/Windows 不一致**：上游目前 macOS 仅发布到 6.7.7，Linux/Windows 已是 6.7.11。两者的 wire protocol 兼容，但极个别字段或常量可能不同；行为差异请参考 [`lib/darwin/thostmduserapi_se.framework/Versions/A/Headers/`](lib/darwin/thostmduserapi_se.framework/Versions/A/Headers/) 下的实际头文件。
+- **darwin SDK 与 Linux/Windows 不一致**：上游目前 macOS 仅发布到 6.7.7，Linux/Windows 已是 6.7.11。两者的 wire protocol 兼容，但极个别字段或常量可能不同；行为差异请参考 `lib/darwin/thostmduserapi_se.framework/Versions/A/Headers/` 下的实际头文件。
 - **CreateFtdcXxxApi 签名差异**：darwin 的 `CreateFtdcMdApi` / `CreateFtdcTraderApi` 比 Linux 头文件少一个 `bIsProductionMode` 参数，wrapper 内部已自动桥接，对 Rust 侧完全透明。
 
-## 注意事项
+### 对上游 LocalCTP 的修改
 
-1. 大部分接口实现了字符串自动编码转换，可在 Rust 中直接使用 `String`。\
-   少部分字段（如结算单）因 CTP 截断汉字导致编码转换失败，这些字段保留为 `Vec<u8>`。
+详见 [localctp/VERSION.md](localctp/VERSION.md)。简要列举：
 
-   如需打印含中文的 `Vec<u8>` 字段，可使用 [`encoding_rs`](https://crates.io/crates/encoding_rs)：
-
-   ```rs
-   use encoding_rs::GBK;
-   let contents = GBK.decode(&bytes).0.to_string();
-   ```
-
-2. CTP 返回空指针时，对应 Field 结构体的 `is_null` 字段会为 `true`。
+- **macOS 支持**：`LeeDateTime.h` / `LeeDateTime.cpp` 中所有 `#if defined(__linux__)` 分支扩展为 `__linux__ || __APPLE__`，让 POSIX 时间 API 路径在 macOS 上同样生效
+- **UTC+8 钉住**：`LeeDateTime` 不再读取操作系统时区，始终按 Asia/Shanghai 计算交易日和结算时间，避免在非北京时区主机上出现日期错位
+- **启动期同步**：`CSettlementHandler` 新增 `WaitUntilReady()`，让用户线程阻塞到 `m_timerThread` 完成首轮 `checkSettlement` 后再下发 SPI 回调，避免启动窗口内并发触碰同一批静态数据结构
+- **移除 sqlite/shell.c**：上游附带的 SQLite CLI shell 在 LocalCTP 作为库构建时不需要

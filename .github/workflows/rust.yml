@@ -32,5 +32,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Build (localctp)
+      - name: Build
         run: cargo build --examples --verbose
+      - name: Build (localctp)
+        run: cargo build --examples --verbose --features localctp

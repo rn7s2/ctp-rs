@@ -57,7 +57,7 @@ dependencies = [
 
 [[package]]
 name = "ctp-rs"
-version = "0.2.1+ctp.6.7.11.darwin.6.7.7"
+version = "0.3.0+ctp.6.7.11.darwin.6.7.7"
 dependencies = [
  "cc",
  "cxx",

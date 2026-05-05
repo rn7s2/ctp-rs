@@ -4,10 +4,20 @@ use std::{
     process::Command,
 };
 
+// CTP native libraries (headers + framework dylibs + Win .dll/.lib + Linux .so)
+// are too large for crates.io's compressed package limit, so they're hosted on
+// R2 and fetched on first build instead of being shipped inside the crate.
+// The zip's top-level layout matches what the rest of build.rs expects to find
+// under `lib/` (darwin/*.framework, lib*.so, *.dll/.lib, headers, error.xml).
+const LIB_ASSET_URL: &str = "https://ctp-api.ruiqilei.com/ctp.6.7.11.darwin.6.7.7.zip";
+const LIB_ASSET_VERSION: &str = "ctp.6.7.11.darwin.6.7.7";
+
 fn main() {
     let root = env!("CARGO_MANIFEST_DIR");
     let lib_dir = Path::new(root).join("lib");
     let out_dir = PathBuf::from(std::env::var("OUT_DIR").unwrap());
+
+    ensure_lib_dir(&lib_dir);
 
     let use_localctp = std::env::var("CARGO_FEATURE_LOCALCTP").is_ok();
 
@@ -51,22 +61,14 @@ fn main() {
         // the darwin dylib's 3-arg version + dlopen()s the embedded blob.
         cpp_files.push("wrapper/src/MdApiDarwinShim.cpp".into());
 
-        let md_blob_cpp = embed_macos_framework_dylib(
-            &lib_dir,
-            &out_dir,
-            "thostmduserapi_se",
-            "md",
-        );
+        let md_blob_cpp =
+            embed_macos_framework_dylib(&lib_dir, &out_dir, "thostmduserapi_se", "md");
         cpp_files.push(md_blob_cpp);
 
         if darwin_trader_dlopen {
             cpp_files.push("wrapper/src/TraderApiDarwinShim.cpp".into());
-            let trader_blob_cpp = embed_macos_framework_dylib(
-                &lib_dir,
-                &out_dir,
-                "thosttraderapi_se",
-                "trader",
-            );
+            let trader_blob_cpp =
+                embed_macos_framework_dylib(&lib_dir, &out_dir, "thosttraderapi_se", "trader");
             cpp_files.push(trader_blob_cpp);
         }
     }
@@ -164,6 +166,98 @@ fn main() {
         fs::copy(lib_dir.join(trader), target_dir.join(trader))
             .unwrap_or_else(|e| panic!("Copy {} failed: {}", trader, e));
     }
+}
+
+/// Downloads and extracts the CTP native-library bundle into `lib_dir` if it
+/// isn't already present at the expected version. The bundle is hosted on R2
+/// (see `LIB_ASSET_URL`) and unzips into the same shape the rest of build.rs
+/// expects: `darwin/*.framework`, `lib*.so`, `*.dll`/`*.lib`, top-level CTP
+/// headers, and `error.xml`. A sentinel file `lib/.ctp-rs-asset-version`
+/// records the extracted version so subsequent builds skip re-downloading.
+///
+/// Uses `curl` + `unzip` (Unix) / `tar` (Windows) rather than Rust HTTP/zip
+/// crates: those add multi-megabyte build-time deps and don't preserve the
+/// framework's symlink layout that codesign/dlopen rely on. The system tools
+/// are universally available on supported platforms — see README "Build
+/// requirements".
+fn ensure_lib_dir(lib_dir: &Path) {
+    let sentinel = lib_dir.join(".ctp-rs-asset-version");
+    println!("cargo:rerun-if-changed={}", sentinel.display());
+
+    if let Ok(v) = fs::read_to_string(&sentinel)
+        && v.trim() == LIB_ASSET_VERSION
+    {
+        return;
+    }
+
+    // Stale or missing — wipe and re-extract. fs::remove_dir_all on a
+    // nonexistent path errors, so check first.
+    if lib_dir.exists() {
+        fs::remove_dir_all(lib_dir)
+            .unwrap_or_else(|e| panic!("failed to clear {}: {}", lib_dir.display(), e));
+    }
+    fs::create_dir_all(lib_dir)
+        .unwrap_or_else(|e| panic!("failed to create {}: {}", lib_dir.display(), e));
+
+    let zip_path = lib_dir.join(".ctp-rs-asset.zip");
+    println!(
+        "cargo:warning=ctp-rs: downloading native libraries ({}) — this happens once per checkout",
+        LIB_ASSET_VERSION
+    );
+    let status = Command::new("curl")
+        .arg("-fsSL")
+        .arg("--retry")
+        .arg("3")
+        .arg("-o")
+        .arg(&zip_path)
+        .arg(LIB_ASSET_URL)
+        .status()
+        .expect("`curl` not found — required to fetch CTP native libraries (see README)");
+    assert!(
+        status.success(),
+        "failed to download CTP native libraries from {}",
+        LIB_ASSET_URL
+    );
+
+    // Extraction: prefer `unzip` on Unix (ships with macOS, available in
+    // every mainstream Linux distro's base repos). On Windows fall back to
+    // `tar -xf`, which ships with Windows 10 1803+ and handles zip via
+    // libarchive. Both preserve the framework's internal symlinks, which
+    // codesign relies on at runtime.
+    let extract_status = if cfg!(target_os = "windows") {
+        Command::new("tar")
+            .arg("-xf")
+            .arg(&zip_path)
+            .arg("-C")
+            .arg(lib_dir)
+            .status()
+            .expect("`tar` not found — required to extract on Windows (see README)")
+    } else {
+        Command::new("unzip")
+            .arg("-q")
+            .arg("-o")
+            .arg(&zip_path)
+            .arg("-d")
+            .arg(lib_dir)
+            .status()
+            .expect("`unzip` not found — required to extract CTP libraries (see README)")
+    };
+    assert!(
+        extract_status.success(),
+        "failed to extract CTP native libraries into {}",
+        lib_dir.display()
+    );
+
+    // __MACOSX/ holds AppleDouble resource forks that the macOS Finder
+    // injects when zipping; noise on every platform, just clutters lib/.
+    let macosx_junk = lib_dir.join("__MACOSX");
+    if macosx_junk.exists() {
+        let _ = fs::remove_dir_all(&macosx_junk);
+    }
+    let _ = fs::remove_file(&zip_path);
+
+    fs::write(&sentinel, LIB_ASSET_VERSION)
+        .unwrap_or_else(|e| panic!("failed to write sentinel {}: {}", sentinel.display(), e));
 }
 
 /// Re-signs and embeds a CTP framework dylib so it can be `dlopen`'d at
