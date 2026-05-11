@@ -512,6 +512,19 @@ class CTraderSpi;
 #include "ThostFtdcMdApi.h"
 #include "ThostFtdcTraderApi.h"
 
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+// On the macOS-dlopen build the dylib's vtable was compiled against the
+// darwin 6.7.7 SDK (125 API methods). Calling through the linux-shaped
+// CThostFtdcTraderApi vtable (133 methods, with extras inserted at slots
+// 14, 15, 51) would dispatch every slot >= 14 to the wrong dylib method.
+// Holding the api pointer typed as the shim makes the compiler emit
+// vtable-index calls that match the dylib's actual layout.
+#include "ctp-rs/wrapper/include/DarwinSdkShim.h"
+using CtpRsTraderApiBase = CThostFtdcTraderApiDarwinShim;
+#else
+using CtpRsTraderApiBase = CThostFtdcTraderApi;
+#endif
+
 #include "rust/cxx.h"
 #include <memory>
 
@@ -652,7 +665,7 @@ struct TraderApi {
     int32_t ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
     int32_t ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const;
 
-    CThostFtdcTraderApi *api;
+    CtpRsTraderApiBase *api;
     CTraderSpi *spi;
 };
 

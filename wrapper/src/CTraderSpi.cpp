@@ -1,6 +1,29 @@
 #include "ctp-rs/wrapper/include/CTraderSpi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+#include <cstring>
+// The darwin 6.7.7 SDK's CThostFtdcRspUserLoginField is 204 bytes (lacks
+// LoginDRIdentityID/UserDRIdentityID/LastLoginTime/ReserveInfo) and its
+// CThostFtdcTradingAccountField is 400 bytes (lacks the two trailing
+// FrozenSwap fields linux 6.7.11 added). The dylib hands us a pointer to
+// its native-sized struct; reading it as the linux-shaped (larger) struct
+// scans past the dylib's allocation. Copy the darwin-sized bytes into a
+// linux-sized buffer with the new tail zeroed before the converter runs.
+namespace {
+template <typename T>
+inline T widen_from_darwin(T* src, std::size_t darwin_size) {
+    T widened{};
+    if (src != nullptr) {
+        std::memcpy(&widened, src, darwin_size);
+    }
+    return widened;
+}
+constexpr std::size_t kDarwinRspUserLoginSize = 204;
+constexpr std::size_t kDarwinTradingAccountSize = 400;
+} // namespace
+#endif
+
 CTraderSpi::CTraderSpi(rust::Box<TraderSpi> gateway) : gateway(std::move(gateway)) { }
 
 void CTraderSpi::OnFrontConnected() {
@@ -30,8 +53,14 @@ void CTraderSpi::OnRspAuthenticate(CThostFtdcRspAuthenticateField* pRspAuthentic
 }
 
 void CTraderSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    auto widened = widen_from_darwin(pRspUserLogin, kDarwinRspUserLoginSize);
+    CThostFtdcRspUserLoginField* p = (pRspUserLogin != nullptr) ? &widened : nullptr;
+#else
+    CThostFtdcRspUserLoginField* p = pRspUserLogin;
+#endif
     this->gateway->OnRspUserLogin(
-        Converter::CThostFtdcRspUserLoginFieldToRust(pRspUserLogin),
+        Converter::CThostFtdcRspUserLoginFieldToRust(p),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
         bIsLast
@@ -273,8 +302,14 @@ void CTraderSpi::OnRspQryInvestorPosition(CThostFtdcInvestorPositionField* pInve
 }
 
 void CTraderSpi::OnRspQryTradingAccount(CThostFtdcTradingAccountField* pTradingAccount, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    auto widened = widen_from_darwin(pTradingAccount, kDarwinTradingAccountSize);
+    CThostFtdcTradingAccountField* p = (pTradingAccount != nullptr) ? &widened : nullptr;
+#else
+    CThostFtdcTradingAccountField* p = pTradingAccount;
+#endif
     this->gateway->OnRspQryTradingAccount(
-        Converter::CThostFtdcTradingAccountFieldToRust(pTradingAccount),
+        Converter::CThostFtdcTradingAccountFieldToRust(p),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
         bIsLast
@@ -317,6 +352,7 @@ void CTraderSpi::OnRspQryInstrumentCommissionRate(CThostFtdcInstrumentCommission
     );
 }
 
+#if CTP_RS_HAS_LINUX_ONLY_SPI
 void CTraderSpi::OnRspQryUserSession(CThostFtdcUserSessionField* pUserSession, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
     this->gateway->OnRspQryUserSession(
         Converter::CThostFtdcUserSessionFieldToRust(pUserSession),
@@ -325,6 +361,7 @@ void CTraderSpi::OnRspQryUserSession(CThostFtdcUserSessionField* pUserSession, C
         bIsLast
     );
 }
+#endif
 
 void CTraderSpi::OnRspQryExchange(CThostFtdcExchangeField* pExchange, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
     this->gateway->OnRspQryExchange(
@@ -534,8 +571,14 @@ void CTraderSpi::OnRspQryInstrumentOrderCommRate(CThostFtdcInstrumentOrderCommRa
 }
 
 void CTraderSpi::OnRspQrySecAgentTradingAccount(CThostFtdcTradingAccountField* pTradingAccount, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    auto widened = widen_from_darwin(pTradingAccount, kDarwinTradingAccountSize);
+    CThostFtdcTradingAccountField* p = (pTradingAccount != nullptr) ? &widened : nullptr;
+#else
+    CThostFtdcTradingAccountField* p = pTradingAccount;
+#endif
     this->gateway->OnRspQrySecAgentTradingAccount(
-        Converter::CThostFtdcTradingAccountFieldToRust(pTradingAccount),
+        Converter::CThostFtdcTradingAccountFieldToRust(p),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
         bIsLast
@@ -1286,6 +1329,7 @@ void CTraderSpi::OnRspQryInvestorPortfSetting(CThostFtdcInvestorPortfSettingFiel
     );
 }
 
+#if CTP_RS_HAS_LINUX_ONLY_SPI
 void CTraderSpi::OnRspQryInvestorInfoCommRec(CThostFtdcInvestorInfoCommRecField* pInvestorInfoCommRec, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
     this->gateway->OnRspQryInvestorInfoCommRec(
         Converter::CThostFtdcInvestorInfoCommRecFieldToRust(pInvestorInfoCommRec),
@@ -1350,3 +1394,4 @@ void CTraderSpi::OnRspQryOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSett
         bIsLast
     );
 }
+#endif

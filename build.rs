@@ -220,8 +220,13 @@ fn ensure_lib_dir(lib_dir: &Path) {
         .unwrap_or_else(|e| panic!("failed to create {}: {}", staging.display(), e));
 
     let zip_path = staging.join(".ctp-rs-asset.zip");
-    println!(
-        "cargo:warning=ctp-rs: downloading native libraries ({}) — this happens once per OUT_DIR",
+    // Not `cargo:warning=` — cargo caches those in the build script's `output`
+    // file and replays them on every subsequent build of this package, even
+    // when build.rs doesn't re-run, so a one-time download would otherwise
+    // produce a permanent warning. `eprintln!` goes to captured stderr (shown
+    // with `cargo build -vv` or on failure) and isn't replayed.
+    eprintln!(
+        "ctp-rs: downloading native libraries ({}) — this happens once per OUT_DIR",
         LIB_ASSET_VERSION
     );
     let status = Command::new("curl")

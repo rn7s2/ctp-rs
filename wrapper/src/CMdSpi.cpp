@@ -1,6 +1,18 @@
 #include "ctp-rs/wrapper/include/CMdSpi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
+#if defined(__APPLE__)
+#include <cstring>
+// The md framework dylib is always sourced from the darwin 6.7.7 SDK on
+// macOS (the MdApiDarwinShim path doesn't have a localctp alternative).
+// CThostFtdcRspUserLoginField is 204 bytes there vs the linux header's
+// 296; copy the dylib's bytes into a linux-sized buffer with the new tail
+// zeroed before reading.
+namespace {
+constexpr std::size_t kDarwinRspUserLoginSize = 204;
+} // namespace
+#endif
+
 CMdSpi::CMdSpi(rust::Box<MdSpi> gateway) : gateway(std::move(gateway)) { }
 
 void CMdSpi::OnFrontConnected() {
@@ -21,6 +33,13 @@ void CMdSpi::OnHeartBeatWarning(int32_t nTimeLapse) {
 }
 
 void CMdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+#if defined(__APPLE__)
+    CThostFtdcRspUserLoginField widened{};
+    if (pRspUserLogin != nullptr) {
+        std::memcpy(&widened, pRspUserLogin, kDarwinRspUserLoginSize);
+        pRspUserLogin = &widened;
+    }
+#endif
     this->gateway->OnRspUserLogin(
         Converter::CThostFtdcRspUserLoginFieldToRust(pRspUserLogin),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),

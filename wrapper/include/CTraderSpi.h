@@ -4,10 +4,23 @@
 #include "ThostFtdcMdApi.h"
 #include "ThostFtdcTraderApi.h"
 
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+#include "ctp-rs/wrapper/include/DarwinSdkShim.h"
+// On the macOS-dlopen build the dylib's vtable was compiled against the
+// darwin 6.7.7 SDK (155 SPI methods), so inheriting CTraderSpi from the
+// linux-shaped CThostFtdcTraderSpi (164 methods) misaligns every slot from
+// 36 onward. The shim's vtable layout matches what the dylib expects.
+#define CTRADERSPI_BASE CThostFtdcTraderSpiDarwinShim
+#define CTP_RS_HAS_LINUX_ONLY_SPI 0
+#else
+#define CTRADERSPI_BASE CThostFtdcTraderSpi
+#define CTP_RS_HAS_LINUX_ONLY_SPI 1
+#endif
+
 #include "rust/cxx.h"
 #include <cstdint>
 
-class CTraderSpi : public CThostFtdcTraderSpi
+class CTraderSpi : public CTRADERSPI_BASE
 {
 public:
     explicit CTraderSpi(rust::Box<TraderSpi> gateway);
@@ -48,7 +61,9 @@ public:
     void OnRspQryTradingCode(CThostFtdcTradingCodeField* pTradingCode, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInstrumentMarginRate(CThostFtdcInstrumentMarginRateField* pInstrumentMarginRate, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInstrumentCommissionRate(CThostFtdcInstrumentCommissionRateField* pInstrumentCommissionRate, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+#if CTP_RS_HAS_LINUX_ONLY_SPI
     void OnRspQryUserSession(CThostFtdcUserSessionField* pUserSession, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+#endif
     void OnRspQryExchange(CThostFtdcExchangeField* pExchange, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryProduct(CThostFtdcProductField* pProduct, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInstrument(CThostFtdcInstrumentField* pInstrument, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
@@ -168,6 +183,7 @@ public:
     void OnRspQryRULEInterParameter(CThostFtdcRULEInterParameterField* pRULEInterParameter, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInvestorProdRULEMargin(CThostFtdcInvestorProdRULEMarginField* pInvestorProdRULEMargin, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryInvestorPortfSetting(CThostFtdcInvestorPortfSettingField* pInvestorPortfSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+#if CTP_RS_HAS_LINUX_ONLY_SPI
     void OnRspQryInvestorInfoCommRec(CThostFtdcInvestorInfoCommRecField* pInvestorInfoCommRec, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspQryCombLeg(CThostFtdcCombLegField* pCombLeg, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
     void OnRspOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
@@ -176,6 +192,7 @@ public:
     void OnErrRtnOffsetSetting(CThostFtdcInputOffsetSettingField* pInputOffsetSetting, CThostFtdcRspInfoField* pRspInfo) override;
     void OnErrRtnCancelOffsetSetting(CThostFtdcCancelOffsetSettingField* pCancelOffsetSetting, CThostFtdcRspInfoField* pRspInfo) override;
     void OnRspQryOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSetting, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) override;
+#endif
 
 private:
     rust::Box<TraderSpi> gateway;

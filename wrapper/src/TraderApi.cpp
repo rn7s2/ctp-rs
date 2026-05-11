@@ -1,6 +1,21 @@
 #include "ctp-rs/wrapper/include/TraderApi.h"
 #include "ctp-rs/wrapper/include/Converter.h"
 
+// On the macOS-dlopen build the api pointer is typed as the darwin shim
+// (CThostFtdcTraderApiDarwinShim) so vtable indices match the dylib's
+// compile-time view. The 8 methods linux 6.7.11 added but darwin 6.7.7
+// lacks (RegisterWechatUserSystemInfo, SubmitWechatUserSystemInfo,
+// ReqQryUserSession, ReqQryInvestorInfoCommRec, ReqQryCombLeg,
+// ReqOffsetSetting, ReqCancelOffsetSetting, ReqQryOffsetSetting) aren't
+// in the shim's vtable at all — calling them would not link. Their bodies
+// are gated with this macro so they short-circuit to -1 ("not supported")
+// on the macOS-dlopen build.
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+#define CTP_RS_LINUX_ONLY_API 0
+#else
+#define CTP_RS_LINUX_ONLY_API 1
+#endif
+
 #if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
 // Implemented in TraderApiDarwinShim.cpp. Used when the trader-side library
 // is the embedded framework dylib; localctp builds bypass these by linking
@@ -20,12 +35,16 @@ extern "C" void localctp_wait_until_ready();
 TraderApi::TraderApi(rust::Box<TraderSpi> gateway, rust::String flow_path, bool is_production_mode) {
     spi = new CTraderSpi(std::move(gateway));
 #if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
-    api = static_cast<CThostFtdcTraderApi*>(
+    // Cast to the darwin-shaped shim base — this gives the compiler a vtable
+    // layout that matches the dlopened dylib's compile-time view, so every
+    // virtual call dispatches to the correct slot. See DarwinSdkShim.h.
+    api = static_cast<CtpRsTraderApiBase*>(
         CtpRsDarwinCreateFtdcTraderApi(flow_path.c_str(), is_production_mode));
+    api->RegisterSpi(spi);
 #else
     api = CThostFtdcTraderApi::CreateFtdcTraderApi(flow_path.c_str(), is_production_mode);
-#endif
     api->RegisterSpi(spi);
+#endif
 }
 
 TraderApi::~TraderApi() {
@@ -129,25 +148,43 @@ int32_t TraderApi::SubmitUserSystemInfo(UserSystemInfoField pUserSystemInfo) con
 }
 
 int32_t TraderApi::RegisterWechatUserSystemInfo(WechatUserSystemInfoField pUserSystemInfo) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcWechatUserSystemInfoField req(Converter::WechatUserSystemInfoFieldToCpp(pUserSystemInfo));
-    return api->RegisterWechatUserSystemInfo(
-        &req
-    );
+    return api->RegisterWechatUserSystemInfo(&req);
+#else
+    (void)pUserSystemInfo;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::SubmitWechatUserSystemInfo(WechatUserSystemInfoField pUserSystemInfo) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcWechatUserSystemInfoField req(Converter::WechatUserSystemInfoFieldToCpp(pUserSystemInfo));
-    return api->SubmitWechatUserSystemInfo(
-        &req
-    );
+    return api->SubmitWechatUserSystemInfo(&req);
+#else
+    (void)pUserSystemInfo;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::ReqUserLogin(ReqUserLoginField pReqUserLoginField, int32_t nRequestID) const {
     CThostFtdcReqUserLoginField req(Converter::ReqUserLoginFieldToCpp(pReqUserLoginField));
-    return api->ReqUserLogin(
-        &req,
-        nRequestID
-    );
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    // Darwin's ReqUserLogin takes two extra args (system-info length + 273-byte
+    // blob) because the framework dylib lacks the data-collect helper that the
+    // linux/windows dylibs use to auto-embed terminal info into the wire
+    // payload. We don't ship that helper for darwin, so pass an empty blob —
+    // the call now reaches the right vtable slot with the right argument count
+    // (without this fix it would dispatch to a different darwin method
+    // entirely). The CFFEX-mandated terminal-info content is still missing,
+    // which is why SimNow's front silently drops the resulting login; that's
+    // a server-policy issue separate from the ABI fix and isn't addressed
+    // here.
+    char system_info[273] = {0};
+    return api->ReqUserLogin(&req, nRequestID, 0, system_info);
+#else
+    return api->ReqUserLogin(&req, nRequestID);
+#endif
 }
 
 int32_t TraderApi::ReqUserLogout(UserLogoutField pUserLogout, int32_t nRequestID) const {
@@ -423,11 +460,13 @@ int32_t TraderApi::ReqQryInstrumentCommissionRate(QryInstrumentCommissionRateFie
 }
 
 int32_t TraderApi::ReqQryUserSession(QryUserSessionField pQryUserSession, int32_t nRequestID) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcQryUserSessionField req(Converter::QryUserSessionFieldToCpp(pQryUserSession));
-    return api->ReqQryUserSession(
-        &req,
-        nRequestID
-    );
+    return api->ReqQryUserSession(&req, nRequestID);
+#else
+    (void)pQryUserSession; (void)nRequestID;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::ReqQryExchange(QryExchangeField pQryExchange, int32_t nRequestID) const {
@@ -1039,41 +1078,51 @@ int32_t TraderApi::ReqQryInvestorPortfSetting(QryInvestorPortfSettingField pQryI
 }
 
 int32_t TraderApi::ReqQryInvestorInfoCommRec(QryInvestorInfoCommRecField pQryInvestorInfoCommRec, int32_t nRequestID) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcQryInvestorInfoCommRecField req(Converter::QryInvestorInfoCommRecFieldToCpp(pQryInvestorInfoCommRec));
-    return api->ReqQryInvestorInfoCommRec(
-        &req,
-        nRequestID
-    );
+    return api->ReqQryInvestorInfoCommRec(&req, nRequestID);
+#else
+    (void)pQryInvestorInfoCommRec; (void)nRequestID;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::ReqQryCombLeg(QryCombLegField pQryCombLeg, int32_t nRequestID) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcQryCombLegField req(Converter::QryCombLegFieldToCpp(pQryCombLeg));
-    return api->ReqQryCombLeg(
-        &req,
-        nRequestID
-    );
+    return api->ReqQryCombLeg(&req, nRequestID);
+#else
+    (void)pQryCombLeg; (void)nRequestID;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::ReqOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcInputOffsetSettingField req(Converter::InputOffsetSettingFieldToCpp(pInputOffsetSetting));
-    return api->ReqOffsetSetting(
-        &req,
-        nRequestID
-    );
+    return api->ReqOffsetSetting(&req, nRequestID);
+#else
+    (void)pInputOffsetSetting; (void)nRequestID;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcInputOffsetSettingField req(Converter::InputOffsetSettingFieldToCpp(pInputOffsetSetting));
-    return api->ReqCancelOffsetSetting(
-        &req,
-        nRequestID
-    );
+    return api->ReqCancelOffsetSetting(&req, nRequestID);
+#else
+    (void)pInputOffsetSetting; (void)nRequestID;
+    return -1;
+#endif
 }
 
 int32_t TraderApi::ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const {
+#if CTP_RS_LINUX_ONLY_API
     CThostFtdcQryOffsetSettingField req(Converter::QryOffsetSettingFieldToCpp(pQryOffsetSetting));
-    return api->ReqQryOffsetSetting(
-        &req,
-        nRequestID
-    );
+    return api->ReqQryOffsetSetting(&req, nRequestID);
+#else
+    (void)pQryOffsetSetting; (void)nRequestID;
+    return -1;
+#endif
 }
