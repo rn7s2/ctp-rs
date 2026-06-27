@@ -16,8 +16,6 @@ jobs:
       - uses: actions/checkout@v6
       - name: Build
         run: cargo build --examples --verbose
-      - name: Build (localctp)
-        run: cargo build --examples --verbose --features localctp
 
   build-linux:
     runs-on: ubuntu-latest
@@ -25,8 +23,6 @@ jobs:
       - uses: actions/checkout@v6
       - name: Build
         run: cargo build --examples --verbose
-      - name: Build (localctp)
-        run: cargo build --examples --verbose --features localctp
 
   build-macos:
     runs-on: macos-latest
@@ -34,5 +30,3 @@ jobs:
       - uses: actions/checkout@v6
       - name: Build
         run: cargo build --examples --verbose
-      - name: Build (localctp)
-        run: cargo build --examples --verbose --features localctp

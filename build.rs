@@ -23,7 +23,6 @@ fn main() {
         return;
     }
 
-    let root = env!("CARGO_MANIFEST_DIR");
     let out_dir = PathBuf::from(std::env::var("OUT_DIR").unwrap());
     // Native libs land under OUT_DIR (not the source tree) so `cargo publish`
     // verification doesn't reject this build script for modifying source.
@@ -31,30 +30,10 @@ fn main() {
 
     ensure_lib_dir(&lib_dir);
 
-    let use_localctp = std::env::var("CARGO_FEATURE_LOCALCTP").is_ok();
-
-    // True on macOS when the trader-side library is the embedded framework
-    // dylib (i.e. the default, non-localctp build). The cxx wrapper checks
-    // CTP_RS_DARWIN_TRADER_DLOPEN to route CreateFtdcTraderApi/GetApiVersion
-    // through the runtime shim instead of calling the static class methods,
-    // which aren't link-resolvable when the dylib is loaded dynamically.
-    let darwin_trader_dlopen = cfg!(target_os = "macos") && !use_localctp;
-
-    // OUT_DIR is searched ahead of lib_dir so a LocalCTP-built
-    // libthosttraderapi_se.{so,a,lib} in OUT_DIR shadows the prebuilt SimNow
-    // one in lib_dir. Without this, on Linux with --features localctp the
-    // linker resolves -lthosttraderapi_se against the prebuilt .so (which
-    // doesn't export localctp_wait_until_ready) and the wrapper fails to link.
-    println!("cargo:rustc-link-search={}", out_dir.display());
     println!("cargo:rustc-link-search={}", lib_dir.display());
     if cfg!(target_os = "macos") {
-        // mdapi: always embedded from lib/darwin/thostmduserapi_se.framework
+        // mdapi and traderapi are both embedded from lib/darwin/*.framework
         // and dlopen()'d at runtime. Nothing to link against.
-        // traderapi: either localctp's static archive (use_localctp=true) or
-        // the embedded framework dylib (use_localctp=false), wired up below.
-        if use_localctp {
-            println!("cargo:rustc-link-lib=static=thosttraderapi_se");
-        }
         // Converter.cpp uses iconv on Unix; macOS ships libiconv separately.
         println!("cargo:rustc-link-lib=iconv");
         // Used by the framework dylibs (loaded at runtime).
@@ -82,12 +61,12 @@ fn main() {
             embed_macos_framework_dylib(&lib_dir, &out_dir, "thostmduserapi_se", "md");
         cpp_files.push(md_blob_cpp);
 
-        if darwin_trader_dlopen {
-            cpp_files.push("wrapper/src/TraderApiDarwinShim.cpp".into());
-            let trader_blob_cpp =
-                embed_macos_framework_dylib(&lib_dir, &out_dir, "thosttraderapi_se", "trader");
-            cpp_files.push(trader_blob_cpp);
-        }
+        // trader shim: the trader-side library is the embedded framework dylib,
+        // dlopen()'d at runtime, mirroring the mdapi case.
+        cpp_files.push("wrapper/src/TraderApiDarwinShim.cpp".into());
+        let trader_blob_cpp =
+            embed_macos_framework_dylib(&lib_dir, &out_dir, "thosttraderapi_se", "trader");
+        cpp_files.push(trader_blob_cpp);
     }
 
     let rust_files = vec!["src/lib.rs"];
@@ -120,14 +99,11 @@ fn main() {
         .flag_if_supported("/w")
         .flag_if_supported("-std=c++20")
         .flag_if_supported("-w");
-    if darwin_trader_dlopen {
+    if cfg!(target_os = "macos") {
+        // Routes CreateFtdcTraderApi/GetApiVersion through the runtime shim
+        // (TraderApiDarwinShim.cpp) instead of the static class methods, which
+        // aren't link-resolvable when the dylib is loaded dynamically.
         build.define("CTP_RS_DARWIN_TRADER_DLOPEN", None);
-    }
-    if use_localctp {
-        // Toggles wrapper/src/TraderApi.cpp's call to localctp_wait_until_ready(),
-        // which blocks CreateTraderApi() until LocalCTP's first-pass settlement
-        // init has completed (avoids a startup race with the SPI callback path).
-        build.define("CTP_RS_LOCALCTP", None);
     }
     build.files(cpp_files).compile("ctp_rs");
 
@@ -138,9 +114,8 @@ fn main() {
 
     // Per-profile target directory (e.g. target/debug/) — where executables
     // land and where Win/Linux dyloaders look for sibling .dll/.so. macOS
-    // doesn't need a runtime copy: both md and trader are either embedded
-    // (default) or statically linked (localctp), so the binary is fully
-    // self-contained.
+    // doesn't need a runtime copy: both md and trader are embedded into the
+    // binary, so it's fully self-contained.
     let target_dir = {
         let mut path = PathBuf::from(std::env::var("OUT_DIR").unwrap());
         _ = path.pop() && path.pop() && path.pop();
@@ -160,24 +135,9 @@ fn main() {
     }
 
     // Trader library:
-    //   * win/linux without localctp: copy the prebuilt dynamic lib from lib/.
-    //   * win/linux with localctp: build, then copy the result next to the bin.
-    //   * macOS with localctp: localctp is built as a static archive that the
-    //     linker pulls in via cargo:rustc-link-lib=static=. No runtime copy.
-    //   * macOS without localctp: trader framework dylib is embedded, no copy.
-    if use_localctp {
-        println!("cargo:rerun-if-changed=localctp");
-        let built = build_localctp(&Path::new(root).join("localctp"), &lib_dir);
-        if !cfg!(target_os = "macos") {
-            let trader = if cfg!(target_os = "windows") {
-                "thosttraderapi_se.dll"
-            } else {
-                "libthosttraderapi_se.so"
-            };
-            fs::copy(&built, target_dir.join(trader))
-                .unwrap_or_else(|e| panic!("Copy {} failed: {}", trader, e));
-        }
-    } else if !cfg!(target_os = "macos") {
+    //   * win/linux: copy the prebuilt dynamic lib from lib/ next to the bin.
+    //   * macOS: trader framework dylib is embedded, no copy.
+    if !cfg!(target_os = "macos") {
         let trader = if cfg!(target_os = "windows") {
             "thosttraderapi_se.dll"
         } else {
@@ -317,8 +277,7 @@ fn embed_macos_framework_dylib(
     assert!(
         src_dylib.exists(),
         "missing macOS framework dylib at {} — the auto-downloaded CTP bundle \
-         appears incomplete; run `cargo clean` and rebuild to re-fetch, or \
-         build with --features localctp to use the embedded simulator instead",
+         appears incomplete; run `cargo clean` and rebuild to re-fetch",
         src_dylib.display(),
     );
 
@@ -367,159 +326,4 @@ fn embed_macos_framework_dylib(
     fs::write(&blob_cpp, blob_src).unwrap();
     println!("cargo:rerun-if-changed={}", src_dylib.display());
     blob_cpp.to_string_lossy().into_owned()
-}
-
-fn build_localctp(localctp_dir: &Path, lib_dir: &Path) -> PathBuf {
-    let build_out = PathBuf::from(std::env::var("OUT_DIR").unwrap());
-
-    // All C++ sources — dllmain.cpp is guarded by #ifdef _WIN32 inside, safe on Linux/macOS
-    let cpp_sources = [
-        "LocalCTP.cpp",
-        "LocalTraderApi.cpp",
-        "CSqliteHandler.cpp",
-        "LeeDateTime.cpp",
-        "dllmain.cpp",
-        "Properties.cpp",
-        "stdafx.cpp",
-        "auto_generated_code/CTPSQLWrapper.cpp",
-    ];
-    // SQLite must be compiled as C, not C++
-    let c_sources = ["sqlite/sqlite3.c"];
-
-    if cfg!(target_os = "windows") {
-        let output = build_out.join("thosttraderapi_se.dll");
-        let obj_dir = build_out.join("localctp_obj");
-        fs::create_dir_all(&obj_dir).unwrap();
-
-        // Use cc to locate cl.exe and set up the MSVC environment (PATH, INCLUDE, LIB)
-        let compiler = cc::Build::new().cpp(true).get_compiler();
-        let mut cmd = Command::new(compiler.path());
-        for (k, v) in compiler.env() {
-            cmd.env(k, v);
-        }
-
-        // Release|x64 settings from LocalCTP.vcxproj
-        cmd.arg("/nologo")
-            .arg("/LD") // build DLL
-            .arg(format!("/Fe:{}", output.display()))
-            .arg(format!("/Fo{}\\", obj_dir.display()))
-            .arg("/EHsc")
-            .arg("/O2")
-            .arg("/Gy") // function-level linking
-            .arg("/Oi") // intrinsic functions
-            .arg("/MT") // MultiThreaded static runtime (vcxproj Release|x64)
-            .arg("/source-charset:.936") // localctp sources are GBK/CP936
-            .arg("/std:c++20")
-            .arg("/w");
-
-        for def in &[
-            "NDEBUG",
-            "LOCALCTP_EXPORTS",
-            "_WINDOWS",
-            "_USRDLL",
-            "_CRT_SECURE_NO_WARNINGS",
-            "_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING",
-        ] {
-            cmd.arg(format!("/D{}", def));
-        }
-
-        cmd.arg(format!(
-            "/I{}",
-            localctp_dir.join("auto_generated_code").display()
-        ))
-        .arg(format!("/I{}", lib_dir.display()));
-
-        for src in &cpp_sources {
-            cmd.arg(localctp_dir.join(src));
-        }
-        for src in &c_sources {
-            cmd.arg(localctp_dir.join(src));
-        }
-
-        // Run from build_out so the generated .lib/.exp land there, not in the source tree
-        cmd.current_dir(&build_out);
-
-        let status = cmd
-            .status()
-            .expect("cl.exe not found — install Visual Studio Build Tools");
-        assert!(status.success(), "localctp MSVC build failed");
-
-        output
-    } else {
-        let is_macos = cfg!(target_os = "macos");
-        let cxx = if is_macos { "c++" } else { "g++" };
-        let cc = if is_macos { "cc" } else { "gcc" };
-        let obj_dir = build_out.join("localctp_obj");
-        fs::create_dir_all(&obj_dir).unwrap();
-
-        let includes = [
-            format!("-I{}", localctp_dir.join("auto_generated_code").display()),
-            format!("-I{}", lib_dir.display()),
-        ];
-
-        // Step 1: compile C++ sources (makefile CFLAGS: -std=c++11 -Wall -Wno-format-security -fPIC)
-        let mut cpp_objs: Vec<PathBuf> = Vec::new();
-        for src in &cpp_sources {
-            let obj = obj_dir
-                .join(Path::new(src).file_stem().unwrap())
-                .with_extension("o");
-            let mut cmd = Command::new(cxx);
-            cmd.arg("-c")
-                .arg("-fPIC")
-                .arg("-std=c++11")
-                .arg("-Wall")
-                .arg("-Wno-format-security")
-                .arg("-DLOCALCTP_EXPORTS")
-                .args(&includes)
-                .arg("-o")
-                .arg(&obj)
-                .arg(localctp_dir.join(src));
-            let status = cmd.status().unwrap_or_else(|_| panic!("{} not found", cxx));
-            assert!(status.success(), "localctp: failed to compile {}", src);
-            cpp_objs.push(obj);
-        }
-
-        // Step 2: compile C sources (makefile CFLAGS2: -Wall -fPIC, no -std=c++11)
-        let mut c_objs: Vec<PathBuf> = Vec::new();
-        for src in &c_sources {
-            let obj = obj_dir
-                .join(Path::new(src).file_stem().unwrap())
-                .with_extension("o");
-            let mut cmd = Command::new(cc);
-            cmd.arg("-c")
-                .arg("-fPIC")
-                .arg("-Wall")
-                .arg("-o")
-                .arg(&obj)
-                .arg(localctp_dir.join(src));
-            let status = cmd.status().unwrap_or_else(|_| panic!("{} not found", cc));
-            assert!(status.success(), "localctp: failed to compile {}", src);
-            c_objs.push(obj);
-        }
-
-        if is_macos {
-            // Pack into a static archive. cargo will link it into the final
-            // binary via cargo:rustc-link-lib=static=thosttraderapi_se. dlopen
-            // and pthread are part of libSystem on macOS, no extra link flags
-            // are needed at the binary level.
-            let output = build_out.join("libthosttraderapi_se.a");
-            let _ = fs::remove_file(&output);
-            let mut cmd = Command::new("ar");
-            cmd.arg("rcs").arg(&output);
-            cmd.args(&cpp_objs).args(&c_objs);
-            let status = cmd.status().expect("ar not found");
-            assert!(status.success(), "localctp: archiving failed");
-            output
-        } else {
-            // Linux: link a shared object (makefile: g++ $^ -o $@ -pthread -ldl -shared)
-            let output = build_out.join("libthosttraderapi_se.so");
-            let mut cmd = Command::new(cxx);
-            cmd.arg("-shared").arg("-o").arg(&output);
-            cmd.args(&cpp_objs).args(&c_objs);
-            cmd.arg("-pthread").arg("-ldl");
-            let status = cmd.status().unwrap_or_else(|_| panic!("{} not found", cxx));
-            assert!(status.success(), "localctp: linking failed");
-            output
-        }
-    }
 }

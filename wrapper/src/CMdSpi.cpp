@@ -4,8 +4,7 @@
 #if defined(__APPLE__)
 #include <cstring>
 // The md framework dylib is always sourced from the darwin 6.7.7 SDK on
-// macOS (the MdApiDarwinShim path doesn't have a localctp alternative).
-// CThostFtdcRspUserLoginField is 204 bytes there vs the linux header's
+// macOS. CThostFtdcRspUserLoginField is 204 bytes there vs the linux header's
 // 296; copy the dylib's bytes into a linux-sized buffer with the new tail
 // zeroed before reading.
 namespace {
