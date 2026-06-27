@@ -1,4 +1,4 @@
-// Compiled on macOS only when ctp-rs is built without the `localctp` feature.
+// Compiled on macOS only.
 //
 // Mirrors MdApiDarwinShim.cpp for the trader-side framework dylib. The bytes
 // live between _ctp_rs_trader_dylib_start and _ctp_rs_trader_dylib_end (see

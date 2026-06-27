@@ -5,15 +5,14 @@
 [![Crate](https://img.shields.io/crates/v/ctp-rs.svg)](https://crates.io/crates/ctp-rs)
 [![API](https://docs.rs/ctp-rs/badge.svg)](https://docs.rs/ctp-rs)
 
-CTP 期货接口的安全、符合 Rust 惯用法的绑定。支持 Windows、Linux 与 macOS 三平台，并内置 LocalCTP 本地模拟交易功能，无需连接真实服务器即可开发和测试交易逻辑。
+CTP 期货接口的安全、符合 Rust 惯用法的绑定。支持 Windows、Linux 与 macOS 三平台。
 
-Safe & idiomatic Rust bindings for CTP — cross-platform (Windows / Linux / macOS) with built-in LocalCTP for offline simulation.
+Safe & idiomatic Rust bindings for CTP — cross-platform (Windows / Linux / macOS).
 
 ## 特性
 
 - **跨平台**：支持 Windows、Linux（x86_64）与 macOS（Apple Silicon / x86_64）
 - **安全 API**：所有接口均采用 Rust 字符串与所有权语义，字符串编码自动转换，消除 C++ 裸指针风险
-- **内置 LocalCTP**：无需连接真实交易服务器，本地离线即可模拟下单、持仓、结算全流程
 - **基于 channel 的消息传递**：SPI 回调通过标准库 `mpsc::channel` 传递，可与异步运行时或多线程程序无缝集成
 
 ## 快速开始
@@ -22,12 +21,6 @@ Safe & idiomatic Rust bindings for CTP — cross-platform (Windows / Linux / mac
 
 ```sh
 cargo add ctp-rs
-```
-
-如需本地模拟交易（LocalCTP），启用对应 feature：
-
-```sh
-cargo add ctp-rs --features localctp
 ```
 
 发布在 `crates.io` 的包采用 SemVer 版本号系统。\
@@ -174,24 +167,9 @@ fn main() {
 }
 ```
 
-## LocalCTP（本地模拟交易）
+## 平台行为
 
-ctp-rs 内置了 [LocalCTP](https://github.com/dearleeyoung/LocalCTP)（MIT 协议），提供完整的 TraderApi 本地模拟实现。LocalCTP 以 SQLite 存储委托、持仓与资金状态，支持从 CSV 文件加载合约定义，可在无网络环境下完成下单、撤单、结算等全流程测试。
-
-### 启用方式
-
-```toml
-# Cargo.toml
-[dependencies]
-ctp-rs = { version = "...", features = ["localctp"] }
-```
-
-### 平台行为
-
-- **默认（不启用任何 feature）**：三平台均使用预编译的真实 CTP 动态库。Windows/Linux 是 `.dll`/`.so`，macOS 是嵌入到二进制中的 framework dylib，详见下方 [macOS framework 处理](#macos-framework-处理)。
-- **启用 `localctp`**：TraderApi 切换为 LocalCTP，MdApi 仍使用真实 CTP。Windows/Linux 上 LocalCTP 编译为动态库并与可执行文件并排部署；macOS 上 LocalCTP 编译为静态库直接链入二进制。
-
-当前内置 LocalCTP 版本见 [localctp/VERSION.md](localctp/VERSION.md)。
+三平台均使用预编译的真实 CTP 动态库。Windows/Linux 是 `.dll`/`.so`，与可执行文件并排部署；macOS 是嵌入到二进制中的 framework dylib，详见下方 [macOS framework 处理](#macos-framework-处理)。
 
 ## 注意事项
 
@@ -238,12 +216,3 @@ macOS 平台的真实 CTP 由 `$OUT_DIR/lib/darwin/` 下的 `thostmduserapi_se.f
 - **临时再签名**：Gatekeeper 不允许从任意路径 `dlopen`。`build.rs` 会在构建时调用 `codesign --remove-signature` 后再 `codesign --sign -` 做 ad-hoc 签名，最终用户机器上无需再做任何签名操作。
 - **darwin SDK 与 Linux/Windows 不一致**：上游目前 macOS 仅发布到 6.7.7，Linux/Windows 已是 6.7.11。两者的 wire protocol 兼容，但极个别字段或常量可能不同；行为差异请参考 zip 包内 `darwin/thostmduserapi_se.framework/Versions/A/Headers/` 下的实际头文件（解压后位于 `$OUT_DIR/lib/darwin/...`）。
 - **CreateFtdcXxxApi 签名差异**：darwin 的 `CreateFtdcMdApi` / `CreateFtdcTraderApi` 比 Linux 头文件少一个 `bIsProductionMode` 参数，wrapper 内部已自动桥接，对 Rust 侧完全透明。
-
-### 对上游 LocalCTP 的修改
-
-详见 [localctp/VERSION.md](localctp/VERSION.md)。简要列举：
-
-- **macOS 支持**：`LeeDateTime.h` / `LeeDateTime.cpp` 中所有 `#if defined(__linux__)` 分支扩展为 `__linux__ || __APPLE__`，让 POSIX 时间 API 路径在 macOS 上同样生效
-- **UTC+8 钉住**：`LeeDateTime` 不再读取操作系统时区，始终按 Asia/Shanghai 计算交易日和结算时间，避免在非北京时区主机上出现日期错位
-- **启动期同步**：`CSettlementHandler` 新增 `WaitUntilReady()`，让用户线程阻塞到 `m_timerThread` 完成首轮 `checkSettlement` 后再下发 SPI 回调，避免启动窗口内并发触碰同一批静态数据结构
-- **移除 sqlite/shell.c**：上游附带的 SQLite CLI shell 在 LocalCTP 作为库构建时不需要
