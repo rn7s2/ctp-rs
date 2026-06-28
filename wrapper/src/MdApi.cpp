@@ -36,7 +36,7 @@ std::unique_ptr<MdApi> CreateMdApi(rust::Box<MdSpi> gateway, rust::String flow_p
 }
 
 rust::String MdApi::GetApiVersion() const {
-#ifdef __APPLE__
+#if defined(__APPLE__)
     return CtpRsDarwinGetMdApiVersion();
 #else
     return api->GetApiVersion(

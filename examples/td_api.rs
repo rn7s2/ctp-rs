@@ -21,7 +21,7 @@ fn main() {
     ));
     api.RegisterFront(FRONT_ADDR.to_string());
     api.SubscribePublicTopic(THOST_TE_RESUME_TYPE::THOST_TERT_QUICK as i32);
-    api.SubscribePrivateTopic(THOST_TE_RESUME_TYPE::THOST_TERT_RESTART as i32);
+    api.SubscribePrivateTopic(THOST_TE_RESUME_TYPE::THOST_TERT_RESTART as i32, 1);
     api.Init();
 
     loop {

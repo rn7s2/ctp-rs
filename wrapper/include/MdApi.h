@@ -501,6 +501,23 @@ struct InvestorReserveInfoField;
 struct QryInvestorDepartmentFlatField;
 struct InvestorDepartmentFlatField;
 struct QryDepartmentUserField;
+struct AppAuthenticationCodeField;
+struct UserDRIBypassField;
+struct ReqGenSMSCodeField;
+struct RspGenSMSCodeField;
+struct SMSVerifyInfoFromSecField;
+struct SMSVerifyConfigField;
+struct SMSVerifyInfoField;
+struct InputSpdApplyField;
+struct InputHedgeCfmField;
+struct SpdApplyField;
+struct HedgeCfmField;
+struct QrySpdApplyField;
+struct QryHedgeCfmField;
+struct InputSpdApplyActionField;
+struct InputHedgeCfmActionField;
+struct SpdApplyActionField;
+struct HedgeCfmActionField;
 struct FrontInfoField;
 
 struct MdApi;
@@ -511,6 +528,7 @@ class CMdSpi;
 #include "ctp-rs/wrapper/include/CMdSpi.h"
 #include "ThostFtdcMdApi.h"
 #include "ThostFtdcTraderApi.h"
+
 
 #include "rust/cxx.h"
 #include <memory>
