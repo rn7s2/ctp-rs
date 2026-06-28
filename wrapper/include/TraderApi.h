@@ -501,6 +501,23 @@ struct InvestorReserveInfoField;
 struct QryInvestorDepartmentFlatField;
 struct InvestorDepartmentFlatField;
 struct QryDepartmentUserField;
+struct AppAuthenticationCodeField;
+struct UserDRIBypassField;
+struct ReqGenSMSCodeField;
+struct RspGenSMSCodeField;
+struct SMSVerifyInfoFromSecField;
+struct SMSVerifyConfigField;
+struct SMSVerifyInfoField;
+struct InputSpdApplyField;
+struct InputHedgeCfmField;
+struct SpdApplyField;
+struct HedgeCfmField;
+struct QrySpdApplyField;
+struct QryHedgeCfmField;
+struct InputSpdApplyActionField;
+struct InputHedgeCfmActionField;
+struct SpdApplyActionField;
+struct HedgeCfmActionField;
 struct FrontInfoField;
 
 struct TraderApi;
@@ -512,18 +529,20 @@ class CTraderSpi;
 #include "ThostFtdcMdApi.h"
 #include "ThostFtdcTraderApi.h"
 
+
 #if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
-// On the macOS-dlopen build the dylib's vtable was compiled against the
-// darwin 6.7.7 SDK (125 API methods). Calling through the linux-shaped
-// CThostFtdcTraderApi vtable (133 methods, with extras inserted at slots
-// 14, 15, 51) would dispatch every slot >= 14 to the wrong dylib method.
-// Holding the api pointer typed as the shim makes the compiler emit
+// On the macOS-dlopen build the dylib's vtable was compiled against the pinned
+// darwin SDK (127 API methods). Calling through the linux-shaped
+// CThostFtdcTraderApi vtable (142 methods) would dispatch slots past
+// the first divergence (linux API index 16) to the wrong dylib
+// method. Holding the api pointer typed as the shim makes the compiler emit
 // vtable-index calls that match the dylib's actual layout.
 #include "ctp-rs/wrapper/include/DarwinSdkShim.h"
 using CtpRsTraderApiBase = CThostFtdcTraderApiDarwinShim;
 #else
 using CtpRsTraderApiBase = CThostFtdcTraderApi;
 #endif
+
 
 #include "rust/cxx.h"
 #include <memory>
@@ -540,7 +559,7 @@ struct TraderApi {
     void RegisterFront(rust::String pszFrontAddress) const;
     void RegisterNameServer(rust::String pszNsAddress) const;
     void RegisterFensUserInfo(FensUserInfoField pFensUserInfo) const;
-    void SubscribePrivateTopic(int32_t nResumeType) const;
+    void SubscribePrivateTopic(int32_t nResumeType, int32_t nSeqNo) const;
     void SubscribePublicTopic(int32_t nResumeType) const;
     int32_t ReqAuthenticate(ReqAuthenticateField pReqAuthenticateField, int32_t nRequestID) const;
     int32_t RegisterUserSystemInfo(UserSystemInfoField pUserSystemInfo) const;
@@ -664,6 +683,13 @@ struct TraderApi {
     int32_t ReqOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
     int32_t ReqCancelOffsetSetting(InputOffsetSettingField pInputOffsetSetting, int32_t nRequestID) const;
     int32_t ReqQryOffsetSetting(QryOffsetSettingField pQryOffsetSetting, int32_t nRequestID) const;
+    int32_t ReqGenSMSCode(ReqGenSMSCodeField pReqGenSMSCode, int32_t nRequestID) const;
+    int32_t ReqSpdApply(InputSpdApplyField pInputSpdApply, int32_t nRequestID) const;
+    int32_t ReqSpdApplyAction(InputSpdApplyActionField pInputSpdApplyAction, int32_t nRequestID) const;
+    int32_t ReqQrySpdApply(QrySpdApplyField pQrySpdApply, int32_t nRequestID) const;
+    int32_t ReqHedgeCfm(InputHedgeCfmField pInputHedgeCfm, int32_t nRequestID) const;
+    int32_t ReqHedgeCfmAction(InputHedgeCfmActionField pInputHedgeCfmAction, int32_t nRequestID) const;
+    int32_t ReqQryHedgeCfm(QryHedgeCfmField pQryHedgeCfm, int32_t nRequestID) const;
 
     CtpRsTraderApiBase *api;
     CTraderSpi *spi;

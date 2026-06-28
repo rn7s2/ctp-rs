@@ -27,9 +27,10 @@ pub type UniquePtr<T> = cxx::UniquePtr<T>;
 
 pub enum THOST_TE_RESUME_TYPE {
     THOST_TERT_RESTART = 0,
-    THOST_TERT_RESUME,
-    THOST_TERT_QUICK,
-    THOST_TERT_NONE,
+    THOST_TERT_RESUME = 1,
+    THOST_TERT_QUICK = 2,
+    THOST_TERT_NONE = 3,
+    THOST_TERT_RESUME_FROM_SEQ_NO = 4,
 }
 
 /// TFtdcExchangePropertyType是一个交易所属性类型
@@ -496,6 +497,10 @@ pub const THOST_FTDC_BFC_FBSign: u8 = 'W' as u8;
 ///
 /// 银期签约解约
 pub const THOST_FTDC_BFC_FBAccount: u8 = 'X' as u8;
+/// TFtdcBrokerFunctionCodeType是一个经纪公司功能代码类型
+///
+/// 接收短信验证码
+pub const THOST_FTDC_BFC_RcvSMSCode: u8 = 'Y' as u8;
 /// TFtdcOrderActionStatusType是一个报单操作状态类型
 ///
 /// 已经提交
@@ -1516,6 +1521,14 @@ pub const THOST_FTDC_TPID_TradeChkPriceVol: u8 = 'k' as u8;
 ///
 /// 卖出垂直价差组合新算法
 pub const THOST_FTDC_TPID_NewBESMarginAlgo: u8 = 'l' as u8;
+/// TFtdcTradeParamIDType是一个交易系统参数代码类型
+///
+/// 大商所期货组合平仓冻结算法
+pub const THOST_FTDC_TPID_IsDceFutCloseFrozen: u8 = 'm' as u8;
+/// TFtdcTradeParamIDType是一个交易系统参数代码类型
+///
+/// 是否启用短信验证
+pub const THOST_FTDC_TPID_UseSMSVerify: u8 = 'n' as u8;
 /// TFtdcFileIDType是一个文件标识类型
 ///
 /// 资金数据
@@ -5156,23 +5169,23 @@ pub const THOST_FTDC_ETR_BNSP: u8 = '3' as u8;
 ///
 /// 交割月份
 pub const THOST_FTDC_ETR_SPOT: u8 = '4' as u8;
-/// TFtdcPortfolioType是一个新型组保算法类型
+/// TFtdcPortfolioType是一个组保算法类型
 ///
 /// 不使用新型组保算法
 pub const THOST_FTDC_EPF_None: u8 = '0' as u8;
-/// TFtdcPortfolioType是一个新型组保算法类型
+/// TFtdcPortfolioType是一个组保算法类型
 ///
 /// SPBM算法
 pub const THOST_FTDC_EPF_SPBM: u8 = '1' as u8;
-/// TFtdcPortfolioType是一个新型组保算法类型
+/// TFtdcPortfolioType是一个组保算法类型
 ///
 /// RULE算法
 pub const THOST_FTDC_EPF_RULE: u8 = '2' as u8;
-/// TFtdcPortfolioType是一个新型组保算法类型
+/// TFtdcPortfolioType是一个组保算法类型
 ///
 /// SPMM算法
 pub const THOST_FTDC_EPF_SPMM: u8 = '3' as u8;
-/// TFtdcPortfolioType是一个新型组保算法类型
+/// TFtdcPortfolioType是一个组保算法类型
 ///
 /// RCAMS算法
 pub const THOST_FTDC_EPF_RCAMS: u8 = '4' as u8;
@@ -5324,6 +5337,62 @@ pub const THOST_FTDC_AS_Trade: u8 = '0' as u8;
 ///
 /// 会服
 pub const THOST_FTDC_AS_Member: u8 = '1' as u8;
+/// TFtdcApplyStatusType是一个套利套保申请状态类型
+///
+/// 未知
+pub const THOST_FTDC_AS2_Unknown: u8 = 'a' as u8;
+/// TFtdcApplyStatusType是一个套利套保申请状态类型
+///
+/// 已撤销
+pub const THOST_FTDC_AS2_Canceled: u8 = '0' as u8;
+/// TFtdcApplyStatusType是一个套利套保申请状态类型
+///
+/// 已挂起
+pub const THOST_FTDC_AS2_Suspended: u8 = '1' as u8;
+/// TFtdcApplyStatusType是一个套利套保申请状态类型
+///
+/// 申请成功
+pub const THOST_FTDC_AS2_Accepted: u8 = '3' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// SPZ
+pub const THOST_FTDC_ZCECT_SPZ: u8 = '0' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// SPD
+pub const THOST_FTDC_ZCECT_SPD: u8 = '1' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// IPS
+pub const THOST_FTDC_ZCECT_IPS: u8 = '2' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// BUL
+pub const THOST_FTDC_ZCECT_BUL: u8 = '3' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// BER
+pub const THOST_FTDC_ZCECT_BER: u8 = '4' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// BLT
+pub const THOST_FTDC_ZCECT_BLT: u8 = '5' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// BRT
+pub const THOST_FTDC_ZCECT_BRT: u8 = '6' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// STD
+pub const THOST_FTDC_ZCECT_STD: u8 = '7' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// STG
+pub const THOST_FTDC_ZCECT_STG: u8 = '8' as u8;
+/// TFtdcCmbTypeType是一个组合定单类型，0类型
+///
+/// PRT
+pub const THOST_FTDC_ZCECT_PRT: u8 = '9' as u8;
 
 unsafe impl Send for MdApi {}
 unsafe impl Sync for MdApi {}
@@ -5392,6 +5461,7 @@ pub enum TraderSpiMsg {
     OnFrontDisconnected(i32),
     OnHeartBeatWarning(i32),
     OnRspAuthenticate(Box<RspAuthenticateField>, Box<RspInfoField>, i32, bool),
+    OnRtnPrivateSeqNo(i32),
     OnRspUserLogin(Box<RspUserLoginField>, Box<RspInfoField>, i32, bool),
     OnRspUserLogout(Box<UserLogoutField>, Box<RspInfoField>, i32, bool),
     OnRspUserPasswordUpdate(Box<UserPasswordUpdateField>, Box<RspInfoField>, i32, bool),
@@ -5552,6 +5622,19 @@ pub enum TraderSpiMsg {
     OnErrRtnOffsetSetting(Box<InputOffsetSettingField>, Box<RspInfoField>),
     OnErrRtnCancelOffsetSetting(Box<CancelOffsetSettingField>, Box<RspInfoField>),
     OnRspQryOffsetSetting(Box<OffsetSettingField>, Box<RspInfoField>, i32, bool),
+    OnRspGenSMSCode(Box<RspGenSMSCodeField>, Box<RspInfoField>, i32, bool),
+    OnRspSpdApply(Box<InputSpdApplyField>, Box<RspInfoField>, i32, bool),
+    OnRspSpdApplyAction(Box<InputSpdApplyActionField>, Box<RspInfoField>, i32, bool),
+    OnRspQrySpdApply(Box<SpdApplyField>, Box<RspInfoField>, i32, bool),
+    OnRtnSpdApply(Box<SpdApplyField>),
+    OnErrRtnSpdApply(Box<InputSpdApplyField>, Box<RspInfoField>),
+    OnErrRtnSpdApplyAction(Box<SpdApplyActionField>, Box<RspInfoField>),
+    OnRspHedgeCfm(Box<InputHedgeCfmField>, Box<RspInfoField>, i32, bool),
+    OnRspHedgeCfmAction(Box<InputHedgeCfmActionField>, Box<RspInfoField>, i32, bool),
+    OnRspQryHedgeCfm(Box<HedgeCfmField>, Box<RspInfoField>, i32, bool),
+    OnRtnHedgeCfm(Box<HedgeCfmField>),
+    OnErrRtnHedgeCfm(Box<InputHedgeCfmField>, Box<RspInfoField>),
+    OnErrRtnHedgeCfmAction(Box<HedgeCfmActionField>, Box<RspInfoField>),
 }
 
 pub struct TraderSpi {
@@ -5563,6 +5646,7 @@ pub fn OnFrontConnected(&self) { self.tx.send(TraderSpiMsg::OnFrontConnected).ok
 pub fn OnFrontDisconnected(&self, nReason: i32) { self.tx.send(TraderSpiMsg::OnFrontDisconnected(nReason)).ok(); }
 pub fn OnHeartBeatWarning(&self, nTimeLapse: i32) { self.tx.send(TraderSpiMsg::OnHeartBeatWarning(nTimeLapse)).ok(); }
 pub fn OnRspAuthenticate(&self, pRspAuthenticateField: RspAuthenticateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspAuthenticate(Box::new(pRspAuthenticateField), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnPrivateSeqNo(&self, nSeqNo: i32) { self.tx.send(TraderSpiMsg::OnRtnPrivateSeqNo(nSeqNo)).ok(); }
 pub fn OnRspUserLogin(&self, pRspUserLogin: RspUserLoginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserLogin(Box::new(pRspUserLogin), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
 pub fn OnRspUserLogout(&self, pUserLogout: UserLogoutField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserLogout(Box::new(pUserLogout), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
 pub fn OnRspUserPasswordUpdate(&self, pUserPasswordUpdate: UserPasswordUpdateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspUserPasswordUpdate(Box::new(pUserPasswordUpdate), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
@@ -5723,6 +5807,19 @@ pub fn OnRtnOffsetSetting(&self, pOffsetSetting: OffsetSettingField) { self.tx.s
 pub fn OnErrRtnOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnOffsetSetting(Box::new(pInputOffsetSetting), Box::new(pRspInfo))).ok(); }
 pub fn OnErrRtnCancelOffsetSetting(&self, pCancelOffsetSetting: CancelOffsetSettingField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnCancelOffsetSetting(Box::new(pCancelOffsetSetting), Box::new(pRspInfo))).ok(); }
 pub fn OnRspQryOffsetSetting(&self, pOffsetSetting: OffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryOffsetSetting(Box::new(pOffsetSetting), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspGenSMSCode(&self, pRspGenSMSCode: RspGenSMSCodeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspGenSMSCode(Box::new(pRspGenSMSCode), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspSpdApply(&self, pInputSpdApply: InputSpdApplyField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspSpdApply(Box::new(pInputSpdApply), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspSpdApplyAction(&self, pInputSpdApplyAction: InputSpdApplyActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspSpdApplyAction(Box::new(pInputSpdApplyAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQrySpdApply(&self, pSpdApply: SpdApplyField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQrySpdApply(Box::new(pSpdApply), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnSpdApply(&self, pSpdApply: SpdApplyField) { self.tx.send(TraderSpiMsg::OnRtnSpdApply(Box::new(pSpdApply))).ok(); }
+pub fn OnErrRtnSpdApply(&self, pInputSpdApply: InputSpdApplyField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnSpdApply(Box::new(pInputSpdApply), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnSpdApplyAction(&self, pSpdApplyAction: SpdApplyActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnSpdApplyAction(Box::new(pSpdApplyAction), Box::new(pRspInfo))).ok(); }
+pub fn OnRspHedgeCfm(&self, pInputHedgeCfm: InputHedgeCfmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspHedgeCfm(Box::new(pInputHedgeCfm), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspHedgeCfmAction(&self, pInputHedgeCfmAction: InputHedgeCfmActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspHedgeCfmAction(Box::new(pInputHedgeCfmAction), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRspQryHedgeCfm(&self, pHedgeCfm: HedgeCfmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool) { self.tx.send(TraderSpiMsg::OnRspQryHedgeCfm(Box::new(pHedgeCfm), Box::new(pRspInfo), nRequestID, bIsLast)).ok(); }
+pub fn OnRtnHedgeCfm(&self, pHedgeCfm: HedgeCfmField) { self.tx.send(TraderSpiMsg::OnRtnHedgeCfm(Box::new(pHedgeCfm))).ok(); }
+pub fn OnErrRtnHedgeCfm(&self, pInputHedgeCfm: InputHedgeCfmField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnHedgeCfm(Box::new(pInputHedgeCfm), Box::new(pRspInfo))).ok(); }
+pub fn OnErrRtnHedgeCfmAction(&self, pHedgeCfmAction: HedgeCfmActionField, pRspInfo: RspInfoField) { self.tx.send(TraderSpiMsg::OnErrRtnHedgeCfmAction(Box::new(pHedgeCfmAction), Box::new(pRspInfo))).ok(); }
 }
 
 #[cxx::bridge]
@@ -5837,6 +5934,7 @@ mod ffi {
         pub fn OnFrontDisconnected(&self, nReason: i32);
         pub fn OnHeartBeatWarning(&self, nTimeLapse: i32);
         pub fn OnRspAuthenticate(&self, pRspAuthenticateField: RspAuthenticateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRtnPrivateSeqNo(&self, nSeqNo: i32);
         pub fn OnRspUserLogin(&self, pRspUserLogin: RspUserLoginField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspUserLogout(&self, pUserLogout: UserLogoutField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
         pub fn OnRspUserPasswordUpdate(&self, pUserPasswordUpdate: UserPasswordUpdateField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
@@ -5997,6 +6095,19 @@ mod ffi {
         pub fn OnErrRtnOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, pRspInfo: RspInfoField);
         pub fn OnErrRtnCancelOffsetSetting(&self, pCancelOffsetSetting: CancelOffsetSettingField, pRspInfo: RspInfoField);
         pub fn OnRspQryOffsetSetting(&self, pOffsetSetting: OffsetSettingField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspGenSMSCode(&self, pRspGenSMSCode: RspGenSMSCodeField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspSpdApply(&self, pInputSpdApply: InputSpdApplyField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspSpdApplyAction(&self, pInputSpdApplyAction: InputSpdApplyActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspQrySpdApply(&self, pSpdApply: SpdApplyField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRtnSpdApply(&self, pSpdApply: SpdApplyField);
+        pub fn OnErrRtnSpdApply(&self, pInputSpdApply: InputSpdApplyField, pRspInfo: RspInfoField);
+        pub fn OnErrRtnSpdApplyAction(&self, pSpdApplyAction: SpdApplyActionField, pRspInfo: RspInfoField);
+        pub fn OnRspHedgeCfm(&self, pInputHedgeCfm: InputHedgeCfmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspHedgeCfmAction(&self, pInputHedgeCfmAction: InputHedgeCfmActionField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRspQryHedgeCfm(&self, pHedgeCfm: HedgeCfmField, pRspInfo: RspInfoField, nRequestID: i32, bIsLast: bool);
+        pub fn OnRtnHedgeCfm(&self, pHedgeCfm: HedgeCfmField);
+        pub fn OnErrRtnHedgeCfm(&self, pInputHedgeCfm: InputHedgeCfmField, pRspInfo: RspInfoField);
+        pub fn OnErrRtnHedgeCfmAction(&self, pHedgeCfmAction: HedgeCfmActionField, pRspInfo: RspInfoField);
     }
 
     unsafe extern "C++" {
@@ -6060,10 +6171,12 @@ mod ffi {
         ///   - THOST_TERT_RESTART:从本交易日开始重传
         ///   - THOST_TERT_RESUME:从上次收到的续传
         ///   - THOST_TERT_QUICK:只传送登录后私有流的内容
+        ///   - THOST_TERT_RESUME_FROM_SEQ_NO:从指定序号开始重传，序号从1开始
+        /// - `nSeqNo` — 私有流序号，只在THOST_TERT_RESUME_FROM_SEQ_NO模式下有效
         ///
         /// # Remarks
         /// 该方法要在Init方法前调用。若不调用则不会收到私有流的数据。
-        fn SubscribePrivateTopic(&self, nResumeType: i32);
+        fn SubscribePrivateTopic(&self, nResumeType: i32, nSeqNo: i32);
         /// 订阅公共流。
         ///
         /// # Parameters
@@ -6322,6 +6435,20 @@ mod ffi {
         fn ReqCancelOffsetSetting(&self, pInputOffsetSetting: InputOffsetSettingField, nRequestID: i32)-> i32;
         /// 投资者对冲设置查询
         fn ReqQryOffsetSetting(&self, pQryOffsetSetting: QryOffsetSettingField, nRequestID: i32)-> i32;
+        /// 申请短信验证码请求
+        fn ReqGenSMSCode(&self, pReqGenSMSCode: ReqGenSMSCodeField, nRequestID: i32)-> i32;
+        /// 套利确认请求
+        fn ReqSpdApply(&self, pInputSpdApply: InputSpdApplyField, nRequestID: i32)-> i32;
+        /// 套利确认撤销请求
+        fn ReqSpdApplyAction(&self, pInputSpdApplyAction: InputSpdApplyActionField, nRequestID: i32)-> i32;
+        /// 套利确认查询请求
+        fn ReqQrySpdApply(&self, pQrySpdApply: QrySpdApplyField, nRequestID: i32)-> i32;
+        /// 套保确认请求
+        fn ReqHedgeCfm(&self, pInputHedgeCfm: InputHedgeCfmField, nRequestID: i32)-> i32;
+        /// 套保确认撤销请求
+        fn ReqHedgeCfmAction(&self, pInputHedgeCfmAction: InputHedgeCfmActionField, nRequestID: i32)-> i32;
+        /// 套保确认查询请求
+        fn ReqQryHedgeCfm(&self, pQryHedgeCfm: QryHedgeCfmField, nRequestID: i32)-> i32;
     }
 
     /// 信息分发
@@ -6363,6 +6490,8 @@ mod ffi {
         ClientIPPort: i32,
         /// 终端IP地址
         ClientIPAddress: String,
+        /// 短信验证码
+        SMSCode: String,
     }
     /// 用户登录应答
     #[derive(Debug, Clone, Default)]
@@ -12394,6 +12523,8 @@ mod ffi {
         BankBrchID: String,
         /// 银行名称
         BankName: String,
+        /// 上报csrc的银行代码
+        csrcBankID: String,
     }
     /// 投资者组合持仓明细
     #[derive(Debug, Clone, Default)]
@@ -16352,6 +16483,8 @@ mod ffi {
         ClientPublicIP: String,
         /// 客户登录备注2
         ClientLoginRemark: String,
+        /// 客户终端的MAC等标识
+        MAC: String,
     }
     /// 终端用户绑定信息
     #[derive(Debug, Clone, Default)]
@@ -16450,6 +16583,8 @@ mod ffi {
         ClientIPPort: i32,
         /// 终端IP地址
         ClientIPAddress: String,
+        /// 短信验证码
+        SMSCode: String,
         /// 经纪公司名称
         BrokerName: String,
         /// 认证码
@@ -16900,7 +17035,7 @@ mod ffi {
         Direction: u8,
         /// 产品代码
         ProductID: String,
-        /// 期权组合保证金比例
+        /// 期货/期权组合保证金比例
         Xparameter: f64,
         /// 操作标志
         ActionDirection: u8,
@@ -17576,7 +17711,7 @@ mod ffi {
         BrokerID: String,
         /// 投资者代码
         InvestorID: String,
-        /// 新型组保算法
+        /// 组保算法
         Portfolio: u8,
         /// 撤单是否验资
         IsActionVerify: i32,
@@ -18848,6 +18983,8 @@ mod ffi {
         Site: Vec<u8>,
         /// 网络运营商
         NetOperator: Vec<u8>,
+        /// 系统名称
+        SysName: String,
     }
     /// 服务地址参数查询
     #[derive(Debug, Clone, Default)]
@@ -18890,6 +19027,8 @@ mod ffi {
         Site: Vec<u8>,
         /// 网络运营商
         NetOperator: Vec<u8>,
+        /// 系统名称
+        SysName: String,
     }
     /// 服务地址参数查询
     #[derive(Debug, Clone, Default)]
@@ -19840,6 +19979,502 @@ mod ffi {
         is_null: bool,
         /// 经纪公司代码
         BrokerID: String,
+    }
+    /// App客户端认证码
+    #[derive(Debug, Clone, Default)]
+    struct AppAuthenticationCodeField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// App代码
+        AppID: String,
+        /// 认证码
+        AuthCode: String,
+        /// 旧认证码
+        PreAuthCode: String,
+        /// App类型
+        AppType: u8,
+    }
+    /// 客户中心权限豁免
+    #[derive(Debug, Clone, Default)]
+    struct UserDRIBypassField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 交易中心代码
+        DRIdentityID: i32,
+    }
+    /// 申请短信验证码请求
+    #[derive(Debug, Clone, Default)]
+    struct ReqGenSMSCodeField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 手机号
+        Mobile: String,
+    }
+    /// 申请短信验证码响应
+    #[derive(Debug, Clone, Default)]
+    struct RspGenSMSCodeField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 生成时间
+        GenTime: String,
+    }
+    /// 短信验证信息通知
+    #[derive(Debug, Clone, Default)]
+    struct SMSVerifyInfoFromSecField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 经纪公司简称
+        BrokerAbbr: String,
+        /// 用户代码
+        UserID: String,
+        /// 手机号
+        Mobile: String,
+        /// 短信验证码
+        SMSCode: String,
+        /// 验证码创建日期
+        CreateDate: String,
+        /// 验证码创建时间
+        CreateTime: String,
+        /// 验证码是否被使用过
+        IsUsed: i32,
+        /// 次席的交易中心代码
+        FromSec: i32,
+    }
+    /// 登录验证设置
+    #[derive(Debug, Clone, Default)]
+    struct SMSVerifyConfigField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 用户代码
+        UserID: String,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 手机号
+        Mobile: String,
+        /// 是否启用短信验证
+        UseSMSVerify: i32,
+    }
+    /// 短信验证信息通知
+    #[derive(Debug, Clone, Default)]
+    struct SMSVerifyInfoField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 验证码创建时间
+        CreateTime: String,
+        /// 手机号
+        Mobile: String,
+        /// 短信验证信息内容
+        SMSContent: Vec<u8>,
+    }
+    /// 套利确认输入基本信息
+    #[derive(Debug, Clone, Default)]
+    struct InputSpdApplyField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 合约代码
+        FirstLegInstrumentID: String,
+        /// 合约代码
+        SecondLegInstrumentID: String,
+        /// 数量
+        Volume: i32,
+        /// 买卖方向
+        Direction: u8,
+        /// 组合定单类型
+        CmbType: u8,
+        /// 请求编号
+        RequestID: i32,
+        /// 报单引用
+        OrderRef: String,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+    }
+    /// 套保确认输入基本信息
+    #[derive(Debug, Clone, Default)]
+    struct InputHedgeCfmField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 合约代码
+        InstrumentID: String,
+        /// 数量
+        Volume: i32,
+        /// 买卖方向
+        Direction: u8,
+        /// 请求编号
+        RequestID: i32,
+        /// 报单引用
+        OrderRef: String,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+    }
+    /// 套利申请回报
+    #[derive(Debug, Clone, Default)]
+    struct SpdApplyField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 合约代码
+        FirstLegInstrumentID: String,
+        /// 合约代码
+        SecondLegInstrumentID: String,
+        /// 用户代码
+        UserID: String,
+        /// 数量
+        Volume: i32,
+        /// 买卖方向
+        Direction: u8,
+        /// 请求编号
+        RequestID: i32,
+        /// 前置编号
+        FrontID: i32,
+        /// 会话编号
+        SessionID: i32,
+        /// 报单引用
+        OrderRef: String,
+        /// 操作用户代码
+        ActiveUserID: String,
+        /// 经纪公司报单编号
+        BrokerOrderSeq: i32,
+        /// 报单编号
+        OrderSysID: String,
+        /// 申请状态
+        ApplyStatus: u8,
+        /// 序号
+        SequenceNo: i32,
+        /// 报单日期
+        InsertDate: String,
+        /// 委托时间
+        InsertTime: String,
+        /// 撤销时间
+        CancelTime: String,
+        /// 本地报单编号
+        OrderLocalID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 会员代码
+        ParticipantID: String,
+        /// 客户代码
+        ClientID: String,
+        /// 合约在交易所的代码
+        ExchangeInstID: String,
+        /// 交易所交易员代码
+        TraderID: String,
+        /// 安装编号
+        InstallID: i32,
+        /// 报单提交状态
+        OrderSubmitStatus: u8,
+        /// 报单提示序号
+        NotifySequence: i32,
+        /// 交易日
+        TradingDay: String,
+        /// 结算编号
+        SettlementID: i32,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+        /// 组合定单类型
+        CmbType: u8,
+        /// 状态信息
+        StatusMsg: String,
+    }
+    /// 套保申请回报
+    #[derive(Debug, Clone, Default)]
+    struct HedgeCfmField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 合约代码
+        InstrumentID: String,
+        /// 用户代码
+        UserID: String,
+        /// 数量
+        Volume: i32,
+        /// 买卖方向
+        Direction: u8,
+        /// 请求编号
+        RequestID: i32,
+        /// 前置编号
+        FrontID: i32,
+        /// 会话编号
+        SessionID: i32,
+        /// 报单引用
+        OrderRef: String,
+        /// 操作用户代码
+        ActiveUserID: String,
+        /// 经纪公司报单编号
+        BrokerOrderSeq: i32,
+        /// 报单编号
+        OrderSysID: String,
+        /// 申请状态
+        ApplyStatus: u8,
+        /// 序号
+        SequenceNo: i32,
+        /// 成功处理数量
+        DealVolume: i32,
+        /// 报单日期
+        InsertDate: String,
+        /// 委托时间
+        InsertTime: String,
+        /// 撤销时间
+        CancelTime: String,
+        /// 日期
+        ReqDate: String,
+        /// 本地报单编号
+        OrderLocalID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 会员代码
+        ParticipantID: String,
+        /// 客户代码
+        ClientID: String,
+        /// 合约在交易所的代码
+        ExchangeInstID: String,
+        /// 交易所交易员代码
+        TraderID: String,
+        /// 安装编号
+        InstallID: i32,
+        /// 报单提交状态
+        OrderSubmitStatus: u8,
+        /// 报单提示序号
+        NotifySequence: i32,
+        /// 交易日
+        TradingDay: String,
+        /// 结算编号
+        SettlementID: i32,
+        /// 状态信息
+        StatusMsg: String,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+    }
+    /// 套利套保申请查询
+    #[derive(Debug, Clone, Default)]
+    struct QrySpdApplyField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 报单编号
+        OrderSysID: String,
+        /// 第一腿合约编码
+        FirstLegInstrumentID: String,
+        /// 第二腿合约编码
+        SecondLegInstrumentID: String,
+    }
+    /// 套利套保申请查询
+    #[derive(Debug, Clone, Default)]
+    struct QryHedgeCfmField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 报单编号
+        OrderSysID: String,
+        /// 合约代码
+        InstrumentID: String,
+    }
+    /// 套利申请撤销
+    #[derive(Debug, Clone, Default)]
+    struct InputSpdApplyActionField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 合同编号
+        OrderSysID: String,
+        /// 报单引用
+        OrderRef: String,
+        /// 前置编号
+        FrontID: i32,
+        /// 会话编号
+        SessionID: i32,
+        /// 请求编号
+        RequestID: i32,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+    }
+    /// 套保申请撤销
+    #[derive(Debug, Clone, Default)]
+    struct InputHedgeCfmActionField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 用户代码
+        UserID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 合同编号
+        OrderSysID: String,
+        /// 报单引用
+        OrderRef: String,
+        /// 前置编号
+        FrontID: i32,
+        /// 会话编号
+        SessionID: i32,
+        /// 请求编号
+        RequestID: i32,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+    }
+    /// 套利申请撤销回报
+    #[derive(Debug, Clone, Default)]
+    struct SpdApplyActionField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 操作日期
+        ActionDate: String,
+        /// 操作时间
+        ActionTime: String,
+        /// 交易所交易员代码
+        TraderID: String,
+        /// 安装编号
+        InstallID: i32,
+        /// 本地报单编号
+        OrderLocalID: String,
+        /// 操作本地编号
+        ActionLocalID: String,
+        /// 会员代码
+        ParticipantID: String,
+        /// 客户代码
+        ClientID: String,
+        /// 报单操作状态
+        OrderActionStatus: u8,
+        /// 用户代码
+        UserID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 合同编号
+        OrderSysID: String,
+        /// 请求编号
+        RequestID: i32,
+        /// 状态信息
+        StatusMsg: String,
+        /// 报单引用
+        OrderRef: String,
+        /// 前置编号
+        FrontID: i32,
+        /// 会话编号
+        SessionID: i32,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
+    }
+    /// 套保申请撤销回报
+    #[derive(Debug, Clone, Default)]
+    struct HedgeCfmActionField {
+        /// C++ 端传入的整体 Field 是否为 `nullptr`
+        is_null: bool,
+        /// 经纪公司代码
+        BrokerID: String,
+        /// 投资者代码
+        InvestorID: String,
+        /// 操作日期
+        ActionDate: String,
+        /// 操作时间
+        ActionTime: String,
+        /// 交易所交易员代码
+        TraderID: String,
+        /// 安装编号
+        InstallID: i32,
+        /// 本地报单编号
+        OrderLocalID: String,
+        /// 操作本地编号
+        ActionLocalID: String,
+        /// 会员代码
+        ParticipantID: String,
+        /// 客户代码
+        ClientID: String,
+        /// 报单操作状态
+        OrderActionStatus: u8,
+        /// 用户代码
+        UserID: String,
+        /// 交易所代码
+        ExchangeID: String,
+        /// 合同编号
+        OrderSysID: String,
+        /// 请求编号
+        RequestID: i32,
+        /// 状态信息
+        StatusMsg: String,
+        /// 报单引用
+        OrderRef: String,
+        /// 前置编号
+        FrontID: i32,
+        /// 会话编号
+        SessionID: i32,
+        /// IP地址
+        IPAddress: String,
+        /// Mac地址
+        MacAddress: String,
     }
     /// 前置信息
     #[derive(Debug, Clone, Default)]

@@ -3,11 +3,20 @@
 
 #if defined(__APPLE__)
 #include <cstring>
-// The md framework dylib is always sourced from the darwin 6.7.7 SDK on
-// macOS. CThostFtdcRspUserLoginField is 204 bytes there vs the linux header's
-// 296; copy the dylib's bytes into a linux-sized buffer with the new tail
-// zeroed before reading.
+// The pinned darwin SDK lays some structs out shorter than linux (it lacks
+// trailing fields linux later added). The dylib hands us a pointer to its
+// native-sized struct; reading it as the linux-shaped (larger) struct would
+// scan past the dylib's allocation. Copy the darwin-sized bytes into a
+// linux-sized buffer with the new tail zeroed before the converter runs.
 namespace {
+template <typename T>
+inline T widen_from_darwin(T* src, std::size_t darwin_size) {
+    T widened{};
+    if (src != nullptr) {
+        std::memcpy(&widened, src, darwin_size);
+    }
+    return widened;
+}
 constexpr std::size_t kDarwinRspUserLoginSize = 204;
 } // namespace
 #endif
@@ -33,14 +42,13 @@ void CMdSpi::OnHeartBeatWarning(int32_t nTimeLapse) {
 
 void CMdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
 #if defined(__APPLE__)
-    CThostFtdcRspUserLoginField widened{};
-    if (pRspUserLogin != nullptr) {
-        std::memcpy(&widened, pRspUserLogin, kDarwinRspUserLoginSize);
-        pRspUserLogin = &widened;
-    }
+    auto widened = widen_from_darwin(pRspUserLogin, kDarwinRspUserLoginSize);
+    CThostFtdcRspUserLoginField* p = (pRspUserLogin != nullptr) ? &widened : nullptr;
+#else
+    CThostFtdcRspUserLoginField* p = pRspUserLogin;
 #endif
     this->gateway->OnRspUserLogin(
-        Converter::CThostFtdcRspUserLoginFieldToRust(pRspUserLogin),
+        Converter::CThostFtdcRspUserLoginFieldToRust(p),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
         bIsLast

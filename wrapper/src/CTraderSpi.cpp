@@ -3,12 +3,10 @@
 
 #if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
 #include <cstring>
-// The darwin 6.7.7 SDK's CThostFtdcRspUserLoginField is 204 bytes (lacks
-// LoginDRIdentityID/UserDRIdentityID/LastLoginTime/ReserveInfo) and its
-// CThostFtdcTradingAccountField is 400 bytes (lacks the two trailing
-// FrozenSwap fields linux 6.7.11 added). The dylib hands us a pointer to
-// its native-sized struct; reading it as the linux-shaped (larger) struct
-// scans past the dylib's allocation. Copy the darwin-sized bytes into a
+// The pinned darwin SDK lays some structs out shorter than linux (it lacks
+// trailing fields linux later added). The dylib hands us a pointer to its
+// native-sized struct; reading it as the linux-shaped (larger) struct would
+// scan past the dylib's allocation. Copy the darwin-sized bytes into a
 // linux-sized buffer with the new tail zeroed before the converter runs.
 namespace {
 template <typename T>
@@ -20,7 +18,9 @@ inline T widen_from_darwin(T* src, std::size_t darwin_size) {
     return widened;
 }
 constexpr std::size_t kDarwinRspUserLoginSize = 204;
+constexpr std::size_t kDarwinInvestorPositionSize = 472;
 constexpr std::size_t kDarwinTradingAccountSize = 400;
+constexpr std::size_t kDarwinContractBankSize = 121;
 } // namespace
 #endif
 
@@ -52,6 +52,14 @@ void CTraderSpi::OnRspAuthenticate(CThostFtdcRspAuthenticateField* pRspAuthentic
     );
 }
 
+#if CTP_RS_HAS_LINUX_ONLY_SPI
+void CTraderSpi::OnRtnPrivateSeqNo(int32_t nSeqNo) {
+    this->gateway->OnRtnPrivateSeqNo(
+        nSeqNo
+    );
+}
+
+#endif
 void CTraderSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
 #if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
     auto widened = widen_from_darwin(pRspUserLogin, kDarwinRspUserLoginSize);
@@ -293,8 +301,14 @@ void CTraderSpi::OnRspQryTrade(CThostFtdcTradeField* pTrade, CThostFtdcRspInfoFi
 }
 
 void CTraderSpi::OnRspQryInvestorPosition(CThostFtdcInvestorPositionField* pInvestorPosition, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    auto widened = widen_from_darwin(pInvestorPosition, kDarwinInvestorPositionSize);
+    CThostFtdcInvestorPositionField* p = (pInvestorPosition != nullptr) ? &widened : nullptr;
+#else
+    CThostFtdcInvestorPositionField* p = pInvestorPosition;
+#endif
     this->gateway->OnRspQryInvestorPosition(
-        Converter::CThostFtdcInvestorPositionFieldToRust(pInvestorPosition),
+        Converter::CThostFtdcInvestorPositionFieldToRust(p),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
         bIsLast
@@ -361,8 +375,8 @@ void CTraderSpi::OnRspQryUserSession(CThostFtdcUserSessionField* pUserSession, C
         bIsLast
     );
 }
-#endif
 
+#endif
 void CTraderSpi::OnRspQryExchange(CThostFtdcExchangeField* pExchange, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
     this->gateway->OnRspQryExchange(
         Converter::CThostFtdcExchangeFieldToRust(pExchange),
@@ -860,8 +874,14 @@ void CTraderSpi::OnErrRtnCombActionInsert(CThostFtdcInputCombActionField* pInput
 }
 
 void CTraderSpi::OnRspQryContractBank(CThostFtdcContractBankField* pContractBank, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+#if defined(__APPLE__) && defined(CTP_RS_DARWIN_TRADER_DLOPEN)
+    auto widened = widen_from_darwin(pContractBank, kDarwinContractBankSize);
+    CThostFtdcContractBankField* p = (pContractBank != nullptr) ? &widened : nullptr;
+#else
+    CThostFtdcContractBankField* p = pContractBank;
+#endif
     this->gateway->OnRspQryContractBank(
-        Converter::CThostFtdcContractBankFieldToRust(pContractBank),
+        Converter::CThostFtdcContractBankFieldToRust(p),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
         bIsLast
@@ -1394,4 +1414,108 @@ void CTraderSpi::OnRspQryOffsetSetting(CThostFtdcOffsetSettingField* pOffsetSett
         bIsLast
     );
 }
+
+void CTraderSpi::OnRspGenSMSCode(CThostFtdcRspGenSMSCodeField* pRspGenSMSCode, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspGenSMSCode(
+        Converter::CThostFtdcRspGenSMSCodeFieldToRust(pRspGenSMSCode),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspSpdApply(CThostFtdcInputSpdApplyField* pInputSpdApply, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspSpdApply(
+        Converter::CThostFtdcInputSpdApplyFieldToRust(pInputSpdApply),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspSpdApplyAction(CThostFtdcInputSpdApplyActionField* pInputSpdApplyAction, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspSpdApplyAction(
+        Converter::CThostFtdcInputSpdApplyActionFieldToRust(pInputSpdApplyAction),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspQrySpdApply(CThostFtdcSpdApplyField* pSpdApply, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspQrySpdApply(
+        Converter::CThostFtdcSpdApplyFieldToRust(pSpdApply),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRtnSpdApply(CThostFtdcSpdApplyField* pSpdApply) {
+    this->gateway->OnRtnSpdApply(
+        Converter::CThostFtdcSpdApplyFieldToRust(pSpdApply)
+    );
+}
+
+void CTraderSpi::OnErrRtnSpdApply(CThostFtdcInputSpdApplyField* pInputSpdApply, CThostFtdcRspInfoField* pRspInfo) {
+    this->gateway->OnErrRtnSpdApply(
+        Converter::CThostFtdcInputSpdApplyFieldToRust(pInputSpdApply),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo)
+    );
+}
+
+void CTraderSpi::OnErrRtnSpdApplyAction(CThostFtdcSpdApplyActionField* pSpdApplyAction, CThostFtdcRspInfoField* pRspInfo) {
+    this->gateway->OnErrRtnSpdApplyAction(
+        Converter::CThostFtdcSpdApplyActionFieldToRust(pSpdApplyAction),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo)
+    );
+}
+
+void CTraderSpi::OnRspHedgeCfm(CThostFtdcInputHedgeCfmField* pInputHedgeCfm, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspHedgeCfm(
+        Converter::CThostFtdcInputHedgeCfmFieldToRust(pInputHedgeCfm),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspHedgeCfmAction(CThostFtdcInputHedgeCfmActionField* pInputHedgeCfmAction, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspHedgeCfmAction(
+        Converter::CThostFtdcInputHedgeCfmActionFieldToRust(pInputHedgeCfmAction),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRspQryHedgeCfm(CThostFtdcHedgeCfmField* pHedgeCfm, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
+    this->gateway->OnRspQryHedgeCfm(
+        Converter::CThostFtdcHedgeCfmFieldToRust(pHedgeCfm),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
+        nRequestID,
+        bIsLast
+    );
+}
+
+void CTraderSpi::OnRtnHedgeCfm(CThostFtdcHedgeCfmField* pHedgeCfm) {
+    this->gateway->OnRtnHedgeCfm(
+        Converter::CThostFtdcHedgeCfmFieldToRust(pHedgeCfm)
+    );
+}
+
+void CTraderSpi::OnErrRtnHedgeCfm(CThostFtdcInputHedgeCfmField* pInputHedgeCfm, CThostFtdcRspInfoField* pRspInfo) {
+    this->gateway->OnErrRtnHedgeCfm(
+        Converter::CThostFtdcInputHedgeCfmFieldToRust(pInputHedgeCfm),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo)
+    );
+}
+
+void CTraderSpi::OnErrRtnHedgeCfmAction(CThostFtdcHedgeCfmActionField* pHedgeCfmAction, CThostFtdcRspInfoField* pRspInfo) {
+    this->gateway->OnErrRtnHedgeCfmAction(
+        Converter::CThostFtdcHedgeCfmActionFieldToRust(pHedgeCfmAction),
+        Converter::CThostFtdcRspInfoFieldToRust(pRspInfo)
+    );
+}
+
 #endif

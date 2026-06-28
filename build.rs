@@ -11,8 +11,8 @@ use std::{
 // source tree — `cargo publish` rejects that). The zip's top-level layout is
 // what the rest of build.rs expects: darwin/*.framework, lib*.so, *.dll/.lib,
 // headers, error.xml.
-const LIB_ASSET_URL: &str = "https://ctp-api.ruiqilei.com/ctp.6.7.11.darwin.6.7.7.zip";
-const LIB_ASSET_VERSION: &str = "ctp.6.7.11.darwin.6.7.7";
+const LIB_ASSET_URL: &str = "https://ctp-api.ruiqilei.com/ctp.6.7.13.darwin.6.7.7.zip";
+const LIB_ASSET_VERSION: &str = "ctp.6.7.13.darwin.6.7.7";
 
 fn main() {
     // docs.rs builds in a sandbox without network access, so the native-lib

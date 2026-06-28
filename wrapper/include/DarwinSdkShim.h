@@ -1,18 +1,16 @@
-// AUTO-GENERATED from the darwin SDK headers — see wrapper/scripts/regen_darwin_shim.py.
 // Mirrors the darwin trader-side TraderApi/Spi vtable layout so that on the
 // macOS-dlopen build, the wrapper inherits/dispatches against a class whose
 // vtable matches what the dlopened framework dylib was built against.
 //
-// Linux 6.7.11 added a handful of API + SPI methods that the older darwin
-// SDK lacks; using the linux base classes directly leaves the vtables
-// misaligned for every slot past the first divergence, causing the dylib to
-// call the wrong override on us and us to call the wrong slot on the dylib.
+// A newer linux SDK adds API + SPI methods the older pinned darwin SDK lacks;
+// using the linux base classes directly leaves the vtables misaligned for
+// every slot past the first divergence, causing the dylib to call the wrong
+// override on us and us to call the wrong slot on the dylib.
 //
 // Compiled only on the macOS-dlopen build (where CTP_RS_DARWIN_TRADER_DLOPEN
-// is defined). Field types come from the linux SDK headers — the small set
-// of structs whose layout differs (RspUserLogin, TradingAccount,
-// SyncingTradingAccount, SyncDeltaTradingAccount) is passed by pointer here
-// and widened/narrowed at the conversion boundary in CTraderSpi.cpp.
+// is defined). Field types come from the linux SDK headers — the small set of
+// structs whose darwin layout is shorter is widened at the conversion boundary
+// in CTraderSpi.cpp.
 
 #pragma once
 
